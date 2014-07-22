@@ -5,6 +5,7 @@
     "ionic": "driftyco/ionic-bower#1.0.0-beta.9"
   },
   "dependencies": {
-    "jsss": "https://github.com/cubing/jsss.git"
+    "jsss": "https://github.com/cubing/jsss.git",
+    "raphael": "~2.1.2"
   }
 }
