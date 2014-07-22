@@ -1,1 +1,13 @@
 /* Empty. Add your own CSS if you like */
+.scramble .chunk {
+    padding: 0ex;
+}
+.scramble .chunk:after {
+    margin: 1.5ex;
+    content: "\2022";
+}
+
+.scramble .chunk:last-child:after {
+    content: "";
+    padding: 0;
+}

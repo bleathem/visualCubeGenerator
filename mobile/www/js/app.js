@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', "cube"])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -48,6 +48,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     })
 
+    .state('tab.scrambles', {
+      url: '/scrambles',
+      views: {
+        'tab-scrambles': {
+          templateUrl: 'templates/tab-scrambles.html',
+          controller: 'ScramblesCtrl'
+        }
+      }
+    })
+
     .state('tab.friends', {
       url: '/friends',
       views: {
@@ -78,7 +88,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/scrambles');
 
 });
 
