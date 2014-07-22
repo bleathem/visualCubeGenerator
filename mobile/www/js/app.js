@@ -57,6 +57,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', "
         }
       }
     })
+    .state('tab.scramble-detail', {
+      url: '/scramble/:scrambleId',
+      views: {
+        'tab-scrambles': {
+          templateUrl: 'templates/scramble-detail.html',
+          controller: 'ScrambleCtrl'
+        }
+      }
+    })
 
     .state('tab.friends', {
       url: '/friends',
