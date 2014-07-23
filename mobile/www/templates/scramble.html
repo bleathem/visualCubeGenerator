@@ -1,4 +1,4 @@
 <div class="scramble">
-    <div class="moves">{{scrambleModel.moves}}</div>
+    <div class="moves" ng-bind-html="scrambleModel.movesFormatted"></div>
     <scramble-graphic scramble-state="scrambleModel.state"></scramble-graphic>
 </div>

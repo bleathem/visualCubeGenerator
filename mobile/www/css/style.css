@@ -1,13 +1,42 @@
 /* Empty. Add your own CSS if you like */
+.list .scramble .moves {
+    font-size: 80%;
+}
+
+.list .scramble .chunk:after {
+    padding: 0;
+    content: "";
+}
+
+.list .scramble .graphic {
+    width: 100px;
+}
+
 .scramble .chunk {
-    padding: 0ex;
+    padding: 0;
+    white-space: nowrap;
 }
 .scramble .chunk:after {
-    margin: 1.5ex;
+    padding: 0 1ex;
     content: "\2022";
 }
 
 .scramble .chunk:last-child:after {
     content: "";
     padding: 0;
+}
+
+.detail {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.detail .scramble .moves {
+    font-size: 120%;
+}
+
+.detail .graphic {
+    padding-top: 20px;
+    width: 300px;
+    margin: auto;
 }
