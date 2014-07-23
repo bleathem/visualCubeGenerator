@@ -2,6 +2,11 @@ angular.module('cube', [])
 
   .controller('ScramblesCtrl', ["$scope", "Scrambles", function ($scope, scrambles) {
     $scope.scrambles = scrambles.all();
+
+    $scope.scramble = function() {
+      scrambles.regenerate();
+      $scope.scrambles = scrambles.all();
+    }
   }])
 
   .controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
@@ -51,19 +56,22 @@ angular.module('cube', [])
         }
         scrambles.push(randomScramble);
       }
-      return {
-        all: function() {
-          return scrambles;
-        },
-        get: function(id) {
-          return scrambles[id];
-        }
-      };
+      return scrambles;
     }
 
     var scrambles = generateScrambles(5);
 
-    return scrambles;
+    return {
+      all: function() {
+        return scrambles;
+      },
+      get: function(id) {
+        return scrambles[id];
+      },
+      regenerate: function() {
+        scrambles = generateScrambles(5);
+      }
+    };
   }])
 
   .directive("scramble", ["Scrambler333", "Scrambles", function(scrambler, scrambles) {

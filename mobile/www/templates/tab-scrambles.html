@@ -1,4 +1,9 @@
 <ion-view title="Scrambles">
+    <ion-nav-buttons side="right">
+        <button class="button button-energized" ng-click="scramble()">
+            Scramble
+        </button>
+    </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-list>
       <ion-item ng-repeat="scramble in scrambles" type="item-text-wrap" href="#/tab/scramble/{{scramble.id}}">
