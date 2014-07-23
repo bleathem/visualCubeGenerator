@@ -40,3 +40,8 @@
     width: 300px;
     margin: auto;
 }
+
+.detail button.button-large {
+    min-height: 200px;
+    font-size: 600%;
+}
