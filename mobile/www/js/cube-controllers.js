@@ -13,7 +13,10 @@ angular.module('cube', [])
     $scope.friend = Friends.get($stateParams.friendId);
   })
 
-  .controller('ScrambleCtrl', ["$scope", "$stateParams", "Scrambles", function ($scope, $stateParams, scrambles) {
+  .controller('ScrambleCtrl', ["$scope", "$stateParams", "$location", "Scrambles", function ($scope, $stateParams, $location, scrambles) {
+    if (scrambles.length === 0) {
+      $location.path("/tab/scrambles")
+    }
     $scope.scramble = scrambles.get($stateParams.scrambleId);
   }])
 ;
