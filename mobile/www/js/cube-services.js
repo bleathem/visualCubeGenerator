@@ -108,6 +108,7 @@ angular.module('cube.services', [])
   }
 })
 
+// Takes a time in millisecons and diplays it as m:ss.mils
 .filter('time', function () {
   var pad = function(input) {
     var n = input;
@@ -115,7 +116,10 @@ angular.module('cube.services', [])
   };
 
   return function (input) {
-    return pad(input.minutes) + ":" + pad(input.seconds) + "." + input.millis;
+    var minutes = Math.floor(input/60000);
+    var seconds = Math.floor((input % 60000)/1000);
+    var millis = input % 60000 - seconds*1000;
+    return minutes + ":" + pad(seconds) + "." + millis;
   }
 })
 ;
