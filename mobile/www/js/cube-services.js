@@ -106,4 +106,16 @@ angular.module('cube.services', [])
 
     }
   }
-});
+})
+
+.filter('time', function () {
+  var pad = function(input) {
+    var n = input;
+    return (n < 10) ? '0' + n : n;
+  };
+
+  return function (input) {
+    return pad(input.minutes) + ":" + pad(input.seconds) + "." + input.millis;
+  }
+})
+;

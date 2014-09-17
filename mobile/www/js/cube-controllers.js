@@ -19,7 +19,21 @@ angular.module('cube', [])
     }
     $scope.scramble = scrambles.get($stateParams.scrambleId);
 
-    $ionicModal.fromTemplateUrl('/templates/timer-modal.html', {
+    $scope.startTimer = function() {
+      $scope.$broadcast('timer-start');
+      $scope.openModal();
+    }
+
+    $scope.stopTimer = function() {
+      $scope.$broadcast('timer-stop');
+      $scope.closeModal();
+    }
+
+     $scope.$on('timer-stopped', function (event, data){
+       $scope.scramble.time = data;
+     });
+
+    $ionicModal.fromTemplateUrl('templates/timer-modal.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {

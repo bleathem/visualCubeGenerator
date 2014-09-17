@@ -52,6 +52,7 @@
   text-align: center;
 }
 
-.timer {
-  font-size: 500%;
+.timer-text {
+  font-size: 400%;
+  white-space: nowrap;
 }
