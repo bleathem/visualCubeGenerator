@@ -1,5 +1,9 @@
 <ion-view title="Dashboard">
-  <ion-content class="has-header padding">
-    <h1>Dash</h1>
+  <ion-content class="has-header">
+    <ion-list>
+      <ion-item ng-repeat="solve in solves" type="item-text-wrap" href="#/tab/scramble/{{scramble.id}}">
+        <scramble scramble-model="solve" width="100"></scramble>
+      </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

@@ -1,11 +1,15 @@
 angular.module('cube.services', [])
 
+.factory("$localStorage", function() {
+  return window.localStorage;
+})
+
 .factory("Scrambler333", function() {
   scramblers["333"].initialize(null, Math);
   return scramblers["333"];
 })
 
-.factory("Scrambles", ['Scrambler333', function(scrambler) {
+.factory("Scrambles", ['Scrambler333', '$localStorage', function(scrambler, $localStorage) {
   var formatScramble = function(scrambleString) {
     var newString = "";
     var chunkLength = 4;
@@ -42,9 +46,26 @@ angular.module('cube.services', [])
     return scrambles;
   }
 
+  var save = function(solve) {
+    solves = readSolves();
+    solves.push(solve);
+    $localStorage.setItem("solves", JSON.stringify(solves));
+  }
+
+  var readSolves = function() {
+    return JSON.parse($localStorage.getItem("solves")) || [];
+  }
+
   var scrambles = generateScrambles(5);
+  var solves = readSolves();
 
   return {
+    save: function(solve) {
+      save(solve);
+    },
+    solves: function() {
+      return solves;
+    },
     all: function() {
       return scrambles;
     },

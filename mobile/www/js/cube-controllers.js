@@ -24,6 +24,10 @@ angular.module('cube', [])
     }
     $scope.scramble = scrambles.get($stateParams.scrambleId);
 
+    var save = function(scramble) {
+
+    }
+
     $scope.startTimer = function() {
       $scope.$broadcast('timer-start');
       $scope.openModal();
@@ -36,6 +40,7 @@ angular.module('cube', [])
 
      $scope.$on('timer-stopped', function (event, data){
        $scope.scramble.time = data.millis;
+       scrambles.save($scope.scramble);
      });
 
     $ionicModal.fromTemplateUrl('templates/timer-modal.html', {
