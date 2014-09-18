@@ -1,11 +1,16 @@
 angular.module('cube', [])
 
-  .controller('ScramblesCtrl', ["$scope", "Scrambles", function ($scope, scrambles) {
+  .controller('ScramblesCtrl', ["$scope", "Scrambles", "$timeout", "$ionicLoading", function ($scope, scrambles,$timeout, $ionicLoading) {
     $scope.scrambles = scrambles.all();
 
     $scope.scramble = function() {
-      scrambles.regenerate();
-      $scope.scrambles = scrambles.all();
+      $ionicLoading.show();
+      $timeout(function() {
+        scrambles.regenerate();
+        $scope.scrambles = scrambles.all();
+        $ionicLoading.hide();
+      }, 100);
+
     }
   }])
 
