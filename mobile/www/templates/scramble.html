@@ -2,11 +2,9 @@
     <div class="moves" ng-bind-html="scrambleModel.movesFormatted"></div>
     <scramble-graphic scramble-state="scrambleModel.state"></scramble-graphic>
     <div class="card timer-card" ng-show="scrambleModel.time">
-      <div class="item item-text-wrap">
-        <div class="timer-text">
-          <div class="timer-label">Time:</div>
-          <div class="timer-value">{{scrambleModel.time | time}}</div>
-        </div>
+      <div class="item">
+        <i class="icon ion-clock padding-right"></i>
+        {{scrambleModel.time | time}}
       </div>
     </div>
 </div>

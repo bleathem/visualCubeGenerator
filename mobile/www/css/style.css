@@ -19,10 +19,6 @@
   margin: 1ex 0 0 0;
 }
 
-.list .scramble .timer-label, .list .scramble .timer-value {
-  display: inline-block;
-}
-
 .scramble .chunk {
     padding: 0;
     white-space: nowrap;
@@ -58,22 +54,14 @@
     font-size: 600%;
 }
 
-.timer-modal .timer-card {
+.timer-modal .timer-card .item {
   text-align: center;
-}
-
-.timer-modal .timer-text {
   line-height: 200%;
   font-size: 350%;
-  white-space: nowrap;
 }
 
-.detail .scramble .timer-text {
-  line-height: 125%;
+.detail .scramble .timer-card .item {
+  text-align: center;
+  line-height: 225%;
   font-size: 250%;
-  display:inline-block;
-  text-align: left;
-}
-
-.detail .scramble .timer-label, .detail .scramble .timer-value {
 }
