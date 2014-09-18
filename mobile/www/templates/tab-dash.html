@@ -1,8 +1,28 @@
 <ion-view title="Dashboard">
   <ion-content class="has-header">
-    <ion-list>
+    <div class="card">
+      <div class="item item-divider">
+        Best times
+      </div>
+      <div class="item">
+        Best time:
+      </div>
+      <div class="item">
+        Average over last 5:
+      </div>
+      <div class="item">
+        Average over last 10:
+      </div>
+    </div>
+
+    <ion-list type="list-inset">
+<div class="item item-divider">
+  Recent Solves
+</div>
       <ion-item ng-repeat="solve in solves" type="item-text-wrap" href="#/tab/scramble/{{scramble.id}}">
-        <scramble scramble-model="solve" width="100"></scramble>
+        {{solve.date | date:'short'}}
+        : <i class="icon ion-clock padding-horizontal"></i>
+        {{solve.time | time}}
       </ion-item>
     </ion-list>
   </ion-content>

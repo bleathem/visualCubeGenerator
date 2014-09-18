@@ -47,6 +47,7 @@ angular.module('cube.services', [])
   }
 
   var save = function(solve) {
+    solve.date = new Date();
     solves = readSolves();
     solves.push(solve);
     $localStorage.setItem("solves", JSON.stringify(solves));
