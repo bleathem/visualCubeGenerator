@@ -15,9 +15,6 @@
   <ion-content has-header="true" padding="false">
     <div class="detail">
       <scramble scramble-model="scramble"></scramble>
-      <div class="card timer-card" ng-show="scramble.time">
-        <div class="item item-text-wrap timer-text">{{scramble.time | time}}</div>
-      </div>
       <button class="button button-full button-large button-balanced"
               ng-click="startTimer()"
               ng-hide="scramble.time">

@@ -9,7 +9,18 @@
 }
 
 .list .scramble .graphic {
+    display: inline-block;
     width: 100px;
+}
+
+.list .scramble .timer-card {
+  display: inline-block;
+  float:right;
+  margin: 1ex 0 0 0;
+}
+
+.list .scramble .timer-label, .list .scramble .timer-value {
+  display: inline-block;
 }
 
 .scramble .chunk {
@@ -47,12 +58,22 @@
     font-size: 600%;
 }
 
-.timer-card {
-  line-height: 500%;
+.timer-modal .timer-card {
   text-align: center;
 }
 
-.timer-text {
-  font-size: 400%;
+.timer-modal .timer-text {
+  line-height: 200%;
+  font-size: 350%;
   white-space: nowrap;
+}
+
+.detail .scramble .timer-text {
+  line-height: 125%;
+  font-size: 250%;
+  display:inline-block;
+  text-align: left;
+}
+
+.detail .scramble .timer-label, .detail .scramble .timer-value {
 }

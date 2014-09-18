@@ -4,8 +4,12 @@
   </ion-header-bar>
   <ion-content>
     <div class="card timer-card">
-      <div class="item item-text-wrap timer-text">
-        <timer autostart = false>{{minutes}}:{{sseconds}}.{{millis}}</timer>
+      <div class="item item-text-wrap">
+        <div class="timer-text">
+          <div class="timer-value">
+            <timer autostart = false>{{minutes}}:{{sseconds}}.{{millis}}</timer>
+          </div>
+        </div>
       </div>
     </div>
     <button class="button button-full button-large button-assertive">
