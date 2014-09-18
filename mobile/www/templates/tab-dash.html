@@ -15,14 +15,17 @@
       </div>
     </div>
 
-    <ion-list type="list-inset">
-<div class="item item-divider">
-  Recent Solves
-</div>
-      <ion-item ng-repeat="solve in solves" type="item-text-wrap" href="#/tab/scramble/{{scramble.id}}">
+    <ion-list type="list-inset" option-buttons="itemButtons">
+        <div class="item item-divider">
+          Solves
+        </div>
+      <ion-item ng-repeat="solve in solves">
         {{solve.date | date:'short'}}
         : <i class="icon ion-clock padding-horizontal"></i>
         {{solve.time | time}}
+        <ion-option-button class="button-assertive" ng-click="delete(solve)">
+          <i class="icon ion-ios7-minus"></i>
+        </ion-option-button>
       </ion-item>
     </ion-list>
   </ion-content>

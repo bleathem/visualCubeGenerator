@@ -53,6 +53,14 @@ angular.module('cube.services', [])
     $localStorage.setItem("solves", JSON.stringify(solves));
   }
 
+  var deleteSolve = function(remove) {
+    solves = readSolves();
+    solves = solves.filter(function(solve) {
+      return solve.state !== remove.state;
+    });
+    $localStorage.setItem("solves", JSON.stringify(solves));
+  }
+
   var readSolves = function() {
     return JSON.parse($localStorage.getItem("solves")) || [];
   }
@@ -63,6 +71,9 @@ angular.module('cube.services', [])
   return {
     save: function(solve) {
       save(solve);
+    },
+    delete: function(solve) {
+      deleteSolve(solve);
     },
     solves: function() {
       return solves;
