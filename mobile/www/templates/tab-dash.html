@@ -20,8 +20,8 @@
           Solves
         </div>
       <ion-item ng-repeat="solve in solves">
-        {{solve.date | date:'short'}}
-        : <i class="icon ion-clock padding-horizontal"></i>
+        {{solve.date | date:'yyyy-MM-dd HH:mm:ss'}}
+        <i class="icon ion-clock padding-left"></i>
         {{solve.time | time}}
         <ion-option-button class="button button-assertive" ng-click="delete(solve)">
           <button class="button button-assertive">
