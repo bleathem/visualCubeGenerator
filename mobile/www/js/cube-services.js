@@ -51,6 +51,8 @@ angular.module('cube.services', [])
     solves = readSolves();
     solves.push(solve);
     $localStorage.setItem("solves", JSON.stringify(solves));
+    averages = calculateAverages(solves);
+    $localStorage.setItem("averages", JSON.stringify(averages));
   }
 
   var deleteSolve = function(remove) {
@@ -59,14 +61,33 @@ angular.module('cube.services', [])
       return solve.state !== remove.state;
     });
     $localStorage.setItem("solves", JSON.stringify(solves));
+    averages = calculateAverages(solves);
+    $localStorage.setItem("averages", JSON.stringify(averages));
+  }
+
+  var sumSolveTimes = function(sum, solve, index, array) {
+    return sum + solve.time;
+  }
+
+  var calculateAverages = function(allSolves) {
+    var averages = {};
+    averages.ao5 = allSolves.slice(-5).reduce(sumSolveTimes, 0);
+    averages.ao10 = allSolves.slice(-10).reduce(sumSolveTimes, 0);
+    averages.all = allSolves.reduce(sumSolveTimes, 0);
+    return averages;
   }
 
   var readSolves = function() {
     return JSON.parse($localStorage.getItem("solves")) || [];
   }
 
+  var readAverages = function() {
+    return JSON.parse($localStorage.getItem("averages")) || [];
+  }
+
   var scrambles = generateScrambles(5);
   var solves = readSolves();
+  var averages = readAverages();
 
   return {
     save: function(solve) {
@@ -77,6 +98,9 @@ angular.module('cube.services', [])
     },
     solves: function() {
       return solves;
+    },
+    averages: function() {
+      return averages;
     },
     all: function() {
       return scrambles;
@@ -94,9 +118,8 @@ angular.module('cube.services', [])
   return {
     restrict: 'E',
     replace: true,
-    require: '^scrambleModel',
     scope: {
-      scrambleModel: '='
+      scrambleModel: '=scrambleModel'
     },
     templateUrl: "templates/scramble.html",
     link: function (scope, element, attrs) {
@@ -105,13 +128,22 @@ angular.module('cube.services', [])
   }
 }])
 
+.directive("time", function() {
+  return {
+    restrict: 'E',
+    templateUrl: "templates/time.html",
+    scope: {
+      time : "=time"
+    }
+  }
+})
+
 .directive("scrambleGraphic", ["Scrambler333", function(scrambler) {
   return {
     restrict: 'E',
     replace: true,
-    require: '^scrambleState',
     scope: {
-      scrambleState: '='
+      scrambleState: '=scrambleState'
     },
     link: function (scope, element, attrs) {
       var div = angular.element("<div class='graphic'/>");
@@ -122,24 +154,6 @@ angular.module('cube.services', [])
     }
   }
 }])
-
-.directive("scrambleModel", function() {
-  return {
-    restrict: 'A',
-    controller: function($scope) {
-
-    }
-  }
-})
-
-.directive("scrambleState", function() {
-  return {
-    restrict: 'A',
-    controller: function($scope) {
-
-    }
-  }
-})
 
 // Takes a time in millisecons and diplays it as m:ss.mils
 .filter('time', function () {

@@ -8,10 +8,13 @@
         Best time:
       </div>
       <div class="item">
-        Average over last 5:
+        Average over last 5: {{averages.ao5 | time}}
       </div>
       <div class="item">
-        Average over last 10:
+        Average over last 10: {{averages.ao10 | time}}
+      </div>
+      <div class="item">
+        Lifetime average: {{averages.all | time}}
       </div>
     </div>
 
@@ -21,8 +24,7 @@
         </div>
       <ion-item ng-repeat="solve in solves">
         {{solve.date | date:'yyyy-MM-dd HH:mm:ss'}}
-        <i class="icon ion-clock padding-left"></i>
-        {{solve.time | time}}
+        <time time="solve.time"></time>
         <ion-option-button class="button button-assertive" ng-click="delete(solve)">
           <button class="button button-assertive">
             <i class="icon ion-ios7-minus"></i>

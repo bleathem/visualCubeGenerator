@@ -3,8 +3,7 @@
     <scramble-graphic scramble-state="scrambleModel.state"></scramble-graphic>
     <div class="card timer-card" ng-show="scrambleModel.time">
       <div class="item">
-        <i class="icon ion-clock padding-right"></i>
-        {{scrambleModel.time | time}}
+        <time time="scrambleModel.time"></time>
       </div>
     </div>
 </div>

@@ -39,8 +39,10 @@ angular.module('cube', [])
     }
 
      $scope.$on('timer-stopped', function (event, data){
-       $scope.scramble.time = data.millis;
-       scrambles.save($scope.scramble);
+       if (! $scope.scramble.time) {
+         $scope.scramble.time = data.millis;
+         scrambles.save($scope.scramble);
+       }
      });
 
     $ionicModal.fromTemplateUrl('templates/timer-modal.html', {
