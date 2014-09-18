@@ -23,8 +23,10 @@
         {{solve.date | date:'short'}}
         : <i class="icon ion-clock padding-horizontal"></i>
         {{solve.time | time}}
-        <ion-option-button class="button-assertive" ng-click="delete(solve)">
-          <i class="icon ion-ios7-minus"></i>
+        <ion-option-button class="button button-assertive" ng-click="delete(solve)">
+          <button class="button button-assertive">
+            <i class="icon ion-ios7-minus"></i>
+          </button>
         </ion-option-button>
       </ion-item>
     </ion-list>
