@@ -47,7 +47,7 @@ angular.module('cube.services', [])
   }
 
   var save = function(solve) {
-    solve.date = new Date();
+    solve.date = new Date().getTime();
     solves = readSolves();
     solves.push(solve);
     $localStorage.setItem("solves", JSON.stringify(solves));
@@ -168,16 +168,24 @@ angular.module('cube.services', [])
 
 // Takes a time in millisecons and diplays it as m:ss.mils
 .filter('time', function () {
-  var pad = function(input) {
-    var n = input;
-    return (n < 10) ? '0' + n : n;
-  };
+  var lpad = function pad(num, size) {
+    var s = "000" + num;
+    return s.slice(-size);
+  }
+
+  var rpad = function pad(num, size) {
+    var s = num + "000";
+    return s.slice(0, size);
+  }
 
   return function (input) {
+    if (isNaN(input)) {
+      return "";
+    }
     var minutes = Math.floor(input/60000);
     var seconds = Math.floor((input % 60000)/1000);
     var millis = Math.floor(input % 60000 - seconds*1000);
-    return minutes + ":" + pad(seconds) + "." + millis;
+    return minutes + ":" + lpad(seconds, 2) + "." + rpad(millis, 3);
   }
 })
 ;
