@@ -5,6 +5,7 @@ describe('Unit: Cube Filters:', function() {
       inject(function(timeFilter) {
         expect(timeFilter(0)).toBe('0:00.0');
         expect(timeFilter(2123)).toBe('0:02.123');
+        expect(timeFilter(2123.2376)).toBe('0:02.123');
         expect(timeFilter(30000)).toBe('0:30.0');
         expect(timeFilter(60000)).toBe('1:00.0');
       })

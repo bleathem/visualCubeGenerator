@@ -66,14 +66,25 @@ angular.module('cube.services', [])
   }
 
   var sumSolveTimes = function(sum, solve, index, array) {
-    return sum + solve.time;
+    if (solve.time < sum.best.time) {
+      sum.best = solve;
+    }
+    sum.time += solve.time;
+    return sum;
   }
 
   var calculateAverages = function(allSolves) {
     var averages = {};
-    averages.ao5 = allSolves.slice(-5).reduce(sumSolveTimes, 0);
-    averages.ao10 = allSolves.slice(-10).reduce(sumSolveTimes, 0);
-    averages.all = allSolves.reduce(sumSolveTimes, 0);
+    var seed = {
+      best: allSolves[allSolves.length - 1],
+      time: 0
+    }
+    averages.ao5 = allSolves.slice(-5).reduce(sumSolveTimes, angular.extend({}, seed));
+    averages.ao5.time = averages.ao5.time / 5;
+    averages.ao10 = allSolves.slice(-10).reduce(sumSolveTimes, angular.extend({}, seed));
+    averages.ao10.time = averages.ao10.time / 10;
+    averages.all = allSolves.reduce(sumSolveTimes, angular.extend({}, seed));
+    averages.all.time = averages.all.time / allSolves.length;
     return averages;
   }
 
@@ -165,7 +176,7 @@ angular.module('cube.services', [])
   return function (input) {
     var minutes = Math.floor(input/60000);
     var seconds = Math.floor((input % 60000)/1000);
-    var millis = input % 60000 - seconds*1000;
+    var millis = Math.floor(input % 60000 - seconds*1000);
     return minutes + ":" + pad(seconds) + "." + millis;
   }
 })

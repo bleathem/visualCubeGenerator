@@ -5,16 +5,28 @@
         Best times
       </div>
       <div class="item">
-        Best time:
+        Best over last 5: {{averages.ao5.best.time | time}}
       </div>
       <div class="item">
-        Average over last 5: {{averages.ao5 | time}}
+        Best over last 10: {{averages.ao10.best.time | time}}
       </div>
       <div class="item">
-        Average over last 10: {{averages.ao10 | time}}
+        Lifetime best: {{averages.all.best.time | time}}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="item item-divider">
+        Average times
       </div>
       <div class="item">
-        Lifetime average: {{averages.all | time}}
+        Average over last 5: {{averages.ao5.time | time}}
+      </div>
+      <div class="item">
+        Average over last 10: {{averages.ao10.time | time}}
+      </div>
+      <div class="item">
+        Lifetime average: {{averages.all.time | time}}
       </div>
     </div>
 
