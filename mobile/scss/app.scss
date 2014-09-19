@@ -1,0 +1,85 @@
+// your variable changes can go here
+$ionicons-font-path:    "/lib/ionic/fonts";
+
+@import "ionic/ionic";
+
+
+// your slick styles can go here...
+// when Sass processes, both Ionic's Sass and your Sass will combine
+// into one file and saved in your app's directory as css/app.css
+
+/* Empty. Add your own CSS if you like */
+.list .scramble {
+  .moves {
+      font-size: 80%;
+  }
+
+  .chunk:after {
+      padding: 0;
+      content: "";
+  }
+
+  .graphic {
+      display: inline-block;
+      width: 100px;
+  }
+
+  .timer-card {
+    display: inline-block;
+    float:right;
+    margin: 1ex 0 0 0;
+  }
+}
+
+.scramble {
+  .chunk {
+      padding: 0;
+      white-space: nowrap;
+  }
+  .chunk:after {
+      padding: 0 1ex;
+      content: "\2022";
+  }
+
+  .chunk:last-child:after {
+      content: "";
+      padding: 0;
+  }
+}
+
+.detail {
+  padding-top: 20px;
+  text-align: center;
+
+
+  .scramble {
+    .moves {
+        font-size: 120%;
+    }
+
+    .timer-card .item {
+      text-align: center;
+      line-height: 225%;
+      font-size: 250%;
+    }
+  }
+
+  .graphic {
+      padding-top: 20px;
+      width: 300px;
+      margin: auto;
+  }
+}
+
+.detail button.button-large,
+.timer-modal button.button-large {
+    min-height: 200px;
+    font-size: 600%;
+}
+
+
+.timer-modal .timer-card .item {
+  text-align: center;
+  line-height: 200%;
+  font-size: 350%;
+}
