@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'cube.services', "cube", "timer"])
+angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'cube.services', "cube", "timer"])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $cordovaSplashscreen) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -17,6 +17,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'cube.services', "cub
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
+    }
+    if (window.navigator && window.navigator.splashscreen) {
+      $cordovaSplashscreen.hide();
     }
   });
 })
