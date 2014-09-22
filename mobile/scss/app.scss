@@ -44,7 +44,7 @@ $bar-positive-text:               lighten($positive, 65%);
 
 $button-stable-text:              $dark;
 
-$ionicons-font-path:    "/lib/ionic/fonts";
+$ionicons-font-path:    "../lib/ionic/fonts";
 
 @import "ionic/ionic";
 
