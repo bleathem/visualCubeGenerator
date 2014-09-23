@@ -6,8 +6,20 @@
 // into the appropriate platform specific location
 //
 
-// [{source, target}]
+// [{source: target}]
 var filestocopy = [{
+    "config/scramble_icon_48.png":
+    "platforms/android/res/drawable-mdpi/icon.png"
+  }, {
+    "config/scramble_icon_72.png":
+    "platforms/android/res/drawable-hdpi/icon.png"
+  }, {
+    "config/scramble_icon_96.png":
+    "platforms/android/res/drawable-xhdpi/icon.png"
+  },{
+    "config/scramble_icon_96.png":
+    "platforms/android/res/drawable/icon.png"
+  }, {
     "config/android/res/screens/splash-hdpi-landscape.9.png":
     "platforms/android/res/drawable-land-hdpi/splash.png"
   }, {
