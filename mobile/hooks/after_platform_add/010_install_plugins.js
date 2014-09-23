@@ -9,7 +9,8 @@ var pluginlist = [
   "com.ionic.keyboard",
   "org.apache.cordova.console",
   "org.apache.cordova.device",
-  "org.apache.cordova.splashscreen"
+  "org.apache.cordova.splashscreen",
+  "org.apache.cordova.statusbar"
 ];
 
 // no need to configure below
