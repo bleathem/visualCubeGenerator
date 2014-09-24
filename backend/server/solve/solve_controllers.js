@@ -1,14 +1,14 @@
 "use strict";
 
-var Note = require('./note_model.js'),
+var Solve = require('./solve_model.js'),
     Q    = require('q');
 
 module.exports = exports = {
   get: function (req, res, next) {
-    var $promise = Q.nbind(Note.find, Note);
+    var $promise = Q.nbind(Solve.find, Solve);
     $promise()
-      .then(function (notes) {
-        res.json(notes);
+      .then(function (solves) {
+        res.json(solves);
       })
        .fail(function (reason) {
         next(reason);
@@ -16,9 +16,9 @@ module.exports = exports = {
   },
 
   post: function (req, res, next) {
-    var note = req.body.note;
-    var $promise = Q.nbind(Note.create, Note);
-    $promise(note)
+    var solve = req.body.solve;
+    var $promise = Q.nbind(Solve.create, Solve);
+    $promise(solve)
       .then(function (id) {
         res.send(id);
       })

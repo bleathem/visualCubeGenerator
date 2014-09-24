@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 
-var NoteSchema = new mongoose.Schema({
+var SolveSchema = new mongoose.Schema({
   content: String,
 
   title: {
@@ -11,4 +11,4 @@ var NoteSchema = new mongoose.Schema({
   }
 });
 
-module.exports = exports = mongoose.model('notes', NoteSchema);
+module.exports = exports = mongoose.model('solves', SolveSchema);

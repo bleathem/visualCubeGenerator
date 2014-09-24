@@ -1,6 +1,6 @@
 (function (angular) {
   "use strict";
-  angular.module('visualCubeGenerator.main', ['ngRoute', 'visualCubeGenerator.main.note'])
+  angular.module('visualCubeGenerator.main', ['ngRoute', 'visualCubeGenerator.main.solve'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {

@@ -1,12 +1,12 @@
-angular.module('visualCubeGenerator.main.note', ['ngRoute'])
+angular.module('visualCubeGenerator.main.solve', ['ngRoute'])
 
 .config(function ($routeProvider) {
   $routeProvider
-    .when('/notes', {
-      templateUrl: 'note/note.tpl.html',
-      controller: 'NoteController'
+    .when('/solves', {
+      templateUrl: 'solve/solve.tpl.html',
+      controller: 'SolveController'
     });
 })
-.controller('NoteController', function ($scope) {
-  $scope.notes = [];
+.controller('SolveController', function ($scope) {
+  $scope.solves = [];
 });
