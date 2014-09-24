@@ -1,0 +1,11 @@
+{
+  "name": "visual-cube-generator",
+  "version": "",
+  "dependencies": {
+    "bootstrap-css-only": "*",
+    "angular": "*" ,
+    "angular-route": "*",
+    "ngFx": "*"
+  }
+}
+

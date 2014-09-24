@@ -3,3 +3,6 @@ www/lib
 platforms/
 plugins/
 .sass-cache
+client/lib
+_DS_Store
+DS_Store
