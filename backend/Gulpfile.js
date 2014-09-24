@@ -7,7 +7,7 @@ var gulp    = require('gulp'),
     plumber = require('gulp-plumber'),
     client  = require('tiny-lr')(),
     nodemon = require('gulp-nodemon'),
-    lr_port = 35728,
+    lr_port = 35729,
     sass   = require('gulp-sass');
 
 
