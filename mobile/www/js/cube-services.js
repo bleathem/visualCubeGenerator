@@ -159,14 +159,14 @@ angular.module('cube.services', [])
     restrict: 'E',
     replace: true,
     scope: {
-      scrambleState: '=scrambleState'
+      state: '=state'
     },
     link: function (scope, element, attrs) {
       var div = angular.element("<div class='graphic'/>");
       element.append(div);
       var width = div[0].offsetWidth,
          height = Math.round(width * 2.0 / 3.0);
-      scrambler.drawScramble(div[0], scope.scrambleState, width, height);
+      scrambler.drawScramble(div[0], scope.state, width, height);
     }
   }
 }])
@@ -175,13 +175,13 @@ angular.module('cube.services', [])
   return {
     restrict: 'E',
     scope: {
-      scramble: '=scramble'
+      moves: '=moves'
     },
     link: function (scope, element, attrs) {
       var outer = angular.element("<div class='moves'/>");
       var newString = "";
       var chunkLength = 4;
-      var chunks = scope.scramble.moves.split(/\s+/);
+      var chunks = scope.moves.split(/\s+/);
       var inner;
       for (var i = 0; i < chunks.length; i++) {
         if ((i) % chunkLength == 0) {
