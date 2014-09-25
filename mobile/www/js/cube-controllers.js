@@ -30,16 +30,16 @@ angular.module('cube', [])
 
     $scope.startTimer = function() {
       $scope.$broadcast('timer-start');
-      if (StatusBar) {
-        StatusBar.hide();
+      if (window.StatusBar) {
+        window.StatusBar.hide();
       }
       $scope.openModal();
     }
 
     $scope.stopTimer = function() {
       $scope.$broadcast('timer-stop');
-      if (StatusBar) {
-        StatusBar.show();
+      if (window.StatusBar) {
+        window.StatusBar.show();
       }
       $scope.closeModal();
     }
