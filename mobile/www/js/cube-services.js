@@ -130,14 +130,14 @@ angular.module('cube.services', [])
   };
 }])
 
-.directive("scramble", ["Scrambler333", "Scrambles", function(scrambler, scrambles) {
+.directive("scrambleView", ["Scrambler333", "Scrambles", function(scrambler, scrambles) {
   return {
     restrict: 'E',
     replace: true,
     scope: {
-      scrambleModel: '=scrambleModel'
+      scramble: '=scramble'
     },
-    templateUrl: "templates/scramble.html",
+    templateUrl: "templates/scramble-view.html",
     link: function (scope, element, attrs) {
       scope.width = attrs.width;
     }

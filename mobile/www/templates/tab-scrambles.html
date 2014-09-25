@@ -7,7 +7,7 @@
   <ion-content class="has-header">
     <ion-list>
       <ion-item ng-repeat="scramble in scrambles" type="item-text-wrap" href="#/tab/scramble/{{scramble.id}}">
-        <scramble scramble-model="scramble" width="100"></scramble>
+        <scramble-view scramble="scramble" width="100"></scramble-view>
       </ion-item>
     </ion-list>
   </ion-content>
