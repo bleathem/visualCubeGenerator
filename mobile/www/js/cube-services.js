@@ -9,7 +9,7 @@ angular.module('cube.services', [])
   return scramblers["333"];
 })
 
-.factory("Scrambles", ['Scrambler333', '$localStorage', function(scrambler, $localStorage) {
+.factory("Scrambles", ['Scrambler333', '$localStorage', '$q', '$timeout', function(scrambler, $localStorage, $q, $timeout) {
   var formatScramble = function(scrambleString) {
     var newString = "";
     var chunkLength = 4;
@@ -101,12 +101,6 @@ angular.module('cube.services', [])
   var averages = readAverages();
 
   return {
-    save: function(solve) {
-      save(solve);
-    },
-    delete: function(solve) {
-      deleteSolve(solve);
-    },
     solves: function() {
       return solves;
     },
@@ -119,8 +113,41 @@ angular.module('cube.services', [])
     get: function(id) {
       return scrambles[id];
     },
+    save: function(solve) {
+      var deferred = $q.defer();
+      $timeout(function() {
+        try {
+          save(solve);
+          deferred.resolve('Solve saved');
+        } catch(error) {
+          deferred.reject(e);
+        }
+      }, 0);
+      return deferred.promise;
+    },
+    delete: function(solve) {
+      var deferred = $q.defer();
+      $timeout(function() {
+        try {
+          deleteSolve(solve);
+          deferred.resolve('Solve deleted');
+        } catch(error) {
+          deferred.reject(e);
+        }
+      }, 0);
+      return deferred.promise;
+    },
     regenerate: function() {
-      scrambles = generateScrambles(5);
+      var deferred = $q.defer();
+      $timeout(function() {
+        try {
+          scrambles = generateScrambles(5);
+          deferred.resolve('Scrambles generated');
+        } catch(error) {
+          deferred.reject(e);
+        }
+      }, 10);
+      return deferred.promise;
     }
   };
 }])

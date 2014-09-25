@@ -5,8 +5,10 @@ angular.module('starter.controllers', [])
     $scope.averages = scrambles.averages();
 
     $scope.delete = function(solve) {
-      scrambles.delete(solve);
-      $scope.solves = scrambles.solves();
+      scrambles.delete(solve).then(function() {
+        $scope.solves = scrambles.solves();
+      });
+
     }
 }])
 

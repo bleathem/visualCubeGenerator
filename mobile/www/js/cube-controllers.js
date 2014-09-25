@@ -1,16 +1,17 @@
 angular.module('cube', [])
 
-  .controller('ScramblesCtrl', ["$scope", "Scrambles", "$timeout", "$ionicLoading", function ($scope, scrambles,$timeout, $ionicLoading) {
+  .controller('ScramblesCtrl', ["$scope", "Scrambles", "$ionicLoading", function ($scope, scrambles, $ionicLoading) {
     $scope.scrambles = scrambles.all();
 
     $scope.scramble = function() {
       $ionicLoading.show();
-      $timeout(function() {
-        scrambles.regenerate();
+      scrambles.regenerate().then(function() {
         $scope.scrambles = scrambles.all();
         $ionicLoading.hide();
-      }, 100);
-
+      }, function(e) {
+        $ionicLoading.hide();
+        throw e;
+      });
     }
   }])
 
@@ -24,16 +25,12 @@ angular.module('cube', [])
     }
     $scope.scramble = scrambles.get($stateParams.scrambleId);
 
-    var save = function(scramble) {
-
-    }
-
     $scope.startTimer = function() {
       $scope.$broadcast('timer-start');
       if (window.StatusBar) {
         window.StatusBar.hide();
       }
-      $scope.openModal();
+      $scope.modal.show();
     }
 
     $scope.stopTimer = function() {
@@ -41,13 +38,17 @@ angular.module('cube', [])
       if (window.StatusBar) {
         window.StatusBar.show();
       }
-      $scope.closeModal();
+      $scope.modal.hide();
     }
 
      $scope.$on('timer-stopped', function (event, data){
        if (! $scope.scramble.time) {
          $scope.scramble.time = data.millis;
-         scrambles.save($scope.scramble);
+         scrambles.save($scope.scramble).then(function() {
+           $scope.scrambles = scrambles.all();
+         }, function(error) {
+           throw e;
+         });
        }
      });
 
@@ -57,22 +58,9 @@ angular.module('cube', [])
     }).then(function(modal) {
       $scope.modal = modal;
     });
-    $scope.openModal = function() {
-      $scope.modal.show();
-    };
-    $scope.closeModal = function() {
-      $scope.modal.hide();
-    };
+
     //Cleanup the modal when we're done with it!
     $scope.$on('$destroy', function() {
       $scope.modal.remove();
     });
-    // Execute action on hide modal
-    $scope.$on('modal.hidden', function() {
-      // Execute action
-    });
-    // Execute action on remove modal
-    $scope.$on('modal.removed', function() {
-      // Execute action
-    });
-    }]);
+  }]);
