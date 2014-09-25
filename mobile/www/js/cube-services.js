@@ -10,36 +10,14 @@ angular.module('cube.services', [])
 })
 
 .factory("Scrambles", ['Scrambler333', '$localStorage', '$q', '$timeout', function(scrambler, $localStorage, $q, $timeout) {
-  var formatScramble = function(scrambleString) {
-    var newString = "";
-    var chunkLength = 4;
-    var chunks = scrambleString.split(/\s+/);
-    for (var i = 0; i < chunks.length; i++) {
-      if (i === 0) {
-        newString = newString.concat("<span class='chunk'>");
-      } else if (i === chunks.length -1) {
-        newString = newString.concat("</span>");
-      } else {
-        if ((i) % chunkLength == 0) {
-          newString = newString.concat("</span> <span class='chunk'>");
-        } else {
-          newString = newString.concat(" ");
-        }
-      }
-      newString = newString.concat(chunks[i]);
-    }
-    return newString;
-  };
-
   var generateScrambles = function(max) {
     var scrambles = [];
     for (var count = 0; count < max; count++) {
       // Generate a random scramble
       var randomScramble = {
         id: count,
-        moves: scrambler.getRandomScramble().scramble_string,
+        moves: scrambler.getRandomScramble().scramble_string.trim(),
         state: scrambler.getRandomScramble().state,
-        movesFormatted: formatScramble(scrambler.getRandomScramble().scramble_string)
       }
       scrambles.push(randomScramble);
     }
@@ -192,6 +170,31 @@ angular.module('cube.services', [])
     }
   }
 }])
+
+.directive("scrambleMoves", function() {
+  return {
+    restrict: 'E',
+    scope: {
+      scramble: '=scramble'
+    },
+    link: function (scope, element, attrs) {
+      var outer = angular.element("<div class='moves'/>");
+      var newString = "";
+      var chunkLength = 4;
+      var chunks = scope.scramble.moves.split(/\s+/);
+      var inner;
+      for (var i = 0; i < chunks.length; i++) {
+        if ((i) % chunkLength == 0) {
+          inner = angular.element("<span class='chunk'/>");
+          outer.append(inner);
+          outer.append(document.createTextNode(' '));
+        }
+        inner.text(inner.text() + " " + chunks[i]);
+      }
+      element.append(outer);
+    }
+  }
+})
 
 // Takes a time in millisecons and diplays it as m:ss.mils
 .filter('time', function () {
