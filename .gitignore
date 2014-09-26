@@ -1,5 +1,5 @@
 node_modules/
-*/www/lib
+**/lib
 platforms/
 plugins/
 .sass-cache

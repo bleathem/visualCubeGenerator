@@ -1,5 +1,5 @@
 (function (angular) {
-  "use strict";
+  'use strict';
   angular.module('visualCubeGenerator.main', ['ngRoute', 'visualCubeGenerator.main.solve'])
   .config(function ($routeProvider) {
     $routeProvider

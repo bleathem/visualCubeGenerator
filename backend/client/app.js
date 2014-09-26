@@ -1,10 +1,7 @@
 (function (angular) {
-  "use strict";
+  'use strict';
   angular.module('visualCubeGenerator', [
     'ngFx',
-    'ngRoute'
-, 'visualCubeGenerator.main']);
+    'ngRoute',
+    'visualCubeGenerator.main']);
 }(angular));
-
-
-
