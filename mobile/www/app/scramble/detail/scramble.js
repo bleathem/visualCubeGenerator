@@ -1,5 +1,18 @@
 angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services', 'timer'])
 
+  .config(function($stateProvider) {
+    $stateProvider
+      .state('tab.scramble-detail', {
+        url: '/scramble/:scrambleId',
+        views: {
+          'tab-scrambles': {
+            templateUrl: 'app/scramble/detail/scramble.tpl.html',
+            controller: 'ScrambleCtrl'
+          }
+        }
+      });
+  })
+
   .controller('ScrambleCtrl', ["$scope", "$stateParams", "$location", "$ionicModal", "Scrambles", "Solves", function ($scope, $stateParams, $location, $ionicModal, scrambles, solves) {
     if (scrambles.length === 0) {
       $location.path("/tab/scrambles")

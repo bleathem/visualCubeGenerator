@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve', 'cube.scramble', 'cube.scrambles'])
+angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve', 'cube.scramble', 'cube.scrambles', 'account'])
 
 .run(function($ionicPlatform, $cordovaSplashscreen) {
   $ionicPlatform.ready(function() {
@@ -37,47 +37,6 @@ angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve', 'cube
       url: "/tab",
       abstract: true,
       templateUrl: "app/tabs.html"
-    })
-
-    // Each tab has its own nav history stack:
-
-    .state('tab.dash', {
-      url: '/dash',
-      views: {
-        'tab-dash': {
-          templateUrl: 'app/solve/tab-dash.html',
-          controller: 'SolvesCtrl'
-        }
-      }
-    })
-
-    .state('tab.scrambles', {
-      url: '/scrambles',
-      views: {
-        'tab-scrambles': {
-          templateUrl: 'app/scramble/list/tab-scrambles.html',
-          controller: 'ScramblesCtrl'
-        }
-      }
-    })
-    .state('tab.scramble-detail', {
-      url: '/scramble/:scrambleId',
-      views: {
-        'tab-scrambles': {
-          templateUrl: 'app/scramble/detail/scramble-detail.html',
-          controller: 'ScrambleCtrl'
-        }
-      }
-    })
-
-    .state('tab.account', {
-      url: '/account',
-      views: {
-        'tab-account': {
-          templateUrl: 'app/account/tab-account.html'
-          // controller: 'AccountCtrl'
-        }
-      }
     })
 
   // if none of the above states are matched, use this as the fallback
