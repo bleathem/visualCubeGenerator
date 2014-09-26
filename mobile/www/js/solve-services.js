@@ -92,10 +92,10 @@ angular.module('cube.solve.services', [])
   };
 }])
 
-.directive("time", function() {
+.directive("solveTime", function() {
   return {
     restrict: 'E',
-    template: "<span class='time'> <span class='my-clock-icon'> </span> {{time | time}} </span>",
+    template: "<span class='time'> <span class='my-clock-icon'> </span> {{time | solveTime}} </span>",
     scope: {
       time : "=time"
     }
@@ -103,7 +103,7 @@ angular.module('cube.solve.services', [])
 })
 
 // Takes a time in millisecons and diplays it as m:ss.mils
-.filter('time', function () {
+.filter('solveTime', function () {
   var lpad = function pad(num, size) {
     var s = "000" + num;
     return s.slice(-size);
