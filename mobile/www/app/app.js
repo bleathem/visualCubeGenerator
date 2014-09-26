@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve', 'cube.scramble'])
+angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve', 'cube.scramble', 'cube.scrambles'])
 
 .run(function($ionicPlatform, $cordovaSplashscreen) {
   $ionicPlatform.ready(function() {
@@ -55,7 +55,7 @@ angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve', 'cube
       url: '/scrambles',
       views: {
         'tab-scrambles': {
-          templateUrl: 'app/scramble/tab-scrambles.html',
+          templateUrl: 'app/scramble/list/tab-scrambles.html',
           controller: 'ScramblesCtrl'
         }
       }
@@ -64,7 +64,7 @@ angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve', 'cube
       url: '/scramble/:scrambleId',
       views: {
         'tab-scrambles': {
-          templateUrl: 'app/scramble/scramble-detail.html',
+          templateUrl: 'app/scramble/detail/scramble-detail.html',
           controller: 'ScrambleCtrl'
         }
       }

@@ -1,20 +1,5 @@
 angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services', 'timer'])
 
-  .controller('ScramblesCtrl', ["$scope", "$ionicLoading", "Scrambles", "Solves", function ($scope, $ionicLoading, scrambles, solves) {
-    $scope.scrambles = scrambles.all();
-
-    $scope.scramble = function() {
-      $ionicLoading.show();
-      scrambles.regenerate().then(function() {
-        $scope.scrambles = scrambles.all();
-        $ionicLoading.hide();
-      }, function(e) {
-        $ionicLoading.hide();
-        throw e;
-      });
-    }
-  }])
-
   .controller('ScrambleCtrl', ["$scope", "$stateParams", "$location", "$ionicModal", "Scrambles", "Solves", function ($scope, $stateParams, $location, $ionicModal, scrambles, solves) {
     if (scrambles.length === 0) {
       $location.path("/tab/scrambles")
@@ -48,7 +33,7 @@ angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services'
        }
      });
 
-    $ionicModal.fromTemplateUrl('app/scramble/timer-modal.html', {
+    $ionicModal.fromTemplateUrl('app/scramble/detail/timer-modal.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
