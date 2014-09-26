@@ -147,7 +147,7 @@ angular.module('cube.services', [])
 .directive("time", function() {
   return {
     restrict: 'E',
-    templateUrl: "templates/time.html",
+    template: "<span class='time'> <span class='my-clock-icon'> </span> {{time | time}} </span>",
     scope: {
       time : "=time"
     }
