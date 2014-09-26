@@ -1,6 +1,6 @@
-angular.module('cube', [])
+angular.module('cube.controllers', ['cube.scramble.services', 'cube.solve.services'])
 
-  .controller('ScramblesCtrl', ["$scope", "Scrambles", "$ionicLoading", function ($scope, scrambles, $ionicLoading) {
+  .controller('ScramblesCtrl', ["$scope", "$ionicLoading", "Scrambles", "Solves", function ($scope, $ionicLoading, scrambles, solves) {
     $scope.scrambles = scrambles.all();
 
     $scope.scramble = function() {
@@ -15,11 +15,7 @@ angular.module('cube', [])
     }
   }])
 
-  .controller('FriendDetailCtrl', function($scope, $stateParams, Friends) {
-    $scope.friend = Friends.get($stateParams.friendId);
-  })
-
-  .controller('ScrambleCtrl', ["$scope", "$stateParams", "$location", "$ionicModal", "Scrambles", function ($scope, $stateParams, $location, $ionicModal, scrambles) {
+  .controller('ScrambleCtrl', ["$scope", "$stateParams", "$location", "$ionicModal", "Scrambles", "Solves", function ($scope, $stateParams, $location, $ionicModal, scrambles, solves) {
     if (scrambles.length === 0) {
       $location.path("/tab/scrambles")
     }
@@ -44,8 +40,8 @@ angular.module('cube', [])
      $scope.$on('timer-stopped', function (event, data){
        if (! $scope.scramble.time) {
          $scope.scramble.time = data.millis;
-         scrambles.save($scope.scramble).then(function() {
-           $scope.scrambles = scrambles.all();
+         solves.save($scope.scramble).then(function() {
+          $scope.$broadcast("solve-saved", $scope.scramble);
          }, function(error) {
            throw e;
          });
@@ -63,4 +59,17 @@ angular.module('cube', [])
     $scope.$on('$destroy', function() {
       $scope.modal.remove();
     });
-  }]);
+  }])
+
+  .controller('SolvesCtrl', ["$scope", "Solves", function ($scope, solves) {
+      $scope.solves = solves.solves();
+      $scope.averages = solves.averages();
+
+      $scope.delete = function(solve) {
+        solves.delete(solve).then(function() {
+          $scope.$broadcast("solve-deleed", solve);
+        });
+
+      }
+  }])
+;

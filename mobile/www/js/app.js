@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'cube.services', "cube", "timer"])
+angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve.services', 'cube.scramble.services', 'cube.controllers', "timer"])
 
 .run(function($ionicPlatform, $cordovaSplashscreen) {
   $ionicPlatform.ready(function() {
@@ -46,7 +46,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'cube.se
       views: {
         'tab-dash': {
           templateUrl: 'templates/tab-dash.html',
-          controller: 'DashCtrl'
+          controller: 'SolvesCtrl'
         }
       }
     })
@@ -74,8 +74,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'cube.se
       url: '/account',
       views: {
         'tab-account': {
-          templateUrl: 'templates/tab-account.html',
-          controller: 'AccountCtrl'
+          templateUrl: 'templates/tab-account.html'
+          // controller: 'AccountCtrl'
         }
       }
     })
