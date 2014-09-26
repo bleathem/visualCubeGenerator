@@ -36,7 +36,7 @@
         </div>
       <ion-item ng-repeat="solve in solves track by solve.state">
         {{solve.date | date:'yyyy-MM-dd HH:mm:ss'}}
-        <time time="solve.time"></time>
+        <time time="solve.time" class="padding-left"></time>
         <ion-option-button class="button button-assertive" ng-click="delete(solve)">
           <button class="button button-assertive">
             <i class="icon ion-ios7-minus"></i>

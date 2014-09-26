@@ -152,6 +152,7 @@
 .ion-chevron-up:before,
 .ion-clipboard:before,
 .ion-clock:before,
+.my-clock-icon:before,
 .ion-close:before,
 .ion-close-circled:before,
 .ion-close-round:before,
@@ -1081,7 +1082,7 @@
 .ion-clipboard:before {
   content: "\f127"; }
 
-.ion-clock:before {
+.ion-clock:before, .my-clock-icon:before {
   content: "\f26e"; }
 
 .ion-close:before {
@@ -3078,7 +3079,7 @@ ion-infinite-scroll {
   -webkit-align-items: center;
   -moz-align-items: center;
   align-items: center; }
-  ion-infinite-scroll .icon {
+  ion-infinite-scroll .icon, ion-infinite-scroll .my-clock-icon {
     color: #666666;
     font-size: 30px;
     color: #666666; }
@@ -3565,14 +3566,15 @@ a.subdued {
     font-size: 13px;
     line-height: 32px; }
     .bar .button.button-icon:before,
-    .bar .button .icon:before, .bar .button.icon:before, .bar .button.icon-left:before, .bar .button.icon-right:before {
+    .bar .button .icon:before,
+    .bar .button .my-clock-icon:before, .bar .button.icon:before, .bar .button.my-clock-icon:before, .bar .button.icon-left:before, .bar .button.icon-right:before {
       padding-right: 2px;
       padding-left: 2px;
       font-size: 20px;
       line-height: 32px; }
     .bar .button.button-icon {
       font-size: 17px; }
-      .bar .button.button-icon .icon:before, .bar .button.button-icon:before, .bar .button.button-icon.icon-left:before, .bar .button.button-icon.icon-right:before {
+      .bar .button.button-icon .icon:before, .bar .button.button-icon .my-clock-icon:before, .bar .button.button-icon:before, .bar .button.button-icon.icon-left:before, .bar .button.button-icon.icon-right:before {
         vertical-align: top;
         font-size: 32px;
         line-height: 32px; }
@@ -3581,7 +3583,7 @@ a.subdued {
       padding-left: 2px;
       font-weight: 300;
       font-size: 17px; }
-      .bar .button.button-clear .icon:before, .bar .button.button-clear.icon:before, .bar .button.button-clear.icon-left:before, .bar .button.button-clear.icon-right:before {
+      .bar .button.button-clear .icon:before, .bar .button.button-clear .my-clock-icon:before, .bar .button.button-clear.icon:before, .bar .button.button-clear.my-clock-icon:before, .bar .button.button-clear.icon-left:before, .bar .button.button-clear.icon-right:before {
         font-size: 32px;
         line-height: 32px; }
     .bar .button.back-button {
@@ -4359,7 +4361,7 @@ a.subdued {
   font-size: 12px;
   line-height: 14px; }
 
-.tab-item .icon {
+.tab-item .icon, .tab-item .my-clock-icon {
   display: block;
   margin: 0 auto;
   height: 32px;
@@ -4370,30 +4372,39 @@ a.subdued {
 .tabs-icon-right.tabs .tab-item,
 .tabs-icon-right > .tabs .tab-item {
   font-size: 12px; }
-  .tabs-icon-left.tabs .tab-item .icon,
+  .tabs-icon-left.tabs .tab-item .icon, .tabs-icon-left.tabs .tab-item .my-clock-icon,
   .tabs-icon-left > .tabs .tab-item .icon,
+  .tabs-icon-left > .tabs .tab-item .my-clock-icon,
   .tabs-icon-right.tabs .tab-item .icon,
-  .tabs-icon-right > .tabs .tab-item .icon {
+  .tabs-icon-right.tabs .tab-item .my-clock-icon,
+  .tabs-icon-right > .tabs .tab-item .icon,
+  .tabs-icon-right > .tabs .tab-item .my-clock-icon {
     display: inline-block;
     vertical-align: top;
     margin-top: -.1em; }
-    .tabs-icon-left.tabs .tab-item .icon:before,
+    .tabs-icon-left.tabs .tab-item .icon:before, .tabs-icon-left.tabs .tab-item .my-clock-icon:before,
     .tabs-icon-left > .tabs .tab-item .icon:before,
+    .tabs-icon-left > .tabs .tab-item .my-clock-icon:before,
     .tabs-icon-right.tabs .tab-item .icon:before,
-    .tabs-icon-right > .tabs .tab-item .icon:before {
+    .tabs-icon-right.tabs .tab-item .my-clock-icon:before,
+    .tabs-icon-right > .tabs .tab-item .icon:before,
+    .tabs-icon-right > .tabs .tab-item .my-clock-icon:before {
       font-size: 24px;
       line-height: 49px; }
 
-.tabs-icon-left > .tabs .tab-item .icon,
-.tabs-icon-left.tabs .tab-item .icon {
+.tabs-icon-left > .tabs .tab-item .icon, .tabs-icon-left > .tabs .tab-item .my-clock-icon,
+.tabs-icon-left.tabs .tab-item .icon,
+.tabs-icon-left.tabs .tab-item .my-clock-icon {
   padding-right: 3px; }
 
-.tabs-icon-right > .tabs .tab-item .icon,
-.tabs-icon-right.tabs .tab-item .icon {
+.tabs-icon-right > .tabs .tab-item .icon, .tabs-icon-right > .tabs .tab-item .my-clock-icon,
+.tabs-icon-right.tabs .tab-item .icon,
+.tabs-icon-right.tabs .tab-item .my-clock-icon {
   padding-left: 3px; }
 
-.tabs-icon-only > .tabs .icon,
-.tabs-icon-only.tabs .icon {
+.tabs-icon-only > .tabs .icon, .tabs-icon-only > .tabs .my-clock-icon,
+.tabs-icon-only.tabs .icon,
+.tabs-icon-only.tabs .my-clock-icon {
   line-height: inherit; }
 
 .tab-item.has-badge {
@@ -4460,7 +4471,7 @@ a.subdued {
   display: -ms-flexbox;
   display: flex;
   padding: 0; }
-  .item.tabs .icon:before {
+  .item.tabs .icon:before, .item.tabs .my-clock-icon:before {
     position: relative; }
 
 .tab-item.disabled,
@@ -5220,8 +5231,9 @@ a.item-content {
  * Item Icons
  * --------------------------------------------------
  */
-.item-icon-left .icon,
-.item-icon-right .icon {
+.item-icon-left .icon, .item-icon-left .my-clock-icon,
+.item-icon-right .icon,
+.item-icon-right .my-clock-icon {
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -5237,8 +5249,9 @@ a.item-content {
   top: 0;
   height: 100%;
   font-size: 32px; }
-  .item-icon-left .icon:before,
-  .item-icon-right .icon:before {
+  .item-icon-left .icon:before, .item-icon-left .my-clock-icon:before,
+  .item-icon-right .icon:before,
+  .item-icon-right .my-clock-icon:before {
     display: block;
     width: 32px;
     text-align: center; }
@@ -5250,7 +5263,7 @@ a.item-content {
 
 .item-icon-left {
   padding-left: 54px; }
-  .item-icon-left .icon {
+  .item-icon-left .icon, .item-icon-left .my-clock-icon {
     left: 11px; }
 
 .item-complex.item-icon-left {
@@ -5260,7 +5273,7 @@ a.item-content {
 
 .item-icon-right {
   padding-right: 54px; }
-  .item-icon-right .icon {
+  .item-icon-right .icon, .item-icon-right .my-clock-icon {
     right: 11px; }
 
 .item-complex.item-icon-right {
@@ -5268,11 +5281,12 @@ a.item-content {
   .item-complex.item-icon-right .item-content {
     padding-right: 54px; }
 
-.item-icon-left.item-icon-right .icon:first-child {
+.item-icon-left.item-icon-right .icon:first-child, .item-icon-left.item-icon-right .my-clock-icon:first-child {
   right: auto; }
 
-.item-icon-left.item-icon-right .icon:last-child,
-.item-icon-left .item-delete .icon {
+.item-icon-left.item-icon-right .icon:last-child, .item-icon-left.item-icon-right .my-clock-icon:last-child,
+.item-icon-left .item-delete .icon,
+.item-icon-left .item-delete .my-clock-icon {
   left: auto; }
 
 .item-icon-left .icon-accessory,
@@ -5314,8 +5328,9 @@ a.item-content {
   min-height: 34px;
   font-size: 18px;
   line-height: 32px; }
-  .item-button-left > .button .icon:before,
-  .item-button-left .item-content > .button .icon:before {
+  .item-button-left > .button .icon:before, .item-button-left > .button .my-clock-icon:before,
+  .item-button-left .item-content > .button .icon:before,
+  .item-button-left .item-content > .button .my-clock-icon:before {
     position: relative;
     left: auto;
     width: auto;
@@ -5354,10 +5369,13 @@ button.item.item-button-right {
   min-height: 34px;
   font-size: 18px;
   line-height: 32px; }
-  .item-button-right > .button .icon:before,
+  .item-button-right > .button .icon:before, .item-button-right > .button .my-clock-icon:before,
   .item-button-right .item-content > .button .icon:before,
+  .item-button-right .item-content > .button .my-clock-icon:before,
   .item-button-right > .buttons .icon:before,
-  .item-button-right .item-content > .buttons .icon:before {
+  .item-button-right > .buttons .my-clock-icon:before,
+  .item-button-right .item-content > .buttons .icon:before,
+  .item-button-right .item-content > .buttons .my-clock-icon:before {
     position: relative;
     left: auto;
     width: auto;
@@ -5520,7 +5538,7 @@ button.item.item-button-right {
   transform: translate3d(-21px, 0, 0); }
   .item-left-edit .button {
     height: 100%; }
-    .item-left-edit .button.icon {
+    .item-left-edit .button.icon, .item-left-edit .button.my-clock-icon {
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -5548,10 +5566,10 @@ button.item.item-button-right {
   -moz-transition-delay: 125ms;
   transition-delay: 125ms; }
 
-.item-delete .button.icon {
+.item-delete .button.icon, .item-delete .button.my-clock-icon {
   color: #913c00;
   font-size: 24px; }
-  .item-delete .button.icon:hover {
+  .item-delete .button.icon:hover, .item-delete .button.my-clock-icon:hover {
     opacity: .7; }
 
 .item-right-edit {
@@ -5574,7 +5592,7 @@ button.item.item-button-right {
   .item-right-edit .button {
     min-width: 50px;
     height: 100%; }
-    .item-right-edit .button.icon {
+    .item-right-edit .button.icon, .item-right-edit .button.my-clock-icon {
       display: -webkit-box;
       display: -webkit-flex;
       display: -moz-box;
@@ -5604,7 +5622,7 @@ button.item.item-button-right {
   -moz-transition-delay: 125ms;
   transition-delay: 125ms; }
 
-.item-reorder .button.icon {
+.item-reorder .button.icon, .item-reorder .button.my-clock-icon {
   color: #041f47;
   font-size: 32px; }
 
@@ -5903,7 +5921,7 @@ textarea {
     margin: 0;
     padding-right: 24px;
     background-color: transparent; }
-  .item-input .button .icon {
+  .item-input .button .icon, .item-input .button .my-clock-icon {
     -webkit-box-flex: 0;
     -webkit-flex: 0 0 24px;
     -moz-box-flex: 0;
@@ -5928,7 +5946,7 @@ textarea {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none; }
-  .item-input .icon {
+  .item-input .icon, .item-input .my-clock-icon {
     min-width: 14px; }
 
 .item-input-inset {
@@ -6006,7 +6024,7 @@ textarea {
   display: block;
   background-color: transparent;
   box-shadow: none; }
-  .item-stacked-label .input-label, .item-stacked-label .icon {
+  .item-stacked-label .input-label, .item-stacked-label .icon, .item-stacked-label .my-clock-icon {
     display: inline-block;
     padding: 4px 0 0 0px;
     vertical-align: middle; }
@@ -6565,7 +6583,7 @@ input[type="range"] {
   .range.range-dark input::-webkit-slider-thumb:before {
     background: #041f47; }
 
-.range .icon {
+.range .icon, .range .my-clock-icon {
   -webkit-box-flex: 0;
   -webkit-flex: 0;
   -moz-box-flex: 0;
@@ -6739,10 +6757,10 @@ progress {
     bottom: -6px;
     left: -6px;
     content: ' '; }
-  .button .icon {
+  .button .icon, .button .my-clock-icon {
     vertical-align: top;
     pointer-events: none; }
-  .button .icon:before, .button.icon:before, .button.icon-left:before, .button.icon-right:before {
+  .button .icon:before, .button .my-clock-icon:before, .button.icon:before, .button.my-clock-icon:before, .button.icon-left:before, .button.icon-right:before {
     display: inline-block;
     padding: 0 0 1px 0;
     vertical-align: inherit;
@@ -7010,7 +7028,7 @@ progress {
   min-height: 30px;
   font-size: 12px;
   line-height: 26px; }
-  .button-small .icon:before, .button-small.icon:before, .button-small.icon-left:before, .button-small.icon-right:before {
+  .button-small .icon:before, .button-small .my-clock-icon:before, .button-small.icon:before, .button-small.my-clock-icon:before, .button-small.icon-left:before, .button-small.icon-right:before {
     font-size: 16px;
     line-height: 19px;
     margin-top: 3px; }
@@ -7021,7 +7039,7 @@ progress {
   min-height: 59px;
   font-size: 20px;
   line-height: 53px; }
-  .button-large .icon:before, .button-large.icon:before, .button-large.icon-left:before, .button-large.icon-right:before {
+  .button-large .icon:before, .button-large .my-clock-icon:before, .button-large.icon:before, .button-large.my-clock-icon:before, .button-large.icon-left:before, .button-large.icon-right:before {
     padding-bottom: 2px;
     font-size: 32px;
     line-height: 51px; }
@@ -7039,7 +7057,7 @@ progress {
     background: none;
     box-shadow: none;
     opacity: 0.3; }
-  .button-icon .icon:before, .button-icon.icon:before {
+  .button-icon .icon:before, .button-icon .my-clock-icon:before, .button-icon.icon:before, .button-icon.my-clock-icon:before {
     font-size: 32px; }
 
 .button-clear {
@@ -7103,7 +7121,7 @@ input.button.button-block {
 
 a.button {
   text-decoration: none; }
-  a.button .icon:before, a.button.icon:before, a.button.icon-left:before, a.button.icon-right:before {
+  a.button .icon:before, a.button .my-clock-icon:before, a.button.icon:before, a.button.my-clock-icon:before, a.button.icon-left:before, a.button.icon-right:before {
     margin-top: 2px; }
 
 .button.disabled,
@@ -7162,7 +7180,8 @@ a.button {
   text-overflow: ellipsis;
   white-space: nowrap; }
   .button-bar > .button:before,
-  .button-bar > .button .icon:before {
+  .button-bar > .button .icon:before,
+  .button-bar > .button .my-clock-icon:before {
     line-height: 44px; }
   .button-bar > .button:first-child {
     border-radius: 2px 0px 0px 2px; }

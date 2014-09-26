@@ -128,3 +128,8 @@ $ionicons-font-path:    "../lib/ionic/fonts";
   line-height: 200%;
   font-size: 350%;
 }
+
+.my-clock-icon {
+  @extend .icon;
+  @extend .ion-clock;
+}
