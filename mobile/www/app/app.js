@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve.services', 'cube.scramble.services', 'cube.controllers', "timer"])
+angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve.services', 'cube.scramble.services', 'cube.solve.controllers', 'cube.scramble.controllers', "timer"])
 
 .run(function($ionicPlatform, $cordovaSplashscreen) {
   $ionicPlatform.ready(function() {
@@ -36,7 +36,7 @@ angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve.service
     .state('tab', {
       url: "/tab",
       abstract: true,
-      templateUrl: "templates/tabs.html"
+      templateUrl: "app/tabs.html"
     })
 
     // Each tab has its own nav history stack:
@@ -45,7 +45,7 @@ angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve.service
       url: '/dash',
       views: {
         'tab-dash': {
-          templateUrl: 'templates/tab-dash.html',
+          templateUrl: 'app/solve/tab-dash.html',
           controller: 'SolvesCtrl'
         }
       }
@@ -55,7 +55,7 @@ angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve.service
       url: '/scrambles',
       views: {
         'tab-scrambles': {
-          templateUrl: 'templates/tab-scrambles.html',
+          templateUrl: 'app/scramble/tab-scrambles.html',
           controller: 'ScramblesCtrl'
         }
       }
@@ -64,7 +64,7 @@ angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve.service
       url: '/scramble/:scrambleId',
       views: {
         'tab-scrambles': {
-          templateUrl: 'templates/scramble-detail.html',
+          templateUrl: 'app/scramble/scramble-detail.html',
           controller: 'ScrambleCtrl'
         }
       }
@@ -74,7 +74,7 @@ angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve.service
       url: '/account',
       views: {
         'tab-account': {
-          templateUrl: 'templates/tab-account.html'
+          templateUrl: 'app/account/tab-account.html'
           // controller: 'AccountCtrl'
         }
       }

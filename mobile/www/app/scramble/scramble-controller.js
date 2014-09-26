@@ -1,4 +1,4 @@
-angular.module('cube.controllers', ['cube.scramble.services', 'cube.solve.services'])
+angular.module('cube.scramble.controllers', ['cube.scramble.services', 'cube.solve.services'])
 
   .controller('ScramblesCtrl', ["$scope", "$ionicLoading", "Scrambles", "Solves", function ($scope, $ionicLoading, scrambles, solves) {
     $scope.scrambles = scrambles.all();
@@ -48,7 +48,7 @@ angular.module('cube.controllers', ['cube.scramble.services', 'cube.solve.servic
        }
      });
 
-    $ionicModal.fromTemplateUrl('templates/timer-modal.html', {
+    $ionicModal.fromTemplateUrl('app/scramble/timer-modal.html', {
       scope: $scope,
       animation: 'slide-in-up'
     }).then(function(modal) {
@@ -59,17 +59,5 @@ angular.module('cube.controllers', ['cube.scramble.services', 'cube.solve.servic
     $scope.$on('$destroy', function() {
       $scope.modal.remove();
     });
-  }])
-
-  .controller('SolvesCtrl', ["$scope", "Solves", function ($scope, solves) {
-      $scope.solves = solves.solves();
-      $scope.averages = solves.averages();
-
-      $scope.delete = function(solve) {
-        solves.delete(solve).then(function() {
-          $scope.$broadcast("solve-deleed", solve);
-        });
-
-      }
   }])
 ;

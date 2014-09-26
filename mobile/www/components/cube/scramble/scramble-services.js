@@ -62,7 +62,7 @@
       scope: {
         scramble: '=scramble'
       },
-      templateUrl: 'templates/directives/cube/scramble-view.html',
+      templateUrl: 'components/cube/scramble/scramble-view.tpl.html',
       link: function (scope, element, attrs) {
         scope.width = attrs.width;
       }
