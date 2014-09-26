@@ -13,7 +13,7 @@ angular.module('cube.scrambles', ['cube.scramble.services'])
     });
   })
 
-  .controller('ScrambleListCtrl', ["$scope", "$ionicLoading", "Scrambles", function ($scope, $ionicLoading, scrambles) {
+  .controller('ScrambleListCtrl', ["$scope", "$ionicLoading", "scrambles", function ($scope, $ionicLoading, scrambles) {
     $scope.scrambles = scrambles.all();
 
     $scope.scramble = function() {

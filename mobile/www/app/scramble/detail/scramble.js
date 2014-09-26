@@ -13,7 +13,7 @@ angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services'
       });
   })
 
-  .controller('ScrambleCtrl', ["$scope", "$stateParams", "$location", "$ionicModal", "Scrambles", "Solves", function ($scope, $stateParams, $location, $ionicModal, scrambles, solves) {
+  .controller('ScrambleCtrl', ["$scope", "$stateParams", "$location", "$ionicModal", "scrambles", "solves", function ($scope, $stateParams, $location, $ionicModal, scrambles, solves) {
     if (scrambles.length === 0) {
       $location.path("/tab/scrambles")
     }

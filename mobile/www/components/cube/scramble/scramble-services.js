@@ -14,7 +14,7 @@
     return scramblers['333'];
   })
 
-  .factory('Scrambles', ['Scrambler333', '$localStorage', '$q', '$timeout', function(scrambler, $localStorage, $q, $timeout) {
+  .factory('scrambles', ['Scrambler333', '$localStorage', '$q', '$timeout', function(scrambler, $localStorage, $q, $timeout) {
     var generateScrambles = function(max) {
       var scrambles = [];
       for (var count = 0; count < max; count++) {
@@ -55,7 +55,7 @@
     };
   }])
 
-  .directive('scrambleView', ['Scrambler333', 'Scrambles', function() {
+  .directive('scrambleView', ['Scrambler333', 'scrambles', function() {
     return {
       restrict: 'E',
       replace: true,

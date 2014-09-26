@@ -13,7 +13,7 @@ angular.module('cube.solve', ['cube.solve.services'])
     });
   })
 
-  .controller('SolvesCtrl', ["$scope", "Solves", function ($scope, solves) {
+  .controller('SolvesCtrl', ["$scope", "solves", function ($scope, solves) {
       $scope.solves = solves.solves();
       $scope.averages = solves.averages();
 

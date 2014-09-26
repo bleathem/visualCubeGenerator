@@ -8,7 +8,7 @@
     return window.localStorage;
   })
 
-  .factory('Solves', ['$localStorage', '$q', '$timeout', function($localStorage, $q, $timeout) {
+  .factory('solves', ['$localStorage', '$q', '$timeout', function($localStorage, $q, $timeout) {
     var save = function(solve) {
       solve.date = new Date().getTime();
       solves = readSolves();
