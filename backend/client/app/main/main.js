@@ -4,7 +4,7 @@
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'main/main.tpl.html',
+        templateUrl: 'app/main/main.tpl.html',
         controller: 'MainController'
       })
       .otherwise({
