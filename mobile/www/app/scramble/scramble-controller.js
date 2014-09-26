@@ -1,4 +1,4 @@
-angular.module('cube.scramble.controllers', ['cube.scramble.services', 'cube.solve.services'])
+angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services', 'timer'])
 
   .controller('ScramblesCtrl', ["$scope", "$ionicLoading", "Scrambles", "Solves", function ($scope, $ionicLoading, scrambles, solves) {
     $scope.scrambles = scrambles.all();

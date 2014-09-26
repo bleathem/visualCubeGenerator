@@ -1,4 +1,4 @@
-angular.module('cube.solve.controllers', ['cube.solve.services'])
+angular.module('cube.solve', ['cube.solve.services'])
 
   .controller('SolvesCtrl', ["$scope", "Solves", function ($scope, solves) {
       $scope.solves = solves.solves();

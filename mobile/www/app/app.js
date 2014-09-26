@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve.services', 'cube.scramble.services', 'cube.solve.controllers', 'cube.scramble.controllers', "timer"])
+angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve', 'cube.scramble'])
 
 .run(function($ionicPlatform, $cordovaSplashscreen) {
   $ionicPlatform.ready(function() {
