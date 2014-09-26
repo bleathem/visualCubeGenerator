@@ -1,14 +1,16 @@
 (function (angular) {
-  'use strict';angular.module('visualCubeGenerator.main.solve', ['ngRoute'])
+  'use strict';
+  angular.module('visualCubeGenerator.main.solve', ['ui.router'])
 
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/solves', {
-        templateUrl: 'solve/solve.tpl.html',
+  .config(function ($stateProvider) {
+
+    $stateProvider
+      .state('visualCubeGenerator.main.solve', {
+        url: '/solve',
+        templateUrl: 'app/solve/solve.tpl.html',
         controller: 'SolveController'
       });
   })
-
   .controller('SolveController', function ($scope) {
     $scope.solves = [];
   });

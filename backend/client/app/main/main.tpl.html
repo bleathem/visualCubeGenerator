@@ -1,3 +1,26 @@
-<div class="container-fluid">
-  <h1>Welcome to ng-express</h1>
-</div>
+<!-- nav bar for entire app -->
+<header>
+  <nav class='navbar navbar-default navbar-fixed-top' role='navigation'>
+    <div class='container-fluid'>
+      <div class='navbar-header'>
+        <a class='navbar-brand' ui-sref='visualCubeGenerator.main'>visualCubeGenerator</a>
+      </div>
+      <ul class='nav navbar-nav'>
+        <li>
+          <a ui-sref='visualCubeGenerator.main'>Home</a>
+        </li>
+        <li>
+          <a href='#/solves'>Solves</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<!-- template loaded here -->
+<main ui-view></main>
+
+<!-- footer for the whole app -->
+<footer>
+
+</footer>

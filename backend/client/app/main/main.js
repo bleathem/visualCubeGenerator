@@ -1,17 +1,12 @@
 (function (angular) {
   'use strict';
-  angular.module('visualCubeGenerator.main', ['ngRoute', 'visualCubeGenerator.main.solve'])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'app/main/main.tpl.html',
-        controller: 'MainController'
-      })
-      .otherwise({
-        redirectTo: '/'
+  angular.module('visualCubeGenerator.main', ['ui.router', 'visualCubeGenerator.main.solve'])
+  .config(function ($stateProvider) {
+    $stateProvider
+      .state('visualCubeGenerator.main', {
+        url: '/main',
+        abstract: true,
+        templateUrl: 'app/main/main.tpl.html'
       });
-  })
-  .controller('MainController', function ($scope) {
-    $scope.things = [];
   });
 }(angular));

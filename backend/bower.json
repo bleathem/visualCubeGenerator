@@ -4,8 +4,7 @@
   "dependencies": {
     "bootstrap-css-only": "*",
     "angular": "*" ,
-    "angular-route": "*",
-    "ngFx": "*"
+    "ngFx": "*",
+    "angular-ui-router": "*"
   }
 }
-
