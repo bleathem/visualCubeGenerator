@@ -18,8 +18,8 @@ module.exports = function(config) {
       'www/lib/jsss/scramble_333.js',
       'www/lib/ionic/js/ionic.bundle.js',
       'www/lib/angular-mocks/angular-mocks.js',
-      'www/js/**/*.js',
-      'test/spec/**/*.js'
+      'www/app/**/*.js',
+      'www/components/**/*.js',
     ],
 
 
