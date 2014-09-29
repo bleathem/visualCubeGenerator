@@ -4,7 +4,6 @@
   .config(function ($stateProvider) {
     $stateProvider
       .state('visualCubeGenerator.main', {
-        url: '/main',
         abstract: true,
         templateUrl: 'app/main/main.tpl.html'
       });

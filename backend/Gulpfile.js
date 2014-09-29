@@ -3,7 +3,7 @@ var gulp    = require('gulp'),
     bower   = require('gulp-bower'),
     jshint  = require('gulp-jshint'),
     refresh = require('gulp-livereload'),
-    notify  = require('gulp-notify'),
+    // notify  = require('gulp-notify'),
     plumber = require('gulp-plumber'),
     client  = require('tiny-lr')(),
     nodemon = require('gulp-nodemon'),
@@ -27,9 +27,9 @@ gulp.task('sass', function () {
   return gulp.src(paths.styles.sass)
     .pipe(plumber())
     .pipe(sass())
-    .pipe(gulp.dest(paths.styles.dest))
-    .pipe(refresh(client))
-    .pipe(notify({message: 'Sass done'}));
+    .pipe(gulp.dest(paths.styles.dest));
+    // .pipe(refresh(client));
+    // .pipe(notify({message: 'Sass done'}));
 });
 
 
@@ -41,15 +41,15 @@ gulp.task('bowerInstall', function  () {
 gulp.task('html', function () {
   return gulp.src(paths.views)
     .pipe(plumber())
-    .pipe(refresh(client))
-    .pipe(notify({message: 'Views refreshed'}));
+    .pipe(refresh(client));
+    // .pipe(notify({message: 'Views refreshed'}));
 });
 
 gulp.task('css', function () {
   return gulp.src(paths.styles.css)
     .pipe(plumber())
-    .pipe(refresh(client))
-    .pipe(notify({message: 'CSS refreshed'}));
+    .pipe(refresh(client));
+    // .pipe(notify({message: 'CSS refreshed'}));
 });
 
 gulp.task('lint', function () {
@@ -57,8 +57,8 @@ gulp.task('lint', function () {
     .pipe(plumber())
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(refresh(client))
-    .pipe(notify({message: 'Lint done'}));
+    .pipe(refresh(client));
+    // .pipe(notify({message: 'Lint done'}));
 });
 
 gulp.task('serve', function () {

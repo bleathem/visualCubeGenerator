@@ -3,14 +3,16 @@
   angular.module('visualCubeGenerator', [
     'ngFx',
     'ui.router',
-    'visualCubeGenerator.main'
+    'visualCubeGenerator.main',
+    'visualCubeGenerator.main.home',
+    'visualCubeGenerator.main.solve',
+    'visualCubeGenerator.main.scramble'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/visualCubeGenerator/main/solve');
+    $urlRouterProvider.otherwise('/scrambles');
 
     $stateProvider
       .state('visualCubeGenerator', {
-        url: '/visualCubeGenerator',
         abstract: true,
         template: '<ui-view></ui-view>'
       });
