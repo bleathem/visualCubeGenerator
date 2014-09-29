@@ -1,5 +1,8 @@
 @import "client/lib/bootstrap-sass-official/assets/stylesheets/_bootstrap";
 
+$fa-font-path: "../../lib/fontawesome/fonts";
+@import "client/lib/fontawesome/scss/font-awesome";
+
 .list-group .scramble {
   .moves {
       font-size: 80%;
@@ -69,6 +72,6 @@
 }
 
 .my-clock-icon {
-  @extend .icon;
-  @extend .ion-clock;
+  @extend .fa;
+  @extend .fa-clock-o;
 }

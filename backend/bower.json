@@ -8,6 +8,7 @@
     "angular": "*",
     "ngFx": "*",
     "angular-ui-router": "*",
-    "bootstrap-sass-official": "3.2.0+2"
+    "bootstrap-sass-official": "3.2.0+2",
+    "fontawesome": "~4.2.0"
   }
 }
