@@ -5,9 +5,9 @@
     "jsss": "https://github.com/cubing/jsss.git",
     "raphael": "~2.1.2",
     "angular-timer": "~1.1.6",
-    "bootstrap-css-only": "*",
-    "angular": "*" ,
+    "angular": "*",
     "ngFx": "*",
-    "angular-ui-router": "*"
+    "angular-ui-router": "*",
+    "bootstrap-sass-official": "3.2.0+2"
   }
 }
