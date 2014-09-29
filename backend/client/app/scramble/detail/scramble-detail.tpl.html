@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <h2>Scrambles</h2>
+  <section>
+    <div class="detail">
+      <scramble-view scramble="scramble"></scramble-view>
+      <button class="btn btn-primary btn-lg active" role="button"
+              ng-click="startTimer()"
+              ng-hide="scramble.time">
+        Start
+      </button>
+    </div>
+    <div class="timer">
+      <timer autostart = false>{{minutes}}:{{sseconds}}.{{millis}}</timer>
+    </div>
+  </section>
+</div>

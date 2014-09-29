@@ -1,11 +1,11 @@
 (function (angular) {
   'use strict';
-  angular.module('visualCubeGenerator.main.scramble', ['ui.router', 'cube.scramble.services'])
+  angular.module('visualCubeGenerator.main.scrambles', ['ui.router', 'cube.scramble.services'])
 
   .config(function ($stateProvider) {
 
     $stateProvider
-      .state('visualCubeGenerator.main.scramble', {
+      .state('visualCubeGenerator.main.scrambles', {
         url: '/scrambles',
         templateUrl: 'app/scramble/list/scramble-list.tpl.html',
         controller: 'ScrambleListCtrl'

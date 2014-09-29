@@ -27,8 +27,8 @@ gulp.task('sass', function () {
   return gulp.src(paths.styles.sass)
     .pipe(plumber())
     .pipe(sass())
-    .pipe(gulp.dest(paths.styles.dest));
-    // .pipe(refresh(client));
+    .pipe(gulp.dest(paths.styles.dest))
+    .pipe(refresh(client));
     // .pipe(notify({message: 'Sass done'}));
 });
 
@@ -56,8 +56,8 @@ gulp.task('lint', function () {
   return gulp.src(paths.scripts)
     .pipe(plumber())
     .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'))
-    .pipe(refresh(client));
+    .pipe(jshint.reporter('jshint-stylish'));
+    // .pipe(refresh(client));
     // .pipe(notify({message: 'Lint done'}));
 });
 
