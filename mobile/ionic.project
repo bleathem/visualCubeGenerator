@@ -3,6 +3,7 @@
   "email": "",
   "app_id": "",
   "gulpStartupTasks": [
+    "lint",
     "sass",
     "watch"
   ],
