@@ -17,12 +17,16 @@
     $scope.timerRunning = false;
 
     var onKeyup = function(event) {
-      $scope.startTimer();
-    }
+      if (event.keyCode === 32) {
+        $scope.startTimer();
+      }
+    };
 
     var onKeydown = function(event) {
-      $scope.stopTimer();
-    }
+      if (event.keyCode === 32) {
+        $scope.stopTimer();
+      }
+    };
 
     angular.element($document[0].body).on('keyup', onKeyup);
 
