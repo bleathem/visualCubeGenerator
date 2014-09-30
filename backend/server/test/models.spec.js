@@ -6,7 +6,7 @@ process.env.NODE_ENV = 'test';
 var mongoose = require('mongoose');
 var should = require('should');
 var config = require('../main/config');
-var Solve = require('../solve/solve_model').Solve;
+var Solve = require('../solve/solve_model');
 
 beforeEach(function (done) {
 

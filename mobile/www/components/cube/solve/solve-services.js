@@ -4,11 +4,15 @@
 
   angular.module('cube.solve.services', [])
 
+  .constant('cubeConfig', {
+    backend: 'http://localhost:9000'
+  })
+
   .factory('$localStorage', function() {
     return window.localStorage;
   })
 
-  .factory('solves', ['$localStorage', '$q', '$timeout', function($localStorage, $q, $timeout) {
+  .factory('solves', ['$localStorage', '$q', '$timeout', '$http', 'cubeConfig', function($localStorage, $q, $timeout, $http, cubeConfig) {
     var save = function(solve) {
       solve.date = new Date().getTime();
       solves = readSolves();
@@ -16,6 +20,18 @@
       $localStorage.setItem('solves', JSON.stringify(solves));
       averages = calculateAverages(solves);
       $localStorage.setItem('averages', JSON.stringify(averages));
+      createOnRemote(solve);
+    };
+
+    var createOnRemote = function(solve) {
+      var url = cubeConfig.backend + '/solve';
+      return $http.post(url, {solve: solve})
+      .success(function(data, status, headers, config) {
+        console.log('Post Successful');
+      })
+      .error(function() {
+        console.log('Error posting');
+      });
     };
 
     var deleteSolve = function(remove) {

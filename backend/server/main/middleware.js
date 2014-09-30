@@ -15,7 +15,7 @@ module.exports = exports = {
 
   handleError: function (err, req, res, next) {
     if (err) {
-      res.send(err, 500);
+      res.status(500).send(err);
     }
   },
   cors: function (req, res, next) {
@@ -24,7 +24,7 @@ module.exports = exports = {
     res.header('Access-Controll-Allow-Header', 'Cotent-tyope, Authorization');
 
     if (req.method === 'Options') {
-      res.send(200);
+      res.status(200);
     } else {
       return next();
     }

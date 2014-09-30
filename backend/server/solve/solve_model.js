@@ -9,4 +9,4 @@ var mongoose = require('mongoose');
   created: { type: Date, default: Date.now }
 });
 
-module.exports.Solve = exports = mongoose.model('Solve', SolveSchema);
+module.exports = exports = mongoose.model('Solve', SolveSchema);
