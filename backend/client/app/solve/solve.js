@@ -21,6 +21,6 @@
           $scope.$broadcast('solve-deleed', solve);
         });
       };
-  }])
+  }]);
 
 })(angular);

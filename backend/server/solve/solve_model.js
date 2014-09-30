@@ -2,13 +2,11 @@
 
 var mongoose = require('mongoose');
 
-var SolveSchema = new mongoose.Schema({
-  content: String,
-
-  title: {
-    type: String,
-    required: true
-  }
+ var SolveSchema = new mongoose.Schema({
+  moves: String,
+  state: String,
+  solveTime: Number,
+  created: { type: Date, default: Date.now }
 });
 
-module.exports = exports = mongoose.model('solves', SolveSchema);
+module.exports.Solve = exports = mongoose.model('Solve', SolveSchema);
