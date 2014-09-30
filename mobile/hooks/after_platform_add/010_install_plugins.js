@@ -10,7 +10,8 @@ var pluginlist = [
   "org.apache.cordova.console",
   "org.apache.cordova.device",
   "org.apache.cordova.splashscreen",
-  "org.apache.cordova.statusbar"
+  "org.apache.cordova.statusbar",
+  "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git" //"org.apache.cordova.core.inappbrowser"
 ];
 
 // no need to configure below
