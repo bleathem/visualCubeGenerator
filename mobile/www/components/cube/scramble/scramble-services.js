@@ -20,7 +20,6 @@
       for (var count = 0; count < max; count++) {
         // Generate a random scramble
         var randomScramble = {
-          id: count,
           /* jshint -W106 */
           moves: scrambler.getRandomScramble().scramble_string.trim(),
           /* jshint +W106 */
@@ -37,8 +36,8 @@
       all: function() {
         return scrambles;
       },
-      get: function(id) {
-        return scrambles[id];
+      get: function(index) {
+        return scrambles[index];
       },
       regenerate: function() {
         var deferred = $q.defer();

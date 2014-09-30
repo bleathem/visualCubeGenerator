@@ -6,7 +6,7 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-list>
-      <ion-item ng-repeat="scramble in scrambles" type="item-text-wrap" href="#/tab/scramble/{{scramble.id}}">
+      <ion-item ng-repeat="scramble in scrambles" type="item-text-wrap" href="#/tab/scramble/{{$index}}">
         <scramble-view scramble="scramble" width="100"></scramble-view>
       </ion-item>
     </ion-list>
