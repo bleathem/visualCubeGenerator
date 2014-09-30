@@ -1,4 +1,4 @@
-@import "client/lib/bootstrap-sass-official/assets/stylesheets/_bootstrap";
+@import "client/lib/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
 
 $fa-font-path: "../../lib/fontawesome/fonts";
 @import "client/lib/fontawesome/scss/font-awesome";
@@ -45,7 +45,6 @@ $fa-font-path: "../../lib/fontawesome/fonts";
   padding-top: 20px;
   text-align: center;
 
-
   .scramble {
     .moves {
         font-size: 120%;
@@ -54,7 +53,7 @@ $fa-font-path: "../../lib/fontawesome/fonts";
     .timer-card .item {
       text-align: center;
       line-height: 225%;
-      font-size: 250%;
+      font-size: 350%;
     }
   }
 
@@ -67,7 +66,7 @@ $fa-font-path: "../../lib/fontawesome/fonts";
 
 .timer {
   text-align: center;
-  line-height: 200%;
+  line-height: 225%;
   font-size: 350%;
 }
 

@@ -12,27 +12,43 @@
       });
   })
 
-  .controller('ScrambleCtrl', ['$scope', '$stateParams', '$location', 'scrambles', 'solves', function ($scope, $stateParams, $location, scrambles, solves) {
+  .controller('ScrambleCtrl', ['$scope', '$stateParams', '$document', 'scrambles', 'solves', function ($scope, $stateParams, $document, scrambles, solves) {
     $scope.scramble = scrambles.get($stateParams.scrambleId);
+    $scope.timerRunning = false;
+
+    var onKeyup = function(event) {
+      $scope.startTimer();
+    }
+
+    var onKeydown = function(event) {
+      $scope.stopTimer();
+    }
+
+    angular.element($document[0].body).on('keyup', onKeyup);
 
     $scope.startTimer = function() {
       $scope.$broadcast('timer-start');
+      $scope.timerRunning = true;
+      angular.element($document[0].body).off('keyup', onKeyup);
+      angular.element($document[0].body).on('keydown', onKeydown);
     };
 
     $scope.stopTimer = function() {
       $scope.$broadcast('timer-stop');
+      $scope.timerRunning = false;
+      angular.element($document[0].body).off('keydown', onKeydown);
     };
 
-     $scope.$on('timer-stopped', function (event, data){
-       if (! $scope.scramble.time) {
-         $scope.scramble.time = data.millis;
-         solves.save($scope.scramble).then(function() {
-          $scope.$broadcast('solve-saved', $scope.scramble);
-         }, function(error) {
-           throw error;
-         });
-       }
-     });
+    $scope.$on('timer-stopped', function(event, data){
+     if (! $scope.scramble.time) {
+       $scope.scramble.time = data.millis;
+       solves.save($scope.scramble).then(function() {
+        $scope.$broadcast('solve-saved', $scope.scramble);
+       }, function(error) {
+         throw error;
+       });
+     }
+    });
   }])
 ;
 })(angular);

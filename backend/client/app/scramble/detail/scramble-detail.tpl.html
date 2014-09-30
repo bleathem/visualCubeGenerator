@@ -3,15 +3,25 @@
   <section>
     <div class="detail">
       <scramble-view scramble="scramble"></scramble-view>
-      <button class="btn btn-primary btn-lg active" role="button"
+      <div ng-hide="scramble.time">
+        <div class="timer">
+          <i class="my-clock-icon"></i>
+          <timer autostart = false>{{minutes}}:{{sseconds}}.{{millis}}</timer>
+        </div>
+      </div>
+      <button class="btn btn-primary btn-lg active"
+              role="button"
               ng-click="startTimer()"
-              ng-hide="scramble.time">
+              ng-disabled="timerRunning || scramble.time"
+              data-toggle="modal" data-target="#timerModal">
         Start
       </button>
-    </div>
-    <div class="timer">
-      <i class="my-clock-icon"></i>
-      <timer autostart = false>{{minutes}}:{{sseconds}}.{{millis}}</timer>
+      <button class="btn btn-danger btn-lg active"
+              role="button"
+              ng-click="stopTimer()"
+              ng-disabled="!timerRunning">
+        Stop
+      </button>
     </div>
   </section>
 </div>
