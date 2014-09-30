@@ -11,8 +11,16 @@
         controller: 'SolveController'
       });
   })
-  .controller('SolveController', function ($scope) {
-    $scope.solves = [];
-  });
+
+  .controller('SolveController', ['$scope', 'solves', function ($scope, solves) {
+      $scope.solves = solves.solves();
+      $scope.averages = solves.averages();
+
+      $scope.delete = function(solve) {
+        solves.delete(solve).then(function() {
+          $scope.$broadcast('solve-deleed', solve);
+        });
+      };
+  }])
 
 })(angular);

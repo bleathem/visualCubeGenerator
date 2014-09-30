@@ -1,6 +1,49 @@
 <div class="container-fluid">
   <h2>Solves</h2>
   <section>
-    Solves
+    <div class="row">
+      <div class="col-sm-6">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info">
+            Best times
+          </li>
+          <li class="list-group-item">
+            Best over last 5: <solve-time class="padding-left" time='averages.ao5.best.time'></solve-time>
+          </li>
+          <li class="list-group-item">
+            Best over last 10: <solve-time class="padding-left" time='averages.ao10.best.time'></solve-time>
+          </li>
+          <li class="list-group-item">
+            Lifetime best: <solve-time class="padding-left" time='averages.all.best.time'></solve-time>
+          </li>
+        </ul>
+      </div>
+      <div class="col-sm-6">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-info">
+            Average times
+          </li>
+          <li class="list-group-item">
+            Average over last 5: <solve-time class="padding-left" time='averages.ao5.time'></solve-time>
+          </li>
+          <li class="list-group-item">
+            Average over last 10: <solve-time class="padding-left" time='averages.ao10.time'></solve-time>
+          </li>
+          <li class="list-group-item">
+            Lifetime average: <solve-time class="padding-left" time='averages.all.time'></solve-time>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-info">
+              Solves
+            </li>
+          <li class="list-group-item" ng-repeat="solve in solves track by solve.state">
+            {{solve.date | date:'yyyy-MM-dd HH:mm:ss'}}
+            <solve-time time="solve.time" class="padding-left"></time>
+          </li>
+        </ul>
   </section>
 </div>
