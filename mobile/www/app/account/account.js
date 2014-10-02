@@ -21,8 +21,9 @@
       $scope.authorize = function() {
         var googleapi = window.cordova ? googleapiInstalledClient :googleapiJsClient;
         googleapi.authorize().then(function(data) {
-          $scope.message = data;
-          console.log(data);
+          var string = JSON.stringify(data, undefined, 2);
+          $scope.message = string;
+          console.log(string);
         });
       };
     }])
