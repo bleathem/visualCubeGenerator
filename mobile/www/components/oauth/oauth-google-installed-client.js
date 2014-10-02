@@ -3,7 +3,8 @@
   'use strict';
   angular.module('oauth.google.installedClient', ['oauth.google.config'])
 
-  .factory('googleapiInstalledClient', ['$http', '$q', 'authConfig', 'transformRequestAsFormPost', function($http, $q, authConfig, transformRequestAsFormPost) {
+  .factory('googleapiInstalledClient', ['$http', '$q', 'installedClientConfig', 'transformRequestAsFormPost', function($http, $q, installedClientConfig, transformRequestAsFormPost) {
+    var authConfig = installedClientConfig;
     var params = function ObjecttoParams(obj) {
       var p = [];
       for (var key in obj) {
@@ -61,7 +62,7 @@
                   }
                   /*jshint camelcase:true*/
                 }).success(function(data) {
-                    deferred.resolve(JSON.parse(data));
+                    deferred.resolve(data);
                 }).error(function(data) {
                     authWindow.close();
                     deferred.reject(data);

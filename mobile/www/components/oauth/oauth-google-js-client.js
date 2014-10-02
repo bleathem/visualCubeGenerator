@@ -12,7 +12,8 @@
     });
   })
 
-  .factory('googleapiJsClient', ['$http', '$q', '$rootScope', '$window', '$location', 'appConfig', 'authConfig', function($http, $q, $rootScope, $window, $location, appConfig, authConfig) {
+  .factory('googleapiJsClient', ['$http', '$q', '$rootScope', '$window', '$location', 'appConfig', 'jsClientConfig', function($http, $q, $rootScope, $window, $location, appConfig, jsClientConfig) {
+    var authConfig = jsClientConfig;
     var params = function ObjecttoParams(obj) {
       var p = [];
       for (var key in obj) {
