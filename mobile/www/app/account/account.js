@@ -1,6 +1,9 @@
 (function (angular) {
   'use strict';
-  angular.module('account', ['oauth.google.installedClient'])
+  angular.module('account', [
+    'oauth.google.installedClient',
+    'oauth.google.jsClient'
+  ])
 
     .config(function($stateProvider) {
       $stateProvider
@@ -15,8 +18,9 @@
         });
     })
 
-    .controller('AccountCtrl', ['$scope', 'googleapi', function ($scope, googleapi) {
+    .controller('AccountCtrl', ['$scope', 'googleapiJsClient', 'googleapiInstalledClient', function ($scope, googleapiJsClient, googleapiInstalledClient) {
       $scope.authorize = function() {
+        var googleapi = window.cordova ? googleapiInstalledClient :googleapiJsClient;
         googleapi.authorize().then(function(data) {
           $scope.message = data;
           console.log(data);

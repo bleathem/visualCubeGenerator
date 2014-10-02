@@ -12,7 +12,7 @@
     });
   })
 
-  .factory('googleapiJsClient', ['$http', '$q', '$rootScope', '$window', '$location', 'authConfig', function($http, $q, $rootScope, $window, $location, authConfig) {
+  .factory('googleapiJsClient', ['$http', '$q', '$rootScope', '$window', '$location', 'appConfig', 'authConfig', function($http, $q, $rootScope, $window, $location, appConfig, authConfig) {
     var params = function ObjecttoParams(obj) {
       var p = [];
       for (var key in obj) {
@@ -27,7 +27,7 @@
         /*jshint camelcase:false*/
         var authUrl = authConfig.auth_uri + '?' + params({
           client_id: authConfig.client_id,
-          redirect_uri: authConfig.redirect_uris[0],
+          redirect_uri: authConfig.redirect_uris[0] + ':' + appConfig.port,
           response_type: 'token',
           scope: authConfig.scope
         });

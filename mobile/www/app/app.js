@@ -4,6 +4,10 @@
   'use strict';
   angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve', 'cube.scramble', 'cube.scrambles', 'account'])
 
+  .constant('appConfig', {
+    port: 8100
+  })
+
   .run(function($ionicPlatform, $cordovaSplashscreen) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

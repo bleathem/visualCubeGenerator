@@ -1,10 +1,16 @@
 (function (angular) {
   'use strict';
+
   angular.module('visualCubeGenerator', [
     'ngFx',
     'ui.router',
     'visualCubeGenerator.main'
   ])
+
+  .constant('appConfig', {
+    port: 9000
+  })
+
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/home');
 
