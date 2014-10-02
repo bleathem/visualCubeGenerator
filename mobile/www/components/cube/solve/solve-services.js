@@ -23,8 +23,11 @@
       createOnRemote(solve);
     };
 
+
+
     var createOnRemote = function(solve) {
       var url = cubeConfig.backend + '/solve';
+      /*jshint unused:false*/
       return $http.post(url, {solve: solve})
       .success(function(data, status, headers, config) {
         console.log('Post Successful');
@@ -32,6 +35,7 @@
       .error(function() {
         console.log('Error posting');
       });
+      /*jshint unused:true*/
     };
 
     var deleteSolve = function(remove) {

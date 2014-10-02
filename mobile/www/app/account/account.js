@@ -1,6 +1,6 @@
 (function (angular) {
   'use strict';
-  angular.module('account', [])
+  angular.module('account', ['oauth.google.installedClient'])
 
     .config(function($stateProvider) {
       $stateProvider
@@ -15,8 +15,13 @@
         });
     })
 
-    .controller('AccountCtrl', ['$scope', function ($scope) {
-      $scope.message = 'test';
+    .controller('AccountCtrl', ['$scope', 'googleapi', function ($scope, googleapi) {
+      $scope.authorize = function() {
+        googleapi.authorize().then(function(data) {
+          $scope.message = data;
+          console.log(data);
+        });
+      };
     }])
   ;
 })(angular);
