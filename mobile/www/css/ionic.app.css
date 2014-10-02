@@ -7832,3 +7832,31 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
   line-height: 200%;
   font-size: 350%; }
 
+.google-sign-in {
+  display: inline-block;
+  background: #dd4b39;
+  color: white;
+  width: 165px;
+  border-radius: 5px;
+  white-space: nowrap; }
+  .google-sign-in :hover {
+    background: #e74b37;
+    cursor: hand; }
+  .google-sign-in span.label {
+    font-weight: bold; }
+  .google-sign-in span.icon, .google-sign-in span.my-clock-icon {
+    background: url('/resources/g_plus_button.png') transparent 5px 50% no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    width: 35px;
+    height: 35px;
+    border-right: #bb3f30 1px solid; }
+  .google-sign-in span.buttonText {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 35px;
+    padding-right: 35px;
+    font-size: 14px;
+    font-weight: bold;
+    /* Use the Roboto font that is loaded in the <head> */
+    font-family: 'Roboto', arial, sans-serif; }

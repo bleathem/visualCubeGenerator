@@ -1,8 +1,7 @@
 (function (angular) {
   'use strict';
   angular.module('account', [
-    'oauth.google.installedClient',
-    'oauth.google.jsClient'
+    'oauth.google'
   ])
 
     .config(function($stateProvider) {

@@ -2,7 +2,7 @@
   'use strict';
   angular.module('visualCubeGenerator.main.account', [
     'ui.router',
-    'oauth.google.jsClient'
+    'oauth.google'
   ])
 
   .config(function ($stateProvider) {
