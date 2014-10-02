@@ -3,11 +3,7 @@
   angular.module('visualCubeGenerator', [
     'ngFx',
     'ui.router',
-    'visualCubeGenerator.main',
-    'visualCubeGenerator.main.home',
-    'visualCubeGenerator.main.solve',
-    'visualCubeGenerator.main.scrambles',
-    'visualCubeGenerator.main.scramble.detail'
+    'visualCubeGenerator.main'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/home');

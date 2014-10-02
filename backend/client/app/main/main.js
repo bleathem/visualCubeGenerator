@@ -1,6 +1,13 @@
 (function (angular) {
   'use strict';
-  angular.module('visualCubeGenerator.main', ['ui.router', 'visualCubeGenerator.main.solve'])
+  angular.module('visualCubeGenerator.main', [
+    'ui.router',
+    'visualCubeGenerator.main.home',
+    'visualCubeGenerator.main.solve',
+    'visualCubeGenerator.main.scrambles',
+    'visualCubeGenerator.main.scramble.detail',
+    'visualCubeGenerator.main.account'
+  ])
   .config(function ($stateProvider) {
     $stateProvider
       .state('visualCubeGenerator.main', {
