@@ -23,7 +23,7 @@
           var string = JSON.stringify(data, undefined, 2);
           $scope.message = string;
         }, function(error) {
-          $scope.message = "Error: " + error.message;
+          $scope.message = 'Error: ' + error.message;
           console.log(error);
         });
       };

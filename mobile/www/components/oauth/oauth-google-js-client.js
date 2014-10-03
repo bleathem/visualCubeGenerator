@@ -14,8 +14,10 @@
     return {
       authConfig: jsClientConfig,
       getTokenPromise: googleTokenPromiseJs,
+      /*jshint camelcase:false*/
       redirectUri: jsClientConfig.redirect_uris[0] + ':' + appConfig.port
-    }
+      /*jshint camelcase:true*/
+    };
   }])
 
   .controller('TokenCallbackController', ['$window', '$location', function($window, $location) {

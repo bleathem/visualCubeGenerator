@@ -37,34 +37,38 @@
 
     var getTokenStoragePromise = function(data) {
       var deferred = $q.defer();
-      console.log("validated token received, save it to storage here");
+      console.log('validated token received, save it to storage here');
       deferred.resolve(data);
       return deferred.promise;
-    }
+    };
 
     var getVerificationPromise = function(token) {
       var deferred = $q.defer();
+      /*jshint camelcase:false*/
       $http({
         method: 'get',
         url: 'https://www.googleapis.com/oauth2/v1/tokeninfo',
         params: {
           access_token: token.access_token
         }
-      }).success(function(validation) {
+      }).then(function(response) {
+        var validation = response.data;
         if (validation.issued_to === authConfig.client_id) {
           deferred.resolve(token);
         } else {
-          deferred.reject(new Error("Token issuer does not match our client_id"));
+          deferred.reject(new Error('Token issuer does not match our client_id'));
         }
-      }).error(function(error) {
-        deferred.reject(new Error(error));
+      }, function(response) {
+        var message = '#' + response.status + ' - ' + response.statusText;
+        deferred.reject(new Error(message));
       });
+      /*jshint camelcase:true*/
       return deferred.promise;
-    }
+    };
 
     return {
       authorize: authorize
-    }
+    };
   }])
 
   .directive('gPlusButton', [function() {

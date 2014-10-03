@@ -6,8 +6,10 @@
     return {
       authConfig: installedClientConfig,
       getTokenPromise: googleTokenPromiseInstalled,
+      /*jshint camelcase:false*/
       redirectUri: installedClientConfig.redirect_uris[0]
-    }
+      /*jshint camelcase:true*/
+    };
   }])
 
   .factory('googleTokenPromiseInstalled', ['$http', '$q', 'installedClientConfig', 'transformRequestAsFormPost', function($http, $q, installedClientConfig, transformRequestAsFormPost) {
@@ -28,7 +30,7 @@
           deferred.resolve(params.code);
         } else if (params.error) {
           authWindow.close();
-          deferred.reject(params.error);
+          deferred.reject(new Error(params.error));
         }
       });
       return deferred.promise;
@@ -50,10 +52,11 @@
           grant_type: 'authorization_code'
         }
       /*jshint camelcase:true*/
-      }).success(function(data) {
-          deferred.resolve(data);
-      }).error(function(data) {
-          deferred.reject(data);
+      }).then(function(response) {
+        deferred.resolve(response.data);
+      }, function(response) {
+        var message = '#' + response.status + ' - ' + response.statusText;
+        deferred.reject(new Error(message));
       });
       return deferred.promise;
     };
