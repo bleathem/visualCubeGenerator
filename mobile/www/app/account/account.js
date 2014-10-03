@@ -22,7 +22,9 @@
         googleapi.authorize().then(function(data) {
           var string = JSON.stringify(data, undefined, 2);
           $scope.message = string;
-          console.log(string);
+        }, function(error) {
+          $scope.message = "Error: " + error.message;
+          console.log(error);
         });
       };
     }])
