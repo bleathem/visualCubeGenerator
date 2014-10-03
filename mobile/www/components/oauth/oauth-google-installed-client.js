@@ -2,6 +2,14 @@
   'use strict';
   angular.module('oauth.google.installedClient', ['oauth.google.config'])
 
+  .factory('googleapiInstalledClient', ['installedClientConfig', 'googleTokenPromiseInstalled', function(installedClientConfig, googleTokenPromiseInstalled) {
+    return {
+      authConfig: installedClientConfig,
+      getTokenPromise: googleTokenPromiseInstalled,
+      redirectUri: installedClientConfig.redirect_uris[0]
+    }
+  }])
+
   .factory('googleTokenPromiseInstalled', ['$http', '$q', 'installedClientConfig', 'transformRequestAsFormPost', function($http, $q, installedClientConfig, transformRequestAsFormPost) {
     var authConfig = installedClientConfig;
     /** Get the access code from the google oauth2 provider **/
@@ -51,15 +59,7 @@
     };
 
     return function(authWindow) {
-      var deferred = $q.defer();
-      getCodePromise(authWindow).then(function(code) {
-        getTokenPromise(code).then(function(data) {
-          deferred.resolve(data);
-        }, function(error) {
-          deferred.reject(error);
-        });
-      });
-      return deferred.promise;
+      return getCodePromise(authWindow).then(getTokenPromise);
     };
   }])
 

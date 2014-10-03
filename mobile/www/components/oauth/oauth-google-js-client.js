@@ -10,6 +10,14 @@
     });
   })
 
+  .factory('googleapiJsClient', ['appConfig', 'jsClientConfig', 'googleTokenPromiseJs', function(appConfig, jsClientConfig, googleTokenPromiseJs) {
+    return {
+      authConfig: jsClientConfig,
+      getTokenPromise: googleTokenPromiseJs,
+      redirectUri: jsClientConfig.redirect_uris[0] + ':' + appConfig.port
+    }
+  }])
+
   .controller('TokenCallbackController', ['$window', '$location', function($window, $location) {
     var processTokenCallback = function() {
       var params = {}, queryString = $location.path().substring(1),
