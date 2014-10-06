@@ -14,13 +14,16 @@
         controller: 'AccountController'
       });
   })
-  .controller('AccountController', ['$scope', 'googleapiJsClient', function ($scope, googleapiJsClient) {
+  .controller('AccountController', ['$scope', 'googleapi', function ($scope, googleapi) {
     $scope.authorize = function() {
-      googleapiJsClient.authorize().then(function(data) {
-        $scope.message = data;
-        console.log(data);
+      googleapi.authorize().then(function(data) {
+        var string = JSON.stringify(data, undefined, 2);
+        $scope.message = string;
+      }, function(error) {
+        $scope.message = 'Error: ' + error.message;
+        console.log(error);
       });
     };
-  }]);
+  }])
 
 })(angular);
