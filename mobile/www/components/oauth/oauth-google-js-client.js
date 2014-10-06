@@ -6,42 +6,11 @@
   .config(function ($stateProvider) {
     $stateProvider.state('oauth_callback', {
       url: '/access_token=:accessToken',
-      controller: function (googleapiJsClient) {
-        googleapiJsClient.processTokenCallback();
-      }
+      controller: 'TokenCallbackController'
     });
   })
 
-  .factory('googleapiJsClient', ['$http', '$q', '$rootScope', '$window', '$location', 'appConfig', 'jsClientConfig', function($http, $q, $rootScope, $window, $location, appConfig, jsClientConfig) {
-    var authConfig = jsClientConfig;
-    var params = function ObjecttoParams(obj) {
-      var p = [];
-      for (var key in obj) {
-        p.push(key + '=' + obj[key]);
-      }
-      return p.join('&');
-    };
-
-    var authorize = function() {
-        var deferred = $q.defer();
-
-        /*jshint camelcase:false*/
-        var authUrl = authConfig.auth_uri + '?' + params({
-          client_id: authConfig.client_id,
-          redirect_uri: authConfig.redirect_uris[0] + ':' + appConfig.port,
-          response_type: 'token',
-          scope: authConfig.scope
-        });
-        /*jshint camelcase:true*/
-        $window.open(authUrl, '_blank', 'location=no,toolbar=no');
-
-        angular.element($window).on('oauthcallback', function(event, data) {
-          deferred.resolve(data);
-        });
-
-        return deferred.promise;
-    };
-
+  .controller('TokenCallbackController', ['$window', '$location', function($window, $location) {
     var processTokenCallback = function() {
       var params = {}, queryString = $location.path().substring(1),
           regex = /([^&=]+)=([^&]*)/g, m;
@@ -53,10 +22,20 @@
       $window.close();
     };
 
-    return {
-      authorize: authorize,
-      processTokenCallback: processTokenCallback
-    };
-  }]);
+    processTokenCallback();
+  }])
 
+  .factory('googleTokenPromiseJs', function($q) {
+    var getTokenPromise = function(authWindow) {
+      var deferred = $q.defer();
+      angular.element(authWindow.opener).on('oauthcallback', function(event, data) {
+        deferred.resolve(data);
+      });
+      return deferred.promise;
+    };
+
+    return getTokenPromise;
+  })
+
+  ;
 })(angular);

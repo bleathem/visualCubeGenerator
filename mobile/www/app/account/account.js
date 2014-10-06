@@ -17,9 +17,8 @@
         });
     })
 
-    .controller('AccountCtrl', ['$scope', 'googleapiJsClient', 'googleapiInstalledClient', function ($scope, googleapiJsClient, googleapiInstalledClient) {
+    .controller('AccountCtrl', ['$scope', 'googleapi', function ($scope, googleapi) {
       $scope.authorize = function() {
-        var googleapi = window.cordova ? googleapiInstalledClient :googleapiJsClient;
         googleapi.authorize().then(function(data) {
           var string = JSON.stringify(data, undefined, 2);
           $scope.message = string;
