@@ -10,13 +10,17 @@
     });
   })
 
+  .config([ "$provide", function( $provide ) {
+      $provide.decorator('jsClientConfig', ['appConfig', '$delegate', function(appConfig, $delegate) {
+        $delegate.redirect_uris[0] = $delegate.redirect_uris[0] + ':' + appConfig.port;
+        return $delegate;
+      }]);
+  }])
+
   .factory('googleapiJsClient', ['appConfig', 'jsClientConfig', 'googleTokenPromiseJs', function(appConfig, jsClientConfig, googleTokenPromiseJs) {
     return {
       authConfig: jsClientConfig,
       getTokenPromise: googleTokenPromiseJs,
-      /*jshint camelcase:false*/
-      redirectUri: jsClientConfig.redirect_uris[0] + ':' + appConfig.port
-      /*jshint camelcase:true*/
     };
   }])
 

@@ -6,9 +6,6 @@
     return {
       authConfig: installedClientConfig,
       getTokenPromise: googleTokenPromiseInstalled,
-      /*jshint camelcase:false*/
-      redirectUri: installedClientConfig.redirect_uris[0]
-      /*jshint camelcase:true*/
     };
   }])
 

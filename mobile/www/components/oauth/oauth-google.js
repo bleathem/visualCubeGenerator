@@ -8,7 +8,6 @@
   .factory('googleapi', ['$http', '$q', '$window', 'googleapiInstalledClient', 'googleapiJsClient', function($http, $q, $window, googleapiInstalledClient, googleapiJsClient) {
     var googleapi = $window.cordova ? googleapiInstalledClient : googleapiJsClient;
     var authConfig = googleapi.authConfig;
-    var redirectUri = googleapi.redirectUri;
 
     /** A helper fucntion to convert an object to a paramerter list **/
     var objectToParams = function(obj) {
@@ -23,7 +22,7 @@
       /*jshint camelcase:false*/
       var authUrl = authConfig.auth_uri + '?' + objectToParams({
         client_id: authConfig.client_id,
-        redirect_uri: redirectUri,
+        redirect_uri: authConfig.redirect_uris[0],
         response_type: authConfig.response_type,
         scope: authConfig.scope
       });
