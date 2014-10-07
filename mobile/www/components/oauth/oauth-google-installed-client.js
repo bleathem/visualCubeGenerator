@@ -9,6 +9,14 @@
     };
   }])
 
+  /*jshint camelcase:false*/
+  .factory('installedClientConfig', ['googleJson', function(googleJson) {
+    return angular.extend({
+      response_type: 'code'
+    }, googleJson.installed);
+  }])
+  /*jshint camelcase:true*/
+
   .factory('googleTokenPromiseInstalled', ['$http', '$q', 'installedClientConfig', 'transformRequestAsFormPost', function($http, $q, installedClientConfig, transformRequestAsFormPost) {
     var authConfig = installedClientConfig;
     /** Get the access code from the google oauth2 provider **/

@@ -10,14 +10,15 @@
     });
   })
 
-  .config([ '$provide', function( $provide ) {
-    /*jshint camelcase:false*/
-    $provide.decorator('jsClientConfig', ['appConfig', '$delegate', function(appConfig, $delegate) {
-      $delegate.redirect_uris[0] = $delegate.redirect_uris[0] + ':' + appConfig.port;
-      return $delegate;
-    }]);
-    /*jshint camelcase:true*/
+  /*jshint camelcase:false*/
+  .factory('jsClientConfig', ['googleJson', 'appConfig', function(googleJson, appConfig) {
+    var authConfig = angular.extend({
+      response_type: 'token'
+    }, googleJson.web);
+    authConfig.redirect_uris[0] = authConfig.redirect_uris[0] + ':' + appConfig.port;
+    return authConfig;
   }])
+  /*jshint camelcase:true*/
 
   .factory('googleapiJsClient', ['appConfig', 'jsClientConfig', 'googleTokenPromiseJs', function(appConfig, jsClientConfig, googleTokenPromiseJs) {
     return {

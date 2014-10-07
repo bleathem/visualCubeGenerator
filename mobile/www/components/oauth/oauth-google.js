@@ -16,7 +16,7 @@
         client_id: authConfig.client_id,
         redirect_uri: authConfig.redirect_uris[0],
         response_type: authConfig.response_type,
-        scope: authConfig.scope
+        scope: 'openid email'
       });
       /*jshint camelcase:true*/
       var authWindow = $window.open(authUrl, '_blank', 'location=no,toolbar=no');
