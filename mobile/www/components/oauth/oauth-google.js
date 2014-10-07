@@ -2,25 +2,17 @@
   'use strict';
   angular.module('oauth.google', [
     'oauth.google.jsClient',
-    'oauth.google.installedClient'
+    'oauth.google.installedClient',
+    'http.helpers'
   ])
 
-  .factory('googleapi', ['$http', '$q', '$window', 'googleapiInstalledClient', 'googleapiJsClient', function($http, $q, $window, googleapiInstalledClient, googleapiJsClient) {
+  .factory('googleapi', ['$http', '$q', '$window', 'serializeParameterObject', 'googleapiInstalledClient', 'googleapiJsClient', function($http, $q, $window, serializeParameterObject, googleapiInstalledClient, googleapiJsClient) {
     var googleapi = $window.cordova ? googleapiInstalledClient : googleapiJsClient;
     var authConfig = googleapi.authConfig;
 
-    /** A helper fucntion to convert an object to a paramerter list **/
-    var objectToParams = function(obj) {
-      var p = [];
-      for (var key in obj) {
-        p.push(key + '=' + obj[key]);
-      }
-      return p.join('&');
-    };
-
     var authorize = function() {
       /*jshint camelcase:false*/
-      var authUrl = authConfig.auth_uri + '?' + objectToParams({
+      var authUrl = authConfig.auth_uri + '?' + serializeParameterObject({
         client_id: authConfig.client_id,
         redirect_uri: authConfig.redirect_uris[0],
         response_type: authConfig.response_type,

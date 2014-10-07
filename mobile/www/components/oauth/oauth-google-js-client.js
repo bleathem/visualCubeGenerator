@@ -10,11 +10,13 @@
     });
   })
 
-  .config([ "$provide", function( $provide ) {
-      $provide.decorator('jsClientConfig', ['appConfig', '$delegate', function(appConfig, $delegate) {
-        $delegate.redirect_uris[0] = $delegate.redirect_uris[0] + ':' + appConfig.port;
-        return $delegate;
-      }]);
+  .config([ '$provide', function( $provide ) {
+    /*jshint camelcase:false*/
+    $provide.decorator('jsClientConfig', ['appConfig', '$delegate', function(appConfig, $delegate) {
+      $delegate.redirect_uris[0] = $delegate.redirect_uris[0] + ':' + appConfig.port;
+      return $delegate;
+    }]);
+    /*jshint camelcase:true*/
   }])
 
   .factory('googleapiJsClient', ['appConfig', 'jsClientConfig', 'googleTokenPromiseJs', function(appConfig, jsClientConfig, googleTokenPromiseJs) {
