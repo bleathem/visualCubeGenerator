@@ -11,6 +11,8 @@ describe('Cube: solve: services:', function() {
     var $localStorageMock;
     var $rootScope;
     var $timeout;
+    var $httpBackend;
+    var cubeConfig;
 
     beforeEach(module('cube.solve.services'));
 
@@ -41,22 +43,32 @@ describe('Cube: solve: services:', function() {
     });
 
     beforeEach(function() {
-      inject(function(_solves_, _$rootScope_, _$timeout_) {
+      inject(function(_solves_, _$rootScope_, _$timeout_, _$httpBackend_, _cubeConfig_) {
         solves = _solves_;
         $rootScope = _$rootScope_;
         $timeout = _$timeout_;
+        $httpBackend = _$httpBackend_;
+        cubeConfig = _cubeConfig_;
       });
     });
 
     describe('solves service:', function() {
+      var solvePostUrl;
+
+      beforeEach(function() {
+        solvePostUrl = cubeConfig.backend + '/solve';
+      });
+
       it('should return save a solve to $localStorage', function() {
         var scramble = {
           key: 'testValue'
         };
+        $httpBackend.expectPOST(solvePostUrl, {solve: scramble}).respond(201, '');
         solves.save(scramble).then(function() {
           var solves = JSON.parse($localStorageMock.getItem('solves'));
           expect(solves[0].key).toBe('testValue');
         });
+        $timeout.flush();
       });
 
       describe('Average calculations:', function() {
@@ -64,7 +76,9 @@ describe('Cube: solve: services:', function() {
         beforeEach(function() {
           $localStorageMock.clear();
           for (var i = 1; i <= 14; i++) {
-            solves.save({time: i * 1000});
+            var solve = {time: i * 1000};
+            $httpBackend.expectPOST(solvePostUrl, {solve: solve}).respond(201, '');
+            solves.save(solve);
             $timeout.flush();
           }
         });
