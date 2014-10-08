@@ -7,22 +7,23 @@
     "q": "*"
   },
   "devDependencies": {
+    "body-parser": "*",
     "gulp": "*",
     "gulp-bower": "*",
-    "morgan": "*",
-    "body-parser": "*",
-    "tiny-lr": "*",
-    "gulp-jshint": "*",
-    "gulp-notify": "*",
-    "gulp-livereload": "*",
-    "gulp-nodemon": "*",
-    "gulp-plumber": "*",
-    "gulp-task-listing": "*",
-    "jshint-stylish": "*",
     "gulp-concat": "*",
-    "gulp-uglify": "*",
+    "gulp-jshint": "*",
+    "gulp-livereload": "*",
+    "gulp-mocha": "^1.1.1",
+    "gulp-nodemon": "*",
+    "gulp-notify": "*",
+    "gulp-plumber": "*",
     "gulp-sass": "*",
+    "gulp-task-listing": "*",
+    "gulp-uglify": "*",
+    "jshint-stylish": "*",
     "mocha": "^1.21.4",
-    "should": "^4.0.4"
+    "morgan": "*",
+    "should": "^4.0.4",
+    "tiny-lr": "*"
   }
 }

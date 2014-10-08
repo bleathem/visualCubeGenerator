@@ -8,8 +8,8 @@ var gulp    = require('gulp'),
     client  = require('tiny-lr')(),
     nodemon = require('gulp-nodemon'),
     lr_port = 35729,
-    sass   = require('gulp-sass');
-
+    sass   = require('gulp-sass'),
+    mocha = require('gulp-mocha');
 
 var paths = {
   scripts: ['!client/lib/**/*.js', 'client/**/*.js'],
@@ -18,8 +18,10 @@ var paths = {
     css: ['!client/lib/**/*.css', 'client/styles/css/*.css', 'client/**/*.css'],
     sass: ['client/styles/sass/*.scss', 'client/**/*.scss'],
     dest: 'client/styles/css'
-  }
+  },
+  tests: ['server/test/**/*.spec.js']
 };
+
 var build = ['sass', 'css', 'lint'];
 
 
@@ -82,6 +84,11 @@ gulp.task('watch', function () {
   gulp.watch(paths.scripts, ['lint']);
 });
 
+gulp.task('testBackend', function () {
+    return gulp.src(paths.tests, {read: false})
+        .pipe(mocha({reporter: 'spec'}));
+});
+
 gulp.task('build', build);
 
-gulp.task('default', ['build', 'live', 'serve', 'watch']);
+gulp.task('default', ['build', 'testBackend', 'live', 'serve', 'watch']);
