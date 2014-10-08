@@ -8,13 +8,24 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var karma = require('gulp-karma');
 
 var paths = {
   scripts: ['!www/lib/**/*.js', 'www/**/*.js'],
   sass: ['./scss/**/*.scss']
 };
 
-gulp.task('default', ['sass']);
+var testFiles = [
+  'www/lib/jsss/scramble_333.js',
+  'www/lib/ionic/js/ionic.bundle.js',
+  'www/lib/angular-mocks/angular-mocks.js',
+  'www/app/**/*.js',
+  'www/components/**/*.js'
+];
+
+gulp.task('default', ['lint', 'sass', 'test', 'watch']);
+
+gulp.task('ionic', ['lint', 'sass', 'test', 'watch'])
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -57,4 +68,17 @@ gulp.task('git-check', function(done) {
     process.exit(1);
   }
   done();
+});
+
+gulp.task('test', function() {
+  // Be sure to return the stream
+  return gulp.src(testFiles)
+    .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'run'
+    }))
+    .on('error', function(err) {
+      // Make sure failed tests cause gulp to exit non-zero
+      throw err;
+    });
 });
