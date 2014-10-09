@@ -71,6 +71,8 @@ describe('Rest API:', function() {
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
+            var createdUser = res.body;
+            createdUser.name.should.equal(user.name);
             request(app)
               .get('/user')
               .set('Accept', 'application/json')
@@ -80,8 +82,44 @@ describe('Rest API:', function() {
                 if (err) return done(err);
                 var users = res.body;
                 users.length.should.equal(1);
-                users[0].name.should.equal(user.name);
-                done();
+                var firstUser = users[0];
+                firstUser.name.should.equal(user.name);
+                firstUser._id.should.equal(createdUser._id);
+                request(app)
+                  .get('/user/' + createdUser._id)
+                  .set('Accept', 'application/json')
+                  .expect('Content-Type', /json/)
+                  .expect(200)
+                  .end(function(err, res) {
+                    if (err) return done(err);
+                    var getUser = res.body;
+                    getUser.name.should.equal(user.name);
+                    getUser._id.should.equal(createdUser._id);
+                    var newName = "Test2 Name";
+                    request(app)
+                      .put('/user/' + createdUser._id)
+                      .send({user: {name: newName}})
+                      .set('Accept', 'application/json')
+                      .expect('Content-Type', /json/)
+                      .expect(200)
+                      .end(function(err, res) {
+                        if (err) return done(err);
+                        var numAffected = res.body[0];
+                        numAffected.should.equal(1);
+                        request(app)
+                          .get('/user/' + createdUser._id)
+                          .set('Accept', 'application/json')
+                          .expect('Content-Type', /json/)
+                          .expect(200)
+                          .end(function(err, res) {
+                            if (err) return done(err);
+                            var getUser = res.body;
+                            getUser.name.should.equal(newName);
+                            getUser._id.should.equal(createdUser._id);
+                            done();
+                          });
+                      });
+                  });
               });
           });
       })
