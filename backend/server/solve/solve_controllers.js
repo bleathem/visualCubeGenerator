@@ -8,6 +8,7 @@ module.exports = exports = {
     var $promise = Q.nbind(Solve.find, Solve);
     $promise()
       .then(function (solves) {
+        debugger;
         res.json(solves);
       })
        .fail(function (reason) {

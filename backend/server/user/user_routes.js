@@ -1,6 +1,6 @@
 "use strict";
 
-var controller = require('./solve_controllers.js');
+var controller = require('./user_controllers.js');
 
 module.exports = exports = function (router) {
   router.route('/')

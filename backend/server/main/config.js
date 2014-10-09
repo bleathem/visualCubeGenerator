@@ -18,6 +18,7 @@ module.exports = exports = function (app, express, routers) {
   app.use(middle.cors);
   app.use(express.static(__dirname + '/../../client'));
   app.use('/solve', routers.solveRouter);
+  app.use('/user', routers.userRouter);
   app.use(middle.logError);
   app.use(middle.handleError);
 };

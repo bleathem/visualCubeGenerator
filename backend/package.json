@@ -4,7 +4,8 @@
   "dependencies": {
     "express": "*",
     "mongoose": "*",
-    "q": "*"
+    "q": "*",
+    "supertest": "^0.14.0"
   },
   "devDependencies": {
     "body-parser": "*",
