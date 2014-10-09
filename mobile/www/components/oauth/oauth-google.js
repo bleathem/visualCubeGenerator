@@ -101,7 +101,8 @@
       var user = {
         name: googleAccount.name,
         giveName: googleAccount.given_name,
-        familyName: googleAccount.family_name
+        familyName: googleAccount.family_name,
+        created: new Date().getTime()
       };
       user.googleAccount = googleAccount;
       deferred.resolve(user);
