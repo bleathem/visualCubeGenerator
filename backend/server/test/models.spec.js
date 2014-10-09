@@ -9,24 +9,20 @@ var config = require('../main/config');
 var Solve = require('../solve/solve_model');
 var User = require('../user/user_model');
 
-beforeEach(function (done) {
-  function clearDB() {
-    for (var i in mongoose.connection.collections) {
-      mongoose.connection.collections[i].remove(function() {});
-    }
-    return done();
-  }
-
-   return clearDB();
- }
-);
-
-after(function (done) {
-  mongoose.disconnect();
-  return done();
-});
-
 describe('Models:', function() {
+
+  beforeEach(function (done) {
+    function clearDB() {
+      for (var i in mongoose.connection.collections) {
+        mongoose.connection.collections[i].remove(function() {});
+      }
+      return done();
+    }
+
+     return clearDB();
+   }
+  );
+
   describe('solve', function() {
     describe('#create()', function() {
       it('should create a new Solve', function (done) {
