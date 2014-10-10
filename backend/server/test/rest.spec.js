@@ -104,7 +104,7 @@ describe('Rest API:', function() {
                       .expect(200)
                       .end(function(err, res) {
                         if (err) return done(err);
-                        var numAffected = res.body[0];
+                        var numAffected = res.body;
                         numAffected.should.equal(1);
                         request(app)
                           .get('/user/' + createdUser._id)
