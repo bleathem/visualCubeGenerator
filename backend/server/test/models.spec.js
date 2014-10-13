@@ -1,13 +1,15 @@
 'use strict';
 
-process.env.DB_URL = 'mongodb://localhost/visualCubeGenerator-test';
 process.env.NODE_ENV = 'test';
+process.env.DB_URL = 'mongodb://localhost/visualCubeGenerator-test';
 
 var mongoose = require('mongoose');
 var should = require('should');
 var config = require('../main/config');
 var Solve = require('../solve/solve_model');
 var User = require('../user/user_model');
+
+process.env.DB_URL = '';
 
 describe('Models:', function() {
 

@@ -17,16 +17,30 @@ var authCallback = function(accessToken, refreshToken, profile, done) {
   }, function (err, res, body) {
     if (!err) {
       var openIdProfile = JSON.parse(body);
-      var user = {
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-        profile: openIdProfile
+      openIdProfile.token = {
+        access_token: accessToken,
+        refresh_token: refreshToken
       }
-      var returnUser = {
-        accessToken: user.accessToken,
-        profile: user.profile
-      };
-      done(null, returnUser);
+      var user = {
+        name: openIdProfile.name,
+        giveName: openIdProfile.given_name,
+        familyName: openIdProfile.family_name,
+        googleAccount: openIdProfile
+      }
+      User.findOneAndUpdate(
+        { 'googleAccount.sub': openIdProfile.sub },
+        user,
+        { new: true,
+          upsert: true,
+          select: {
+            'googleAccount.token.refresh_token': 0
+          }
+        },
+        function(err, createdUser) {
+          if (!err) {
+            done(null, createdUser);
+          }
+        });
     }
   });
 }
