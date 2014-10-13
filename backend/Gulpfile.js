@@ -9,7 +9,8 @@ var gulp    = require('gulp'),
     nodemon = require('gulp-nodemon'),
     lr_port = 35729,
     sass   = require('gulp-sass'),
-    mocha = require('gulp-mocha');
+    mocha = require('gulp-mocha'),
+    exec = require('child_process').exec;
 
 var paths = {
   scripts: ['!client/lib/**/*.js', 'client/**/*.js'],
@@ -88,6 +89,12 @@ gulp.task('testBackend', function () {
     return gulp.src(paths.tests, {read: false})
         .pipe(mocha({reporter: 'spec'}));
 });
+
+gulp.task('mongo', function () {
+  var dataFolder = process.cwd() + '/data';
+  console.log(dataFolder);
+  exec('mongod --dbpath ' + dataFolder, console.log);
+})
 
 gulp.task('build', build);
 
