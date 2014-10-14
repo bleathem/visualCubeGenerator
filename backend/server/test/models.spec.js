@@ -9,8 +9,6 @@ var config = require('../main/config');
 var Solve = require('../solve/solve_model');
 var User = require('../user/user_model');
 
-process.env.DB_URL = '';
-
 describe('Models:', function() {
 
   beforeEach(function (done) {

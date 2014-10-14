@@ -9,7 +9,7 @@ var gulp    = require('gulp'),
     nodemon = require('gulp-nodemon'),
     lr_port = 35729,
     sass   = require('gulp-sass'),
-    mocha = require('gulp-mocha'),
+    mocha = require('gulp-spawn-mocha'),
     exec = require('child_process').exec;
 
 var paths = {

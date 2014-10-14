@@ -8,8 +8,6 @@ var request = require('supertest')
   , should = require('should');
   var mongoose = require('mongoose');
 
-process.env.DB_URL = '';
-
 describe('Rest API:', function() {
   beforeEach(function (done) {
     function clearDB() {
