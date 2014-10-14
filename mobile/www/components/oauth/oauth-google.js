@@ -14,6 +14,34 @@
     $opener.triggerHandler('oauthcallback', $stateParams);
   }])
 
+  .factory('auth', function($localStorage) {
+    var cachedUser;
+
+    var readUser = function() {
+      cachedUser = JSON.parse($localStorage.getItem('user'));
+      return cachedUser;
+    }
+
+    var setUser = function(user) {
+      cachedUser = user;
+      $localStorage.setItem('user', JSON.stringify(user));
+    }
+
+    var logout = function() {
+      cachedUser = null;
+      $localStorage.removeItem('user');
+    }
+
+    readUser();
+
+    return {
+      setUser: setUser,
+      logout: logout,
+      readUser: readUser,
+      user: cachedUser
+    }
+  })
+
   .factory('googleapi', ['$window', 'googleTokenPromise', function($window, googleTokenPromise) {
     var authorize = function() {
       var authUrl = 'http://home.bleathem.ca:9000/oauth/google';

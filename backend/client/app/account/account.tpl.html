@@ -1,8 +1,13 @@
 <div class="container-fluid">
   <h2>Account</h2>
   <section>
-    <g-plus-button ng-click="authorize()"></g-plus-button>
-    <p>Result:</p>
-    <pre>{{message}}</pre>
+    <g-plus-button ng-click="authorize()" ng-hide="user"></g-plus-button>
+    <div class="profile" ng-show="user">
+      <img ng-src="{{user.googleAccount.picture}}" />
+      <p>User: {{user.name}}</p>
+      <p>Since: {{user.created | date}}</p>
+      <button ng-click="logout()" ng-show="user">Logout</button>
+    </div>
+    <pre ng-show="message">{{message}}</pre>
   </section>
 </div>

@@ -42,3 +42,8 @@
   /* Use the Roboto font that is loaded in the <head> */
   font-family: 'Roboto', arial, sans-serif;
 }
+
+.profile img {
+  float: left;
+  padding: 0 10px;
+}

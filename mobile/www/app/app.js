@@ -2,7 +2,14 @@
 /* global cordova:false */
 (function (angular) {
   'use strict';
-  angular.module('visualCubeGenerator', ['ionic', 'ngCordova', 'cube.solve', 'cube.scramble', 'cube.scrambles', 'account'])
+  angular.module('visualCubeGenerator', [
+    'ionic',
+    'ngCordova',
+    'cube.solve',
+    'cube.scramble',
+    'cube.scrambles',
+    'account'
+  ])
 
   .constant('appConfig', {
     port: 8100

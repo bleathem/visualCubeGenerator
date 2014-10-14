@@ -17,16 +17,21 @@
         });
     })
 
-    .controller('AccountCtrl', ['$scope', 'googleapi', function ($scope, googleapi) {
+    .controller('AccountCtrl', ['$scope', 'googleapi', 'auth', function ($scope, googleapi, auth) {
+      $scope.user = auth.user;
       $scope.authorize = function() {
-        googleapi.authorize().then(function(data) {
-          var string = JSON.stringify(data, undefined, 2);
-          $scope.message = string;
+        googleapi.authorize().then(function(user) {
+          auth.setUser(user);
+          $scope.user = user;
         }, function(error) {
           $scope.message = '** Error **: ' + error.message;
           console.log(error);
         });
       };
+      $scope.logout = function() {
+        auth.logout();
+        $scope.user = null;
+      }
     }])
   ;
 })(angular);

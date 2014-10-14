@@ -1,10 +1,13 @@
 <ion-view title="Account">
   <ion-content class="has-header padding">
     <h1>Account</h1>
-    <g-plus-button ng-click="authorize()"></g-plus-button>
-    <p>
-      Result:
-    </p>
+    <g-plus-button ng-click="authorize()" ng-hide="user"></g-plus-button>
+    <div class="profile" ng-show="user">
+      <img ng-src="{{user.googleAccount.picture}}" />
+      <p>User: {{user.name}}</p>
+      <p>Since: {{user.created | date}}</p>
+      <button ng-click="logout()" ng-show="user">Logout</button>
+    </div>
     <pre>{{message}}</pre>
   </ion-content>
 </ion-view>
