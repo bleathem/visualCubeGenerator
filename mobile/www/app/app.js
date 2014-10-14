@@ -5,6 +5,7 @@
   angular.module('visualCubeGenerator', [
     'ionic',
     'ngCordova',
+    'http.helpers',
     'cube.solve',
     'cube.scramble',
     'cube.scrambles',

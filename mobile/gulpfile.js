@@ -19,6 +19,8 @@ var testFiles = [
   'www/lib/jsss/scramble_333.js',
   'www/lib/ionic/js/ionic.bundle.js',
   'www/lib/angular-mocks/angular-mocks.js',
+  'www/lib/ngCordova/dist/ng-cordova.min.js',
+  'www/lib/angular-timer/dist/angular-timer.js',
   'www/app/**/*.js',
   'www/components/**/*.js'
 ];

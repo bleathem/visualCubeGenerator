@@ -14,7 +14,7 @@
         controller: 'AccountController'
       });
   })
-  .controller('AccountController', ['$scope', 'googleapi', 'auth', function ($scope, googleapi, auth) {
+  .controller('AccountController', ['$scope', 'googleapi', 'auth', 'userLoader', function ($scope, googleapi, auth, userLoader) {
     $scope.user = auth.user;
     $scope.authorize = function() {
       googleapi.authorize().then(function(user) {
@@ -28,6 +28,6 @@
     $scope.logout = function() {
       auth.logout();
       $scope.user = null;
-    }
-  }])
+    };
+  }]);
 })(angular);

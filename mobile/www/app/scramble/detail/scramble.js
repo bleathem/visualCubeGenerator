@@ -39,8 +39,8 @@
       };
 
        $scope.$on('timer-stopped', function (event, data){
-         if (! $scope.scramble.time) {
-           $scope.scramble.time = data.millis;
+         if (! $scope.scramble.solveTime) {
+           $scope.scramble.solveTime = data.millis;
            solves.save($scope.scramble).then(function() {
             $scope.$broadcast('solve-saved', $scope.scramble);
            }, function(error) {

@@ -4,7 +4,8 @@ var passport       = require('passport'),
     authKey        = require('./keys.nogit.js').web,
     OAuth2Strategy = require('passport-google-oauth').OAuth2Strategy,
     request        = require('request'),
-    User = require('../user/user_model');
+    User           = require('../user/user_model'),
+    BearerStrategy = require('passport-http-bearer').Strategy
 
 var port = process.env.PORT || 9000;
 
@@ -54,6 +55,15 @@ passport.use('google', new OAuth2Strategy({
   callbackURL: 'http://home.bleathem.ca:' + port + '/oauth/google/callback',
 }, authCallback));
 
+passport.use(new BearerStrategy(
+  function(token, done) {
+    User.findOne({'googleAccount.token.access_token': token }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      return done(null, user, { scope: 'read' });
+    });
+  }
+));
 
 module.exports = exports = {
   passport: passport,

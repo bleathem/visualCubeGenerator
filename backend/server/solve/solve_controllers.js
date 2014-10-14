@@ -4,8 +4,8 @@ var Solve = require('./solve_model.js'),
     Q    = require('q');
 
 module.exports = exports = {
-  get: function (req, res, next) {
-    Solve.find().exec()
+  listByUser: function (req, res, next) {
+    Solve.find({_user: req.user.id}).exec()
       .then(function (solves) {
         debugger;
         res.json(solves);

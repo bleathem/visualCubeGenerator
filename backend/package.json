@@ -8,6 +8,7 @@
     "mongoose": "*",
     "passport": "^0.2.1",
     "passport-google-oauth": "^0.1.5",
+    "passport-http-bearer": "^1.0.1",
     "q": "*",
     "request": "^2.45.0",
     "supertest": "^0.14.0"

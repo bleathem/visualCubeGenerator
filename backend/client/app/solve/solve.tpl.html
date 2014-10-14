@@ -42,7 +42,7 @@
             </li>
           <li class="list-group-item" ng-repeat="solve in solves track by solve.state">
             {{solve.date | date:'yyyy-MM-dd HH:mm:ss'}}
-            <solve-time time="solve.time" class="padding-left"></time>
+            <solve-time time="solve.solveTime" class="padding-left"></time>
           </li>
         </ul>
   </section>

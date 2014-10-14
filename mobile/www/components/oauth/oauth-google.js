@@ -1,6 +1,6 @@
 (function (angular) {
   'use strict';
-  angular.module('oauth.google', [])
+  angular.module('oauth.google', ['ui.router'])
 
   .config(function ($stateProvider) {
     $stateProvider.state('oauth_callback', {
@@ -18,19 +18,22 @@
     var cachedUser;
 
     var readUser = function() {
-      cachedUser = JSON.parse($localStorage.getItem('user'));
+      var json = $localStorage.getItem('user');
+      if (json) {
+        cachedUser = JSON.parse(json);
+      }
       return cachedUser;
-    }
+    };
 
     var setUser = function(user) {
       cachedUser = user;
       $localStorage.setItem('user', JSON.stringify(user));
-    }
+    };
 
     var logout = function() {
       cachedUser = null;
       $localStorage.removeItem('user');
-    }
+    };
 
     readUser();
 
@@ -39,7 +42,7 @@
       logout: logout,
       readUser: readUser,
       user: cachedUser
-    }
+    };
   })
 
   .factory('googleapi', ['$window', 'googleTokenPromise', function($window, googleTokenPromise) {

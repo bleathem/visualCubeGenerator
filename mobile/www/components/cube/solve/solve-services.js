@@ -2,17 +2,17 @@
 (function (angular) {
   'use strict';
 
-  angular.module('cube.solve.services', [])
+  angular.module('cube.solve.services', ['oauth.google'])
 
   .constant('cubeConfig', {
-    backend: 'http://localhost:9000'
+    backend: 'http://home.bleathem.ca:9000'
   })
 
   .factory('$localStorage', function() {
     return window.localStorage;
   })
 
-  .factory('solves', ['$localStorage', '$q', '$timeout', '$http', 'cubeConfig', function($localStorage, $q, $timeout, $http, cubeConfig) {
+  .factory('solves', ['$localStorage', '$q', '$timeout', '$http', 'cubeConfig', 'auth', function($localStorage, $q, $timeout, $http, cubeConfig, auth) {
     var save = function(solve) {
       solve.date = new Date().getTime();
       solves = readSolves();
@@ -20,22 +20,25 @@
       $localStorage.setItem('solves', JSON.stringify(solves));
       averages = calculateAverages(solves);
       $localStorage.setItem('averages', JSON.stringify(averages));
-      createOnRemote(solve);
+      if (auth.user) {
+        solve._user = auth.user._id;
+        createOnRemote(solve);
+      }
     };
 
-
-
     var createOnRemote = function(solve) {
+      var deferred = $q.defer();
       var url = cubeConfig.backend + '/solve';
-      /*jshint unused:false*/
-      return $http.post(url, {solve: solve})
-      .success(function(data, status, headers, config) {
-        console.log('Post Successful');
-      })
-      .error(function() {
-        console.log('Error posting');
+      $http.post(
+        url,
+        {solve: solve}
+      ).then(function(response) {
+        deferred.resolve(response.data);
+      }, function(response) {
+        var message = '#' + response.status + ' - ' + response.statusText;
+        deferred.reject(new Error(message));
       });
-      /*jshint unused:true*/
+
     };
 
     var deleteSolve = function(remove) {
@@ -49,10 +52,10 @@
     };
 
     var sumSolveTimes = function(sum, solve) {
-      if (solve.time < sum.best.time) {
+      if (solve.solveTime < sum.best.solveTime) {
         sum.best = solve;
       }
-      sum.time += solve.time;
+      sum.solveTime += solve.solveTime;
       return sum;
     };
 
@@ -60,14 +63,14 @@
       var averages = {};
       var seed = {
         best: allSolves[allSolves.length - 1],
-        time: 0
+        solveTime: 0
       };
       averages.ao5 = allSolves.slice(-5).reduce(sumSolveTimes, angular.extend({}, seed));
-      averages.ao5.time = averages.ao5.time / 5;
+      averages.ao5.solveTime = averages.ao5.solveTime / 5;
       averages.ao10 = allSolves.slice(-10).reduce(sumSolveTimes, angular.extend({}, seed));
-      averages.ao10.time = averages.ao10.time / 10;
+      averages.ao10.solveTime = averages.ao10.solveTime / 10;
       averages.all = allSolves.reduce(sumSolveTimes, angular.extend({}, seed));
-      averages.all.time = averages.all.time / allSolves.length;
+      averages.all.solveTime = averages.all.solveTime / allSolves.length;
       return averages;
     };
 
@@ -113,6 +116,31 @@
         }, 0);
         return deferred.promise;
       }
+    };
+  }])
+
+  .factory('solveLoader', ['$http', '$q', 'auth', 'cubeConfig', function($http, $q, auth, cubeConfig) {
+    var fecthSolves = function() {
+      var deferred = $q.defer();
+      if (!auth.user) {
+        deferred.reject(new Error('User not logged in'));
+        return deferred.promise;
+      }
+      var url = cubeConfig.backend + '/solve';
+      $http({
+        method: 'get',
+        url: url
+      }).then(function(response) {
+        deferred.resolve(response.data);
+      }, function(response) {
+        var message = '#' + response.status + ' - ' + response.statusText;
+        deferred.reject(new Error(message));
+      });
+      return deferred.promise;
+    };
+
+    return {
+      fecthSolves: fecthSolves
     };
   }])
 

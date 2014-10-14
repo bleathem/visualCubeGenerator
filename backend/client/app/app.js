@@ -4,6 +4,7 @@
   angular.module('visualCubeGenerator', [
     'ngFx',
     'ui.router',
+    'http.helpers',
     'visualCubeGenerator.main'
   ])
 

@@ -5,16 +5,27 @@ process.env.DB_URL = 'mongodb://localhost/visualCubeGenerator-test';
 
 var request = require('supertest')
   , app = require('../main/app')
-  , should = require('should');
-  var mongoose = require('mongoose');
+  , should = require('should')
+  , mongoose = require('mongoose')
+  , data = require('./test_data')
+  , User = require('../user/user_model');
+
+var user;
 
 describe('Rest API:', function() {
+
   beforeEach(function (done) {
     function clearDB() {
       for (var i in mongoose.connection.collections) {
         mongoose.connection.collections[i].remove(function() {});
       }
-      return done();
+      User.create(data.user, function(err, createdUser) {
+        if (err) {
+          console.log(err);
+        }
+        user = createdUser;
+        done();
+      });
     }
 
      return clearDB();
@@ -23,48 +34,20 @@ describe('Rest API:', function() {
 
   describe('POST /solve', function(){
     it('save to the db without error', function(done){
-      var now = new Date();
-      var solve = {
-        moves: 'LRL',
-        state: 'FUD',
-        solveTime: 2.123,
-        created: now
-      }
+      var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token.access_token};
       request(app)
         .post('/solve')
-        .send(solve)
+        .set(headers)
+        .send({solve: data.solve})
         .expect(200, done);
     });
   });
 
 
-  describe('/user:', function(){
+  describe.skip('/user:', function(){
     describe('POST', function(){
       it('save to the db without error', function(done){
-        var user = {
-          'name': 'John Doe',
-          'giveName': 'John',
-          'familyName': 'Doe',
-          'googleAccount': {
-            'kind': 'plus#personOpenIdConnect',
-            'gender': 'male',
-            'sub': '123456789101112131415123',
-            'name': 'John Doe',
-            'giveName': 'John',
-            'familyName': 'Doe',
-            'profile': 'https://plus.google.com/+JohnDoe',
-            'picture': 'https://lh5.googleusercontent.com/-abcdefghij/AAAAAAAAAAA/AAAAAAAAAaa/AaBbCcDdEeFf/photo.jpg?sz=50',
-            'token': {
-              'access_token': 'aa11.aA123456bB78910-aA123456bB78910',
-              'token_type': 'Bearer',
-              'expires_in': '3600',
-              'authuser': '0',
-              'num_sessions': '2',
-              'prompt': 'consent',
-              'session_state': 'aA123456bB78910aA123456bB78910..1a12'
-            }
-          }
-        }
+        var user = data.user;
         request(app)
           .post('/user')
           .send({user: user})

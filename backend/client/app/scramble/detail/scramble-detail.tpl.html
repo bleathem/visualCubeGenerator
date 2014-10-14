@@ -3,7 +3,7 @@
   <section>
     <div class="detail">
       <scramble-view scramble="scramble"></scramble-view>
-      <div ng-hide="scramble.time">
+      <div ng-hide="scramble.solveTime">
         <div class="timer">
           <i class="my-clock-icon"></i>
           <timer autostart = false>{{minutes}}:{{sseconds}}.{{millis}}</timer>
@@ -12,7 +12,7 @@
       <button class="btn btn-primary btn-lg active"
               role="button"
               ng-click="startTimer()"
-              ng-disabled="timerRunning || scramble.time"
+              ng-disabled="timerRunning || scramble.solveTime"
               data-toggle="modal" data-target="#timerModal">
         Start
       </button>

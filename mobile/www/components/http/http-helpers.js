@@ -1,6 +1,19 @@
 (function (angular) {
   'use strict';
-  angular.module('http.helpers', [])
+  angular.module('http.helpers', ['oauth.google'])
+
+  /** From http://engineering.talis.com/articles/elegant-api-auth-angular-js/ **/
+  .run(['$injector', 'auth', function($injector, auth) {
+    console.log('Registering Bearer token transformRequest');
+    $injector.get('$http').defaults.transformRequest = function(data, headersGetter) {
+        if (auth.user) {
+          headersGetter()['Authorization'] = 'Bearer '+auth.user.googleAccount.token.access_token;
+        }
+        if (data) {
+            return angular.toJson(data);
+        }
+    };
+  }])
 
   /** From http://www.bennadel.com/blog/2615-posting-form-data-with-http-in-angularjs.htm **/
   .factory('serializeParameterObject', function() {
@@ -10,8 +23,8 @@
         if (!angular.isObject(data)) {
             return((data === null) ? '' : data.toString());
         }
-        var buffer = [];
         // Serialize each key in the object.
+        var buffer = [];
         for (var name in data) {
             if (! data.hasOwnProperty(name)) {
                 continue;
