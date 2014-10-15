@@ -1,6 +1,8 @@
 (function (angular) {
   'use strict';
   angular.module('account', [
+    'ui.router',
+    'oauth',
     'oauth.google'
   ])
 

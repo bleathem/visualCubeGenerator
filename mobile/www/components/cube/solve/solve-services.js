@@ -2,7 +2,7 @@
 (function (angular) {
   'use strict';
 
-  angular.module('cube.solve.services', ['oauth.google'])
+  angular.module('cube.solve.services', ['oauth'])
 
   .constant('cubeConfig', {
     backend: 'http://home.bleathem.ca:9000'

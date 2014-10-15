@@ -2,6 +2,7 @@
   'use strict';
   angular.module('visualCubeGenerator.main.account', [
     'ui.router',
+    'oauth',
     'oauth.google'
   ])
 
@@ -14,7 +15,8 @@
         controller: 'AccountController'
       });
   })
-  .controller('AccountController', ['$scope', 'googleapi', 'auth', 'userLoader', function ($scope, googleapi, auth, userLoader) {
+
+  .controller('AccountController', ['$scope', 'googleapi', 'auth', function ($scope, googleapi, auth) {
     $scope.user = auth.user;
     $scope.authorize = function() {
       googleapi.authorize().then(function(user) {
