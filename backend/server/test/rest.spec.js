@@ -8,7 +8,8 @@ var request = require('supertest')
   , should = require('should')
   , mongoose = require('mongoose')
   , data = require('./test_data')
-  , User = require('../user/user_model');
+  , User = require('../user/user_model')
+  , Solve = require('../solve/solve_model');
 
 var user;
 
@@ -33,7 +34,7 @@ describe('Rest API:', function() {
   );
 
   describe('POST /solve', function(){
-    it('save to the db without error', function(done){
+    it('save a single solve without error', function(done){
       var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token.access_token};
       request(app)
         .post('/solve')
@@ -41,6 +42,69 @@ describe('Rest API:', function() {
         .send({solve: data.solve})
         .expect(200, done);
     });
+  });
+
+  describe('POST /solve/create_all', function(){
+    it('save an array of solves without error', function(done){
+      var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token.access_token};
+      var solves = [data.solve, data.solve];
+      Solve.find({}).exec()
+        .then(function(initialSolves) {
+          var initialCount = initialSolves.length;
+          request(app)
+            .post('/solve/create_all')
+            .set(headers)
+            .send({solves: solves})
+            .expect(200)
+            .end(function(err, res) {
+              Solve.find({}).exec()
+                .then(function(finalSolves) {
+                  try {
+                    var finalCount = finalSolves.length;
+                    var result = res.body;
+                    (2).should.equal(result.created.length);
+                    finalCount.should.equal(initialCount + solves.length);
+                    done();
+                  } catch(e) {
+                    done(e);
+                  }
+                }, function(error) {
+                  console.log(error);
+                  done(error);
+                })
+            })
+          })
+    });
+
+    it('fails when one solve in the array is invalid', function(done){
+      var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token.access_token};
+      var solves = [{moves: 'RRL'}, data.solve, {moves: 'LLRRL'}];
+      Solve.find({}).exec()
+        .then(function(initialSolves) {
+          var initialCount = initialSolves.length;
+          request(app)
+            .post('/solve/create_all')
+            .set(headers)
+            .send({solves: solves})
+            .expect(200)
+            .end(function(err, res) {
+              Solve.find({}).exec()
+                .then(function(finalSolves) {
+                  try {
+                    var finalCount = finalSolves.length;
+                    var result = res.body;
+                    (1).should.equal(result.created.length);
+                    (2).should.equal(result.failed.length);
+                    finalCount.should.equal(initialCount + result.created.length);
+                    done();
+                  } catch(e) {
+                    done(e);
+                  }
+                })
+            });
+          })
+    });
+
   });
 
 
