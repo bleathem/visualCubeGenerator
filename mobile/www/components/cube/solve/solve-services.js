@@ -12,14 +12,66 @@
     return window.localStorage;
   })
 
-  .factory('solves', ['$localStorage', '$q', '$timeout', '$http', 'cubeConfig', 'auth', function($localStorage, $q, $timeout, $http, cubeConfig, auth) {
+  .run(['$rootScope', '$http', '$log', 'auth', 'cubeConfig', 'solves', function($rootScope, $http, $log, auth, cubeConfig, solves) {
+    if (! auth.user || solves.solves().length === 0) {
+      return;
+    }
+    var solvesToUpload = solves.solves().filter(function(solve) {
+      return !('_id' in solve);
+    });
+    if (solvesToUpload.length === 0) {
+      $log.debug('No solves to upload');
+      return;
+    }
+    solvesToUpload.forEach(function(solve) {
+      solve._user = auth.user._id;
+    });
+    $log.debug(solvesToUpload.length + ' solves to upload:');
+
+    var url = cubeConfig.backend + '/solve/create_all';
+    $http.post(
+      url,
+      {solves: solvesToUpload}
+    ).then(function(response) {
+      var result = response.data;
+      $log.debug(result.created.length + ' solves uploaded');
+      $log.debug(result.failed.length + ' solves not uploaded');
+      if (result.created.length > 0) {
+        $rootScope.$emit('solves:uploaded', result.created);
+      }
+    }, function(response) {
+      var message = '#' + response.status + ' - ' + response.statusText;
+      $log.warn(new Error(message));
+    });
+  }])
+
+  .run(['$rootScope', '$log', 'solves', function($rootScope, $log, solves) {
+    $rootScope.$on('solves:uploaded', function(event, data) {
+      $log.debug('Updating localStorage with uploaded solves');
+      var localSolves = solves.readSolves();
+      var map = {};
+      data.forEach(function(solve) {
+        map[solve.state] = solve;
+      });
+      var savedSolve;
+      localSolves.forEach(function(solve) {
+        if (savedSolve = map[solve.state]) {
+          solve._id = savedSolve._id;
+          solve._user = savedSolve._user;
+        }
+      });
+      solves.writeSolves(localSolves);
+    });
+  }])
+
+  .factory('solves', ['$rootScope', '$localStorage', '$q', '$timeout', '$http', 'cubeConfig', 'auth', function($rootScope, $localStorage, $q, $timeout, $http, cubeConfig, auth) {
     var save = function(solve) {
       solve.date = new Date().getTime();
       solves = readSolves();
       solves.push(solve);
-      $localStorage.setItem('solves', JSON.stringify(solves));
+      writeSolves(solves);
       averages = calculateAverages(solves);
-      $localStorage.setItem('averages', JSON.stringify(averages));
+      writeAverages(averages);
       if (auth.user) {
         solve._user = auth.user._id;
         createOnRemote(solve);
@@ -78,8 +130,16 @@
       return JSON.parse($localStorage.getItem('solves')) || [];
     };
 
+    var writeSolves = function(solves) {
+      $localStorage.setItem('solves', JSON.stringify(solves));
+    };
+
     var readAverages = function() {
       return JSON.parse($localStorage.getItem('averages')) || [];
+    };
+
+    var writeAverages = function(averages) {
+      $localStorage.setItem('averages', JSON.stringify(averages));
     };
 
     var solves = readSolves();
@@ -89,6 +149,8 @@
       solves: function() {
         return solves;
       },
+      readSolves: readSolves,
+      writeSolves: writeSolves,
       averages: function() {
         return averages;
       },
