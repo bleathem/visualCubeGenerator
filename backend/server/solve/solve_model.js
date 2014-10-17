@@ -9,7 +9,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
   state: {type: String, required: true},
   solveTime: {type: Number, required: true},
   date: {type: Date, required: true},
-  _user: { type: ObjectId, required: true},
+  _user: { type: ObjectId, required: true, index: true},
   created: { type: Date, default: Date.now }
 });
 
