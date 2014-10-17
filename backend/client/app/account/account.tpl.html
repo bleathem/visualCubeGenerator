@@ -2,12 +2,7 @@
   <h2>Account</h2>
   <section>
     <g-plus-button ng-click="authorize()" ng-hide="user"></g-plus-button>
-    <div class="profile" ng-show="user">
-      <img ng-src="{{user.googleAccount.picture}}" />
-      <p>User: {{user.name}}</p>
-      <p>Since: {{user.created | date}}</p>
-      <button ng-click="logout()" ng-show="user">Logout</button>
-    </div>
+    <profile profile="user.googleAccount" ng-click="logout" ng-show="user"></profile>
     <pre ng-show="message">{{message}}</pre>
   </section>
 </div>

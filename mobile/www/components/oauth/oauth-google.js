@@ -62,5 +62,16 @@
       replace: true,
       templateUrl: 'components/oauth/google-sign-in.tpl.html'
     };
+  }])
+
+  .directive('profile', [function() {
+    return {
+      restrict: 'E',
+      scope: {
+        profile: '=profile',
+        click: '=ngClick',
+      },
+      templateUrl: 'components/oauth/google-profile.tpl.html'
+    };
   }]);
 })(angular);

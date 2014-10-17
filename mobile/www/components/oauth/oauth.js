@@ -14,34 +14,38 @@
     $opener.triggerHandler('oauthcallback', $stateParams);
   }])
 
+  .run(function(auth) {
+    auth.readUser();
+  })
+
   .factory('auth', function($localStorage) {
-    var cachedUser;
+    var user;
 
     var readUser = function() {
       var json = $localStorage.getItem('user');
       if (json) {
-        cachedUser = JSON.parse(json);
+        user = JSON.parse(json);
       }
-      return cachedUser;
+      return user;
     };
 
-    var setUser = function(user) {
-      cachedUser = user;
+    var setUser = function(setUser) {
+      user = setUser;
       $localStorage.setItem('user', JSON.stringify(user));
     };
 
     var logout = function() {
-      cachedUser = null;
+      user = null;
       $localStorage.removeItem('user');
     };
-
-    readUser();
 
     return {
       setUser: setUser,
       logout: logout,
       readUser: readUser,
-      user: cachedUser
+      getUser: function() {
+        return user;
+      }
     };
   })
 })(angular);

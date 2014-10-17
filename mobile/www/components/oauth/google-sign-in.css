@@ -43,7 +43,16 @@
   font-family: 'Roboto', arial, sans-serif;
 }
 
+.profile .profile-text {
+  display: inline-block;
+}
+
+.profile .profile-text p {
+  margin: 0 0 5px 0;
+}
+
 .profile img {
-  float: left;
+  vertical-align: top;
+  display: inline-block;
   padding: 0 10px;
 }
