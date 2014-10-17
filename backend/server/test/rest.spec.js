@@ -9,9 +9,11 @@ var request = require('supertest')
   , mongoose = require('mongoose')
   , data = require('./test_data')
   , User = require('../user/user_model')
-  , Solve = require('../solve/solve_model');
+  , Solve = require('../solve/solve_model')
+  , Q = require('q')
 
 var user;
+var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token.access_token};
 
 describe('Rest API:', function() {
 
@@ -33,9 +35,36 @@ describe('Rest API:', function() {
    }
   );
 
+  describe('GET /solve', function(){
+    it('no more than 100 solves are returned', function(done) {
+      var solvesToCreate = [];
+      for (var i=0; i < 102; i++) {
+        var solve = {
+          moves: data.solve.moves,
+          state: data.solve.state,
+          solveTime: data.solve.solveTime,
+          date: data.solve.date + i,
+          _user: user._id,
+        }
+        solvesToCreate.push(solve);
+      }
+      Solve.collection.insert(solvesToCreate, function() {
+        request(app)
+          .get('/solve')
+          .set(headers)
+          .expect(200)
+          .end(function(err, res) {
+            var solves = res.body;
+            (100).should.equal(solves.length);
+            done();
+          })
+      });
+    });
+  });
+
+
   describe('POST /solve', function(){
     it('save a single solve without error', function(done){
-      var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token.access_token};
       request(app)
         .post('/solve')
         .set(headers)
@@ -46,7 +75,6 @@ describe('Rest API:', function() {
 
   describe('POST /solve/create_all', function(){
     it('save an array of solves without error', function(done){
-      var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token.access_token};
       var solves = [data.solve, data.solve];
       Solve.find({}).exec()
         .then(function(initialSolves) {
@@ -77,7 +105,6 @@ describe('Rest API:', function() {
     });
 
     it('fails when one solve in the array is invalid', function(done){
-      var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token.access_token};
       var solves = [{moves: 'RRL'}, data.solve, {moves: 'LLRRL'}];
       Solve.find({}).exec()
         .then(function(initialSolves) {
@@ -104,9 +131,7 @@ describe('Rest API:', function() {
             });
           })
     });
-
   });
-
 
   describe.skip('/user:', function(){
     describe('POST', function(){

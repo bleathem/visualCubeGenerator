@@ -31,7 +31,7 @@ var createAll = function(solves) {
 
 module.exports = exports = {
   listByUser: function(req, res, next) {
-    Solve.find({_user: req.user.id}).exec()
+    Solve.find({_user: req.user.id}).sort({date: -1}).skip(0).limit(100).exec()
       .then(function (solves) {
         res.json(solves);
       }, function (reason) {
