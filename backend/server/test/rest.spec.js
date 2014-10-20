@@ -13,7 +13,7 @@ var request = require('supertest')
   , Q = require('q')
 
 var user;
-var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token.access_token};
+var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token[0].access_token};
 
 describe('Rest API:', function() {
 

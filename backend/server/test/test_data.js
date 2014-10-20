@@ -16,15 +16,15 @@ var user = {
     'familyName': 'Doe',
     'profile': 'https://plus.google.com/+JohnDoe',
     'picture': 'https://lh5.googleusercontent.com/-abcdefghij/AAAAAAAAAAA/AAAAAAAAAaa/AaBbCcDdEeFf/photo.jpg?sz=50',
-    'token': {
+    'token': [{
       'access_token': 'aa11.aA123456bB78910-aA123456bB78910',
       'token_type': 'Bearer',
-      'expires_in': '3600',
+      'expires': now + 3600,
       'authuser': '0',
       'num_sessions': '2',
       'prompt': 'consent',
       'session_state': 'aA123456bB78910aA123456bB78910..1a12'
-    }
+    }]
   }
 }
 

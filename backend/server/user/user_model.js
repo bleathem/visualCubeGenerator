@@ -15,12 +15,12 @@ var UserSchema = new mongoose.Schema({
     family_name: String,
     profile: String,
     picture: String,
-    token: {
+    token: [{
       access_token: String,
       token_type: String,
-      expires_in: Number,
+      expiry: Date,
       refresh_token: String
-    }
+    }]
   },
   created: { type: Date, default: Date.now }
 });

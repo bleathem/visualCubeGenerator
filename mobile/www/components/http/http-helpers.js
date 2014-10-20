@@ -8,7 +8,7 @@
     $injector.get('$http').defaults.transformRequest = function(data, headersGetter) {
       var user = auth.getUser();
         if (user) {
-          headersGetter()['Authorization'] = 'Bearer '+user.googleAccount.token.access_token;
+          headersGetter()['Authorization'] = 'Bearer '+user.googleAccount.token[0].access_token;
         }
         if (data) {
             return angular.toJson(data);

@@ -9,7 +9,7 @@ var passport       = require('passport'),
 
 var port = process.env.PORT || 9000;
 
-var authCallback = function(accessToken, refreshToken, profile, done) {
+var authCallback = function(accessToken, refreshToken, params, profile, done) {
   request.get({
     url: 'https://www.googleapis.com/plus/v1/people/me/openIdConnect',
     qs: {
@@ -18,28 +18,62 @@ var authCallback = function(accessToken, refreshToken, profile, done) {
   }, function (err, res, body) {
     if (!err) {
       var openIdProfile = JSON.parse(body);
-      openIdProfile.token = {
+      var expiryDate = new Date().getTime() + params.expires_in;
+      var token = {
         access_token: accessToken,
-        refresh_token: refreshToken
+        refresh_token: refreshToken,
+        token_type: params.token_type,
+        expiry: expiryDate
       }
       var user = {
-        name: openIdProfile.name,
-        giveName: openIdProfile.given_name,
-        familyName: openIdProfile.family_name,
-        googleAccount: openIdProfile
+        $set: {
+          name: openIdProfile.name,
+          giveName: openIdProfile.given_name,
+          familyName: openIdProfile.family_name
+        }
       }
       User.findOneAndUpdate(
         { 'googleAccount.sub': openIdProfile.sub },
         user,
         { new: true,
-          upsert: true,
-          select: {
-            'googleAccount.token.refresh_token': 0
-          }
+          upsert: true
         },
         function(err, createdUser) {
           if (!err) {
-            done(null, createdUser);
+            var tokens = [token];
+            createdUser.googleAccount.token.forEach(function(tokenLoop) {
+              tokens.push({
+                access_token: tokenLoop.access_token,
+                refresh_token: tokenLoop.refresh_token,
+                token_type: tokenLoop.token_type,
+                expiry: tokenLoop.expiry
+              })
+            });
+            openIdProfile.token = tokens;
+            User.findByIdAndUpdate(
+              createdUser._id,
+              { $set: {
+                googleAccount: openIdProfile
+                }
+              },
+              { select: {
+                'googleAccount.token.refresh_token': 0
+                }
+              },
+              function(err, updatedUser) {
+                if (!err) {
+                  var tokens = updatedUser.googleAccount.token.filter(function(tokenLoop) {
+                    return token.access_token === tokenLoop.access_token;
+                  });
+                  updatedUser.googleAccount.token = tokens;
+                  done(null, updatedUser);
+                } else {
+                  done(err);
+                }
+              }
+            );
+          } else {
+            done(err);
           }
         });
     }
