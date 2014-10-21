@@ -57,9 +57,9 @@
         createdSolves.forEach(function(solve) {
           map[solve.state] = solve;
         });
-        var savedSolve;
         localSolves.forEach(function(solve) {
-          if (savedSolve === map[solve.state]) {
+          var savedSolve = map[solve.state]
+          if (savedSolve) {
             solve._id = savedSolve._id;
             solve._user = savedSolve._user;
           }
@@ -135,7 +135,15 @@
       writeAverages(averages);
       if (auth.getUser()) {
         solve._user = auth.getUser()._id;
-        createOnRemote(solve);
+        createOnRemote(solve).then(function(created) {
+          solves = readSolves();
+          solves.forEach(function(solveLoop) {
+            if (solveLoop.state = created.state) {
+              solveLoop._id = created._id;
+            }
+          });
+          writeSolves(solves);
+        });
       }
     };
 
@@ -151,7 +159,7 @@
         var message = '#' + response.status + ' - ' + response.statusText;
         deferred.reject(new Error(message));
       });
-
+      return deferred.promise;
     };
 
     var deleteSolve = function(remove) {

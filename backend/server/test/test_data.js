@@ -36,8 +36,26 @@ var solve = {
   _user: mongoose.Types.ObjectId('123456789123456789123456'),
 }
 
+var uniqueSolves = function(max, user) {
+  var newSolves = [];
+  var state = '';
+  for (var i=0; i < max; i++) {
+    state += 'L';
+    var newSolve = {
+      moves: solve.moves,
+      state: state,
+      solveTime: solve.solveTime,
+      date: solve.date + i,
+      _user: user._id,
+    }
+    newSolves.push(newSolve);
+  }
+  return newSolves;
+}
+
 module.exports = exports = {
   now: now,
   user: user,
-  solve: solve
+  solve: solve,
+  uniqueSolves: uniqueSolves
 }

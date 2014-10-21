@@ -12,6 +12,8 @@ var request = require('supertest')
   , Solve = require('../solve/solve_model')
   , Q = require('q')
 
+// mongoose.set('debug', true);
+
 var user;
 var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token[0].access_token};
 
@@ -37,17 +39,7 @@ describe('Rest API:', function() {
 
   describe('GET /solve', function(){
     it('no more than 100 solves are returned', function(done) {
-      var solvesToCreate = [];
-      for (var i=0; i < 102; i++) {
-        var solve = {
-          moves: data.solve.moves,
-          state: data.solve.state,
-          solveTime: data.solve.solveTime,
-          date: data.solve.date + i,
-          _user: user._id,
-        }
-        solvesToCreate.push(solve);
-      }
+      var solvesToCreate = data.uniqueSolves(102, user);
       Solve.collection.insert(solvesToCreate, function() {
         request(app)
           .get('/solve')
@@ -75,7 +67,7 @@ describe('Rest API:', function() {
 
   describe('POST /solve/create_all', function(){
     it('save an array of solves without error', function(done){
-      var solves = [data.solve, data.solve];
+      var solves = data.uniqueSolves(2, user);
       Solve.find({}).exec()
         .then(function(initialSolves) {
           var initialCount = initialSolves.length;

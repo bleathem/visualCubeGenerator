@@ -9,7 +9,7 @@ var UserSchema = new mongoose.Schema({
   googleAccount: {
     kind: String,
     gender: String,
-    sub: String,
+    sub: {type: String, unique: true},
     name: String,
     given_name: String,
     family_name: String,
