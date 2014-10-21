@@ -53,10 +53,7 @@
       } else {
         $log.debug('Updating localStorage with uploaded solves');
         var localSolves = solves.readSolves();
-        var map = {};
-        createdSolves.forEach(function(solve) {
-          map[solve.state] = solve;
-        });
+        var map = solves.createSolvesMap(createdSolves);
         localSolves.forEach(function(solve) {
           var savedSolve = map[solve.state]
           if (savedSolve) {
@@ -96,10 +93,17 @@
         return !('_id' in solve);
       });
       if (unSavedSolves.length > 0) {
-        latestSolves = latestSolves.concat(unSavedSolves);
-        latestSolves.sort(function(a, b) {
-          return a.date - b.date;
+        var unSavedSolvesMap = solves.createSolvesMap(unSavedSolves);
+        latestSolves.forEach(function(solve) {
+          var latestSolve = unSavedSolvesMap[solve.state];
+          if (latestSolve) {
+            delete unSavedSolvesMap[solve.state];
+          }
         });
+        unSavedSolvesMap.keys().forEach(function(unSavedSolve) {
+          latestSolves.push(unSavedSolve)
+        });
+        solves.sortSolves(latestSolves);
       }
       solves.writeSolves(latestSolves);
       var averages = solves.calculateAverages(latestSolves);
@@ -129,7 +133,8 @@
     var save = function(solve) {
       solve.date = new Date().getTime();
       solves = readSolves();
-      solves.push(solve);
+      solves.shift(solve);
+      sortSolves(solves);
       writeSolves(solves);
       averages = calculateAverages(solves);
       writeAverages(averages);
@@ -138,7 +143,7 @@
         createOnRemote(solve).then(function(created) {
           solves = readSolves();
           solves.forEach(function(solveLoop) {
-            if (solveLoop.state = created.state) {
+            if (solveLoop.state === created.state) {
               solveLoop._id = created._id;
             }
           });
@@ -211,6 +216,20 @@
       $localStorage.setItem('averages', JSON.stringify(averages));
     };
 
+    var createSolvesMap = function(solves) {
+      var solvesMap = {};
+      solves.forEach(function(solve) {
+        solveMap[solve.state] = solve;
+      });
+      return solvesMap
+    };
+
+    var sortSolves = function(solves) {
+      solves.sort(function(a, b) {
+        return a.date - b.date;
+      });
+    };
+
     var solves = readSolves();
     var averages = readAverages();
 
@@ -220,6 +239,8 @@
       },
       readSolves: readSolves,
       writeSolves: writeSolves,
+      createSolvesMap: createSolvesMap,
+      sortSolves: sortSolves,
       calculateAverages: calculateAverages,
       writeAverages: writeAverages,
       averages: function() {
