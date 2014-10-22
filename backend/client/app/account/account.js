@@ -16,11 +16,10 @@
   })
 
   .controller('AccountController', ['$scope', 'googleapi', 'auth', 'synchSolves', function ($scope, googleapi, auth, synchSolves) {
-    $scope.user = auth.getUser();
+    $scope.auth = auth;
     $scope.authorize = function() {
       googleapi.authorize().then(function(user) {
         auth.setUser(user);
-        $scope.user = auth.getUser();
         synchSolves();
       }, function(error) {
         $scope.message = '** Error **: ' + error.message;
@@ -29,7 +28,6 @@
     };
     $scope.logout = function() {
       auth.logout();
-      $scope.user = auth.getUser();
     };
   }]);
 })(angular);

@@ -19,33 +19,30 @@
   })
 
   .factory('auth', function($localStorage) {
-    var user;
+    var auth = {
+      user: null
+    };
 
-    var readUser = function() {
+    auth.readUser = function() {
       var json = $localStorage.getItem('user');
       if (json) {
-        user = JSON.parse(json);
+        this.user = JSON.parse(json);
       }
-      return user;
+      return this.user;
     };
 
-    var setUser = function(setUser) {
-      user = setUser;
-      $localStorage.setItem('user', JSON.stringify(user));
+    auth.setUser = function(setUser) {
+      this.user = setUser;
+      $localStorage.setItem('user', JSON.stringify(this.user));
+      return this.user;
     };
 
-    var logout = function() {
-      user = null;
+    auth.logout = function() {
+      this.user = null;
       $localStorage.removeItem('user');
+      return this.user;
     };
 
-    return {
-      setUser: setUser,
-      logout: logout,
-      readUser: readUser,
-      getUser: function() {
-        return user;
-      }
-    };
+    return auth;
   })
 })(angular);

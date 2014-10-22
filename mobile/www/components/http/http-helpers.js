@@ -6,13 +6,12 @@
   .run(['$injector', 'auth', function($injector, auth) {
     console.log('Registering Bearer token transformRequest');
     $injector.get('$http').defaults.transformRequest = function(data, headersGetter) {
-      var user = auth.getUser();
-        if (user) {
-          headersGetter()['Authorization'] = 'Bearer '+user.googleAccount.token[0].access_token;
-        }
-        if (data) {
-            return angular.toJson(data);
-        }
+      if (auth && auth.user) {
+        headersGetter()['Authorization'] = 'Bearer '+auth.user.googleAccount.token[0].access_token;
+      }
+      if (data) {
+          return angular.toJson(data);
+      }
     };
   }])
 

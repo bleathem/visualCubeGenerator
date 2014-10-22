@@ -63,7 +63,7 @@
         deferred.resolve([]);
       } else {
         solvesToUpload.forEach(function(solve) {
-          solve._user = auth.getUser()._id;
+          solve._user = auth.user._id;
         });
         solveRemoteLoader.uploadMany(solvesToUpload)
           .then(function(result) {
@@ -149,7 +149,7 @@
     };
 
     return function() {
-      if (! auth.getUser()) {
+      if (! auth.user) {
         var deferred = $q.defer();
         deferred.resolve('Synch disabled: Not logged in');
         var promise = deferred.promise;
@@ -273,7 +273,7 @@
 
     solveRemoteLoader.fecthRecent = function() {
       var deferred = $q.defer();
-      if (!auth.getUser()) {
+      if (!auth.user) {
         deferred.reject(new Error('User not logged in'));
         return deferred.promise;
       }
@@ -292,7 +292,7 @@
 
     solveRemoteLoader.uploadMany = function(solves) {
       var deferred = $q.defer();
-      if (!auth.getUser()) {
+      if (!auth.user) {
         deferred.reject(new Error('User not logged in'));
         return deferred.promise;
       }

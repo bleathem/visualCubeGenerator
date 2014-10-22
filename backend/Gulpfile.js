@@ -1,4 +1,4 @@
-"user strict";
+'use strict';
 var gulp    = require('gulp'),
     bower   = require('gulp-bower'),
     jshint  = require('gulp-jshint'),
