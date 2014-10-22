@@ -38,22 +38,9 @@
         solveModel.solves = solves;
         solveModel.averages = averageLoader.calculateAverages(solveModel.solves);
         averageLoader.writeAverages(solveModel.averages);
-        if (auth.getUser()) {
-          solve._user = auth.getUser()._id;
-          solveRemoteLoader.createOnRemote(solve).then(function(created) {
-            var solves = solveLocalLoader.readSolves();
-            solves.forEach(function(solveLoop) {
-              if (solveLoop.state === created.state) {
-                solveLoop._id = created._id;
-              }
-            });
-            solveModel.solves = solves;
-            solveLocalLoader.writeSolves(solveModel.solves);
-            deferred.resolve(created);
-          });
-        } else {
-          deferred.resolve(solve);
-        }
+        deferred.resolve(solve);
+      }).then(function(solve) {
+        synchSolves();
       });
       return deferred.promise;
     };
@@ -110,7 +97,7 @@
       return deferred.promise;
     };
 
-    var retrieveLatestTimes = function() {
+    var retrieveLatestSolves = function() {
       var deferred = $q.defer();
       $log.debug('Retrieving latest solves');
       solveRemoteLoader.fecthRecent().then(function(latestSolves) {
@@ -124,7 +111,7 @@
     var replaceLocalSolves = function(latestSolves) {
       var deferred = $q.defer();
       if (latestSolves.length === 0) {
-        deferred.resolve();
+        deferred.resolve('Synch complete: No remote solves returned');
         return deferred.promise;
       }
       var unSavedSolves = solveModel.solves.filter(function(solve) {
@@ -138,14 +125,18 @@
             delete unSavedSolvesMap[solve.state];
           }
         });
-        unSavedSolvesMap.keys().forEach(function(unSavedSolve) {
-          latestSolves.push(unSavedSolve);
-        });
+        for (var state in unSavedSolvesMap) {
+          if (unSavedSolvesMap.hasOwnProperty(state)) {
+            latestSolves.push(unSavedSolvesMap[state]);
+          };
+        };
       }
+      solveModel.solves = latestSolves;
       solveLocalLoader.writeSolves(latestSolves);
       var averages = averageLoader.calculateAverages(latestSolves);
+      solveModel.averages = averages;
       averageLoader.writeAverages(averages);
-      deferred.resolve();
+      deferred.resolve('Synch complete: Local solves merged with latest remote solves');
       return deferred.promise;
     };
 
@@ -159,18 +150,23 @@
 
     return function() {
       if (! auth.getUser()) {
-        $log.debug('Not logged in: Synch disabled');
-        return;
-      }
-
-      if (solveModel.solves.length === 0) {
-        retrieveLatestTimes().then(replaceLocalSolves);
+        var deferred = $q.defer();
+        deferred.resolve('Synch disabled: Not logged in');
+        var promise = deferred.promise;
       } else {
-        uploadSolves()
-          .then(updateLocalSolves)
-          .then(retrieveLatestTimes)
-          .then(replaceLocalSolves);
+        if (solveModel.solves.length === 0) {
+          var promise = retrieveLatestSolves().then(replaceLocalSolves);
+        } else {
+          var promise = uploadSolves()
+            .then(updateLocalSolves)
+            .then(retrieveLatestSolves)
+            .then(replaceLocalSolves);
+        }
       }
+      return promise.then(function(message) {
+        $log.debug(message);
+        $rootScope.$broadcast('solvesUpdated');
+      });
     };
   }])
 
