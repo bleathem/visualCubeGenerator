@@ -8,13 +8,13 @@
             Best times
           </li>
           <li class="list-group-item">
-            Best over last 5: <solve-time class="padding-left" time='averages.ao5.best.solveTime'></solve-time>
+            Best over last 5: <solve-time class="padding-left" time='solveModel.averages.ao5.best.solveTime'></solve-time>
           </li>
           <li class="list-group-item">
-            Best over last 10: <solve-time class="padding-left" time='averages.ao10.best.solveTime'></solve-time>
+            Best over last 10: <solve-time class="padding-left" time='solveModel.averages.ao10.best.solveTime'></solve-time>
           </li>
           <li class="list-group-item">
-            Lifetime best: <solve-time class="padding-left" time='averages.all.best.solveTime'></solve-time>
+            Lifetime best: <solve-time class="padding-left" time='solveModel.averages.all.best.solveTime'></solve-time>
           </li>
         </ul>
       </div>
@@ -24,13 +24,13 @@
             Average times
           </li>
           <li class="list-group-item">
-            Average over last 5: <solve-time class="padding-left" time='averages.ao5.solveTime'></solve-time>
+            Average over last 5: <solve-time class="padding-left" time='solveModel.averages.ao5.solveTime'></solve-time>
           </li>
           <li class="list-group-item">
-            Average over last 10: <solve-time class="padding-left" time='averages.ao10.solveTime'></solve-time>
+            Average over last 10: <solve-time class="padding-left" time='solveModel.averages.ao10.solveTime'></solve-time>
           </li>
           <li class="list-group-item">
-            Lifetime average: <solve-time class="padding-left" time='averages.all.solveTime'></solve-time>
+            Lifetime average: <solve-time class="padding-left" time='solveModel.averages.all.solveTime'></solve-time>
           </li>
         </ul>
       </div>
@@ -40,7 +40,7 @@
             <li class="list-group-item list-group-item-info">
               Solves
             </li>
-          <li class="list-group-item" ng-repeat="solve in solves track by solve.state">
+          <li class="list-group-item" ng-repeat="solve in solveModel.solves track by solve.state">
             {{solve.date | date:'yyyy-MM-dd HH:mm:ss'}}
             <solve-time time="solve.solveTime" class="padding-left"></time>
           </li>

@@ -12,14 +12,63 @@
     return window.localStorage;
   })
 
-  .run(function(synchSolves) {
+  .run(['solveModel', 'solveLocalLoader', 'averageLoader', 'synchSolves', function(solveModel, solveLocalLoader, averageLoader, synchSolves) {
+    // load locally-cached values prior to asynchronously fetching remote values
+    solveModel.solves = solveLocalLoader.readSolves();
+    solveModel.averages = averageLoader.readAverages();
     synchSolves();
+  }])
+
+  .factory('solveModel', function() {
+    var solveModel = {
+      solves: {},
+      averages: {}
+    };
+
+    return solveModel;
   })
 
-  .factory('synchSolves', ['$rootScope', '$http', '$q', '$log', 'auth', 'cubeConfig', 'solves', function($rootScope, $http, $q, $log, auth, cubeConfig, solves) {
+  .factory('solveManager', ['$q', 'solveModel', 'solveLocalLoader', 'solveRemoteLoader', 'averageLoader', 'synchSolves', 'auth',
+                            function($q, solveModel, solveLocalLoader, solveRemoteLoader, averageLoader, synchSolves, auth) {
+    var solveManager = {};
+
+    solveManager.save = function(solve) {
+      var deferred = $q.defer();
+      solveLocalLoader.save(solve).then(function(solves) {
+        solveModel.solves = solves;
+        solveModel.averages = averageLoader.calculateAverages(solveModel.solves);
+        averageLoader.writeAverages(solveModel.averages);
+        if (auth.getUser()) {
+          solve._user = auth.getUser()._id;
+          solveRemoteLoader.createOnRemote(solve).then(function(created) {
+            var solves = solveLocalLoader.readSolves();
+            solves.forEach(function(solveLoop) {
+              if (solveLoop.state === created.state) {
+                solveLoop._id = created._id;
+              }
+            });
+            solveModel.solves = solves;
+            solveLocalLoader.writeSolves(solveModel.solves);
+            deferred.resolve(created);
+          });
+        } else {
+          deferred.resolve(solve);
+        }
+      });
+      return deferred.promise;
+    };
+
+    solveManager.delete = solveLocalLoader.delete;
+
+    return solveManager;
+
+  }])
+
+  .factory('synchSolves', ['$rootScope', '$q', '$log', 'auth', 'cubeConfig', 'solveModel', 'solveLocalLoader', 'solveRemoteLoader', 'averageLoader',
+                           function($rootScope, $q, $log, auth, cubeConfig, solveModel, solveLocalLoader, solveRemoteLoader, averageLoader) {
     var uploadSolves = function() {
       var deferred = $q.defer();
-      var solvesToUpload = solves.solves().filter(function(solve) {
+      var solvesToUpload = solveModel.solves.filter(function(solve) {
         return !('_id' in solve);
       });
       if (solvesToUpload.length === 0) {
@@ -29,17 +78,11 @@
         solvesToUpload.forEach(function(solve) {
           solve._user = auth.getUser()._id;
         });
-        $log.debug(solvesToUpload.length + ' solves to upload:');
-        var url = cubeConfig.backend + '/solve/create_all';
-        $http.post(url, {solves: solvesToUpload})
-          .then(function(response) {
-            var result = response.data;
-            $log.debug(result.created.length + ' solves uploaded');
-            $log.debug(result.failed.length + ' solves not uploaded');
+        solveRemoteLoader.uploadMany(solvesToUpload)
+          .then(function(result) {
             deferred.resolve(result.created);
-          }, function(response) {
-            var message = '#' + response.status + ' - ' + response.statusText;
-            deferred.reject(new Error(message));
+          }, function(error) {
+            deferred.reject(error);
           });
       }
       return deferred.promise;
@@ -52,16 +95,16 @@
         deferred.resolve([]);
       } else {
         $log.debug('Updating localStorage with uploaded solves');
-        var localSolves = solves.readSolves();
-        var map = solves.createSolvesMap(createdSolves);
+        var localSolves = solveLocalLoader.readSolves();
+        var map = createSolvesMap(createdSolves);
         localSolves.forEach(function(solve) {
-          var savedSolve = map[solve.state]
+          var savedSolve = map[solve.state];
           if (savedSolve) {
             solve._id = savedSolve._id;
             solve._user = savedSolve._user;
           }
         });
-        solves.writeSolves(localSolves);
+        solveLocalLoader.writeSolves(localSolves);
         deferred.resolve(createdSolves);
       }
       return deferred.promise;
@@ -70,15 +113,10 @@
     var retrieveLatestTimes = function() {
       var deferred = $q.defer();
       $log.debug('Retrieving latest solves');
-      var url = cubeConfig.backend + '/solve';
-      $http.get(
-        url
-      ).then(function(response) {
-        var latestSolves = response.data;
+      solveRemoteLoader.fecthRecent().then(function(latestSolves) {
         deferred.resolve(latestSolves);
-      }, function(response) {
-        var message = '#' + response.status + ' - ' + response.statusText;
-        deferred.reject(new Error(message));
+      }, function(error) {
+        deferred.reject(error);
       });
       return deferred.promise;
     };
@@ -89,11 +127,11 @@
         deferred.resolve();
         return deferred.promise;
       }
-      var unSavedSolves = solves.solves().filter(function(solve) {
+      var unSavedSolves = solveModel.solves.filter(function(solve) {
         return !('_id' in solve);
       });
       if (unSavedSolves.length > 0) {
-        var unSavedSolvesMap = solves.createSolvesMap(unSavedSolves);
+        var unSavedSolvesMap = createSolvesMap(unSavedSolves);
         latestSolves.forEach(function(solve) {
           var latestSolve = unSavedSolvesMap[solve.state];
           if (latestSolve) {
@@ -101,15 +139,22 @@
           }
         });
         unSavedSolvesMap.keys().forEach(function(unSavedSolve) {
-          latestSolves.push(unSavedSolve)
+          latestSolves.push(unSavedSolve);
         });
-        solves.sortSolves(latestSolves);
       }
-      solves.writeSolves(latestSolves);
-      var averages = solves.calculateAverages(latestSolves);
-      solves.writeAverages(averages);
+      solveLocalLoader.writeSolves(latestSolves);
+      var averages = averageLoader.calculateAverages(latestSolves);
+      averageLoader.writeAverages(averages);
       deferred.resolve();
       return deferred.promise;
+    };
+
+    var createSolvesMap = function(solves) {
+      var solveMap = {};
+      solves.forEach(function(solve) {
+        solveMap[solve.state] = solve;
+      });
+      return solveMap;
     };
 
     return function() {
@@ -118,7 +163,7 @@
         return;
       }
 
-      if (solves.solves().length === 0) {
+      if (solveModel.solves.length === 0) {
         retrieveLatestTimes().then(replaceLocalSolves);
       } else {
         uploadSolves()
@@ -129,30 +174,148 @@
     };
   }])
 
-  .factory('solves', ['$rootScope', '$localStorage', '$q', '$timeout', '$http', 'cubeConfig', 'auth', function($rootScope, $localStorage, $q, $timeout, $http, cubeConfig, auth) {
-    var save = function(solve) {
-      solve.date = new Date().getTime();
-      solves = readSolves();
-      solves.shift(solve);
-      sortSolves(solves);
-      writeSolves(solves);
-      averages = calculateAverages(solves);
-      writeAverages(averages);
-      if (auth.getUser()) {
-        solve._user = auth.getUser()._id;
-        createOnRemote(solve).then(function(created) {
-          solves = readSolves();
-          solves.forEach(function(solveLoop) {
-            if (solveLoop.state === created.state) {
-              solveLoop._id = created._id;
-            }
-          });
-          writeSolves(solves);
-        });
+  .factory('averageLoader', ['$rootScope', '$localStorage', '$q', '$timeout', function($rootScope, $localStorage, $q, $timeout) {
+    var averageLoader = {};
+
+    var sumSolveTimes = function(sum, solve) {
+      if (solve.solveTime < sum.best.solveTime) {
+        sum.best = solve;
       }
+      sum.solveTime += solve.solveTime;
+      return sum;
     };
 
-    var createOnRemote = function(solve) {
+    averageLoader.calculateAverages = function(solves) {
+      solves = solves.sort(function(a, b) {
+        return a.date - b.date;
+      });
+      var averages = {};
+      var seed = {
+        best: solves[0],
+        solveTime: 0
+      };
+      averages.ao5 = solves.slice(0, 5).reduce(sumSolveTimes, angular.extend({}, seed));
+      averages.ao5.solveTime = averages.ao5.solveTime / 5;
+      averages.ao10 = solves.slice(0, 10).reduce(sumSolveTimes, angular.extend({}, seed));
+      averages.ao10.solveTime = averages.ao10.solveTime / 10;
+      averages.all = solves.reduce(sumSolveTimes, angular.extend({}, seed));
+      averages.all.solveTime = averages.all.solveTime / solves.length;
+      return averages;
+    };
+
+    averageLoader.readAverages = function() {
+      var averages = JSON.parse($localStorage.getItem('averages')) || [];
+      return averages;
+    };
+
+    averageLoader.writeAverages = function(averages) {
+      $localStorage.setItem('averages', JSON.stringify(averages));
+      return averages;
+    };
+
+    return averageLoader;
+  }])
+
+  .factory('solveLocalLoader', ['$rootScope', '$localStorage', '$q', '$timeout', function($rootScope, $localStorage, $q, $timeout) {
+    var solveLocalLoader = {};
+
+    solveLocalLoader.save = function(solve) {
+      var deferred = $q.defer();
+      var that = this;
+      $timeout(function() {
+        try {
+          var solves = that.readSolves();
+          if (!solve.date) {
+            solve.date = new Date().getTime();
+          }
+          solves.unshift(solve);
+          that.writeSolves(solves);
+          deferred.resolve(solves);
+        } catch(error) {
+          deferred.reject(error);
+        }
+      }, 0);
+      return deferred.promise;
+    };
+
+    solveLocalLoader.deleteSolve = function(remove) {
+      var deferred = $q.defer();
+      var that = this;
+      $timeout(function() {
+        try {
+          var solves = that.readSolves();
+          solves = solves.filter(function(solve) {
+            return solve.state !== remove.state;
+          });
+          that.writeSolves(solves);
+          deferred.resolve(solves);
+        } catch(error) {
+          deferred.reject(error);
+        }
+      }, 0);
+      return deferred.promise;
+    };
+
+    solveLocalLoader.readSolves = function() {
+      var solves = JSON.parse($localStorage.getItem('solves')) || [];
+      return solves;
+    };
+
+    solveLocalLoader.writeSolves = function(solves) {
+      solves.sort(function(a, b) {
+        return a.date - b.date;
+      });
+      $localStorage.setItem('solves', JSON.stringify(solves));
+      return solves;
+    };
+
+    return solveLocalLoader;
+  }])
+
+  .factory('solveRemoteLoader', ['$http', '$q', '$log', 'auth', 'cubeConfig', function($http, $q, $log, auth, cubeConfig) {
+    var solveRemoteLoader = {};
+
+    solveRemoteLoader.fecthRecent = function() {
+      var deferred = $q.defer();
+      if (!auth.getUser()) {
+        deferred.reject(new Error('User not logged in'));
+        return deferred.promise;
+      }
+      var url = cubeConfig.backend + '/solve';
+      $http({
+        method: 'get',
+        url: url
+      }).then(function(response) {
+          deferred.resolve(response.data);
+        }, function(response) {
+          var message = '#' + response.status + ' - ' + response.statusText;
+          deferred.reject(new Error(message));
+        });
+      return deferred.promise;
+    };
+
+    solveRemoteLoader.uploadMany = function(solves) {
+      var deferred = $q.defer();
+      if (!auth.getUser()) {
+        deferred.reject(new Error('User not logged in'));
+        return deferred.promise;
+      }
+      var url = cubeConfig.backend + '/solve/create_all';
+      $log.debug(solves.length + ' solves to upload');
+      $http.post(url, {solves: solves})
+        .then(function(response) {
+          var result = response.data;
+          $log.debug(result.created.length + ' solves uploaded');
+          $log.debug(result.failed.length + ' solves not uploaded');
+          deferred.resolve(result);
+        }, function(response) {
+          var message = '#' + response.status + ' - ' + response.statusText;
+          deferred.reject(new Error(message));
+        });
+      return deferred.promise;
+    };
+
+    solveRemoteLoader.createOnRemote = function(solve) {
       var deferred = $q.defer();
       var url = cubeConfig.backend + '/solve';
       $http.post(
@@ -167,135 +330,7 @@
       return deferred.promise;
     };
 
-    var deleteSolve = function(remove) {
-      solves = readSolves();
-      solves = solves.filter(function(solve) {
-        return solve.state !== remove.state;
-      });
-      $localStorage.setItem('solves', JSON.stringify(solves));
-      averages = calculateAverages(solves);
-      $localStorage.setItem('averages', JSON.stringify(averages));
-    };
-
-    var sumSolveTimes = function(sum, solve) {
-      if (solve.solveTime < sum.best.solveTime) {
-        sum.best = solve;
-      }
-      sum.solveTime += solve.solveTime;
-      return sum;
-    };
-
-    var calculateAverages = function(allSolves) {
-      var averages = {};
-      var seed = {
-        best: allSolves[allSolves.length - 1],
-        solveTime: 0
-      };
-      averages.ao5 = allSolves.slice(-5).reduce(sumSolveTimes, angular.extend({}, seed));
-      averages.ao5.solveTime = averages.ao5.solveTime / 5;
-      averages.ao10 = allSolves.slice(-10).reduce(sumSolveTimes, angular.extend({}, seed));
-      averages.ao10.solveTime = averages.ao10.solveTime / 10;
-      averages.all = allSolves.reduce(sumSolveTimes, angular.extend({}, seed));
-      averages.all.solveTime = averages.all.solveTime / allSolves.length;
-      return averages;
-    };
-
-    var readSolves = function() {
-      return JSON.parse($localStorage.getItem('solves')) || [];
-    };
-
-    var writeSolves = function(solves) {
-      $localStorage.setItem('solves', JSON.stringify(solves));
-    };
-
-    var readAverages = function() {
-      return JSON.parse($localStorage.getItem('averages')) || [];
-    };
-
-    var writeAverages = function(averages) {
-      $localStorage.setItem('averages', JSON.stringify(averages));
-    };
-
-    var createSolvesMap = function(solves) {
-      var solvesMap = {};
-      solves.forEach(function(solve) {
-        solveMap[solve.state] = solve;
-      });
-      return solvesMap
-    };
-
-    var sortSolves = function(solves) {
-      solves.sort(function(a, b) {
-        return a.date - b.date;
-      });
-    };
-
-    var solves = readSolves();
-    var averages = readAverages();
-
-    return {
-      solves: function() {
-        return solves;
-      },
-      readSolves: readSolves,
-      writeSolves: writeSolves,
-      createSolvesMap: createSolvesMap,
-      sortSolves: sortSolves,
-      calculateAverages: calculateAverages,
-      writeAverages: writeAverages,
-      averages: function() {
-        return averages;
-      },
-      save: function(solve) {
-        var deferred = $q.defer();
-        $timeout(function() {
-          try {
-            save(solve);
-            deferred.resolve('Solve saved');
-          } catch(error) {
-            deferred.reject(error);
-          }
-        }, 0);
-        return deferred.promise;
-      },
-      delete: function(solve) {
-        var deferred = $q.defer();
-        $timeout(function() {
-          try {
-            deleteSolve(solve);
-            deferred.resolve('Solve deleted');
-          } catch(error) {
-            deferred.reject(error);
-          }
-        }, 0);
-        return deferred.promise;
-      }
-    };
-  }])
-
-  .factory('solveLoader', ['$http', '$q', 'auth', 'cubeConfig', function($http, $q, auth, cubeConfig) {
-    var fecthSolves = function() {
-      var deferred = $q.defer();
-      if (!auth.getUser()) {
-        deferred.reject(new Error('User not logged in'));
-        return deferred.promise;
-      }
-      var url = cubeConfig.backend + '/solve';
-      $http({
-        method: 'get',
-        url: url
-      }).then(function(response) {
-        deferred.resolve(response.data);
-      }, function(response) {
-        var message = '#' + response.status + ' - ' + response.statusText;
-        deferred.reject(new Error(message));
-      });
-      return deferred.promise;
-    };
-
-    return {
-      fecthSolves: fecthSolves
-    };
+    return solveRemoteLoader;
   }])
 
   .directive('solveTime', function() {

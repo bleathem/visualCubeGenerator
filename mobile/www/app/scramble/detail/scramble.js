@@ -16,7 +16,7 @@
         });
     })
 
-    .controller('ScrambleCtrl', ['$scope', '$stateParams', '$location', '$ionicModal', 'scrambles', 'solves', function ($scope, $stateParams, $location, $ionicModal, scrambles, solves) {
+    .controller('ScrambleCtrl', ['$scope', '$stateParams', '$location', '$ionicModal', 'scrambles', 'solveManager', function ($scope, $stateParams, $location, $ionicModal, scrambles, solveManager) {
       if (scrambles.length === 0) {
         $location.path('/tab/scrambles');
       }
@@ -41,7 +41,7 @@
        $scope.$on('timer-stopped', function (event, data){
          if (! $scope.scramble.solveTime) {
            $scope.scramble.solveTime = data.millis;
-           solves.save($scope.scramble).then(function() {
+           solveManager.save($scope.scramble).then(function() {
             $scope.$broadcast('solve-saved', $scope.scramble);
            }, function(error) {
              throw error;

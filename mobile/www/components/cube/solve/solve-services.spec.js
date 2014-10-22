@@ -7,7 +7,8 @@
 describe('Cube: solve: services:', function() {
   describe('solves factory:', function() {
 
-    var solves;
+    var solveModel;
+    var solveManager;
     var $localStorageMock;
     var $rootScope;
     var $timeout;
@@ -43,8 +44,9 @@ describe('Cube: solve: services:', function() {
     });
 
     beforeEach(function() {
-      inject(function(_solves_, _$rootScope_, _$timeout_, _$httpBackend_, _cubeConfig_) {
-        solves = _solves_;
+      inject(function(_solveModel_, _solveManager_,  _$rootScope_, _$timeout_, _$httpBackend_, _cubeConfig_) {
+        solveModel = _solveModel_;
+        solveManager = _solveManager_;
         $rootScope = _$rootScope_;
         $timeout = _$timeout_;
         $httpBackend = _$httpBackend_;
@@ -64,7 +66,7 @@ describe('Cube: solve: services:', function() {
           key: 'testValue'
         };
         $httpBackend.expectPOST(solvePostUrl, {solve: scramble}).respond(201, '');
-        solves.save(scramble).then(function() {
+        solveManager.save(scramble).then(function() {
           var solves = JSON.parse($localStorageMock.getItem('solves'));
           expect(solves[0].key).toBe('testValue');
         });
@@ -75,36 +77,44 @@ describe('Cube: solve: services:', function() {
 
         beforeEach(function() {
           $localStorageMock.clear();
+          var now = new Date().getTime();
+          var solves = [];
           for (var i = 1; i <= 14; i++) {
-            var solve = {solveTime: i * 1000};
-            $httpBackend.expectPOST(solvePostUrl, {solve: solve}).respond(201, '');
-            solves.save(solve);
-            $timeout.flush();
+            var solve = {
+              solveTime: 15000 - i * 1000,
+              date: now + i
+              };
+            solves.push(solve);
           }
+          solves.forEach(function(solve) {
+            $httpBackend.expectPOST(solvePostUrl, {solve: solve}).respond(201, '');
+            solveManager.save(solve);
+            $timeout.flush();
+          });
         });
 
         it('should calculate the average time over 5 solves', function() {
-          expect(solves.averages().ao5.solveTime).toEqual(12000);
+          expect(solveModel.averages.ao5.solveTime).toEqual(12000);
         });
 
         it('should calculate the average time over 10 solves', function() {
-          expect(solves.averages().ao10.solveTime).toEqual(9500);
+          expect(solveModel.averages.ao10.solveTime).toEqual(9500);
         });
 
         it('should calculate the average time over all solves', function() {
-          expect(solves.averages().all.solveTime).toEqual(7500);
+          expect(solveModel.averages.all.solveTime).toEqual(7500);
         });
 
         it('should calculate the best time over 5 solves', function() {
-          expect(solves.averages().ao5.best.solveTime).toEqual(10000);
+          expect(solveModel.averages.ao5.best.solveTime).toEqual(10000);
         });
 
         it('should calculate the best time over 10 solves', function() {
-          expect(solves.averages().ao10.best.solveTime).toEqual(5000);
+          expect(solveModel.averages.ao10.best.solveTime).toEqual(5000);
         });
 
         it('should calculate the best time over all solves', function() {
-          expect(solves.averages().all.best.solveTime).toEqual(1000);
+          expect(solveModel.averages.all.best.solveTime).toEqual(1000);
         });
 
       });

@@ -12,7 +12,7 @@
       });
   })
 
-  .controller('ScrambleCtrl', ['$scope', '$stateParams', '$document', 'scrambles', 'solves', function ($scope, $stateParams, $document, scrambles, solves) {
+  .controller('ScrambleCtrl', ['$scope', '$stateParams', '$document', 'scrambles', 'solveManager', function ($scope, $stateParams, $document, scrambles, solveManager) {
     $scope.scramble = scrambles.get($stateParams.scrambleId);
     $scope.timerRunning = false;
 
@@ -46,11 +46,7 @@
     $scope.$on('timer-stopped', function(event, data){
      if (! $scope.scramble.solveTime) {
        $scope.scramble.solveTime = data.millis;
-       solves.save($scope.scramble).then(function() {
-        $scope.$broadcast('solve-saved', $scope.scramble);
-       }, function(error) {
-         throw error;
-       });
+       solveManager.save($scope.scramble);
      }
     });
   }])
