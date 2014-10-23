@@ -12,6 +12,7 @@
     "passport-google-oauth": "^0.1.5",
     "passport-http-bearer": "^1.0.1",
     "q": "*",
+    "request": "^2.45.0",
     "supervisor": "^0.6.0"
   },
   "devDependencies": {
