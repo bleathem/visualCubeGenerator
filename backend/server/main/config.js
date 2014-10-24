@@ -18,7 +18,7 @@ module.exports = exports = function (app, express, routers) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(middle.cors);
-  app.use(express.static(__dirname + '/../../client'));
+  app.use(express.static(process.env.STATIC_DIR || __dirname + '/../../client'));
   app.use(passport.initialize());
   app.use('/oauth', routers.oauthRouter);
   app.use('/solve', routers.solveRouter);
