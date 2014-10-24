@@ -5988,3 +5988,10 @@ button.close {
   line-height: 225%;
   font-size: 350%; }
 
+.solves-list .time {
+  padding-left: 10px; }
+.solves-list .graphic {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100px;
+  padding-left: 10px; }

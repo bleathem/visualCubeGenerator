@@ -74,3 +74,16 @@ $fa-font-path: "../../lib/fontawesome/fonts";
   @extend .fa;
   @extend .fa-clock-o;
 }
+
+.solves-list {
+  .time {
+    padding-left: 10px;
+  }
+
+  .graphic {
+    display: inline-block;
+    vertical-align: middle;
+    width: 100px;
+    padding-left: 10px;
+  }
+}

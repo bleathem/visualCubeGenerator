@@ -10,6 +10,7 @@
 
   .constant('appConfig', {
     backend: '' // REST calls will be made using relative URLs
+    //backend: 'https://vcgnode-bleathemredhat.rhcloud.com'
   })
 
   .config(function ($stateProvider, $urlRouterProvider) {
