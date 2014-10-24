@@ -13,7 +13,7 @@ mongoose.connect(process.env.DB_URL || 'mongodb://localhost/visualCubeGenerator'
 */
 module.exports = exports = function (app, express, routers) {
   app.set('port', process.env.PORT || 9000);
-  app.set('base url', process.env.URL || 'http://localhost');
+  app.set('base url', process.env.URL || '0.0.0.0');
   app.use(morgan('dev'));
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));

@@ -10,7 +10,8 @@
 
 var app   = require('./main/app.js'),
     port  = app.get('port'),
-    log   = 'Listening on ' + app.get('base url') + ':' + port;
+    ip = app.get('base url'),
+    log   = 'Listening on ' + ip + ':' + port;
 
-app.listen(port);
+app.listen(port, ip);
 console.log(log);
