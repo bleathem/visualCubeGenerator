@@ -1,4 +1,4 @@
 cp $OPENSHIFT_DATA_DIR/keys.nogit.js $OPENSHIFT_REPO_DIR/backend/server/oauth/keys.nogit.js
 export DB_URL=$OPENSHIFT_MONGODB_DB_URL
-export URL=$OPENSHIFT_NODEJS_IP
+export URL='http://'$OPENSHIFT_NODEJS_IP
 export PORT=$OPENSHIFT_NODEJS_PORT
