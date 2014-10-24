@@ -9,7 +9,7 @@
   ])
 
   .constant('appConfig', {
-    port: 9000
+    backend: '' // REST calls will be made using relative URLs
   })
 
   .config(function ($stateProvider, $urlRouterProvider) {

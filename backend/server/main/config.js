@@ -6,7 +6,7 @@ var mongoose    = require('mongoose'),
     passport    = require('../oauth/oauth_config.js').passport,
     middle      = require('./middleware');
 
-mongoose.connect(process.env.OPENSHIFT_MONGODB_DB_URL || process.env.DB_URL || 'mongodb://localhost/visualCubeGenerator');
+mongoose.connect(process.env.DB_URL || 'mongodb://localhost/visualCubeGenerator');
 // mongoose.set('debug', true);
 /*
  * Include all your global env variables here.

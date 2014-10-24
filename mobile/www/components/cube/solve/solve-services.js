@@ -4,10 +4,6 @@
 
   angular.module('cube.solve.services', ['oauth'])
 
-  .constant('cubeConfig', {
-    backend: 'http://home.bleathem.ca:9000'
-  })
-
   .factory('$localStorage', function() {
     return window.localStorage;
   })
@@ -51,8 +47,8 @@
 
   }])
 
-  .factory('synchSolves', ['$rootScope', '$q', '$log', 'auth', 'cubeConfig', 'solveModel', 'solveLocalLoader', 'solveRemoteLoader', 'averageLoader',
-                           function($rootScope, $q, $log, auth, cubeConfig, solveModel, solveLocalLoader, solveRemoteLoader, averageLoader) {
+  .factory('synchSolves', ['$rootScope', '$q', '$log', 'auth', 'appConfig', 'solveModel', 'solveLocalLoader', 'solveRemoteLoader', 'averageLoader',
+                           function($rootScope, $q, $log, auth, appConfig, solveModel, solveLocalLoader, solveRemoteLoader, averageLoader) {
     var uploadSolves = function() {
       var deferred = $q.defer();
       var solvesToUpload = solveModel.solves.filter(function(solve) {
@@ -268,7 +264,7 @@
     return solveLocalLoader;
   }])
 
-  .factory('solveRemoteLoader', ['$http', '$q', '$log', 'auth', 'cubeConfig', function($http, $q, $log, auth, cubeConfig) {
+  .factory('solveRemoteLoader', ['$http', '$q', '$log', 'auth', 'appConfig', function($http, $q, $log, auth, appConfig) {
     var solveRemoteLoader = {};
 
     solveRemoteLoader.fecthRecent = function() {
@@ -277,7 +273,7 @@
         deferred.reject(new Error('User not logged in'));
         return deferred.promise;
       }
-      var url = cubeConfig.backend + '/solve';
+      var url = appConfig.backend + '/solve';
       $http({
         method: 'get',
         url: url
@@ -296,7 +292,7 @@
         deferred.reject(new Error('User not logged in'));
         return deferred.promise;
       }
-      var url = cubeConfig.backend + '/solve/create_all';
+      var url = appConfig.backend + '/solve/create_all';
       $log.debug(solves.length + ' solves to upload');
       $http.post(url, {solves: solves})
         .then(function(response) {
@@ -313,7 +309,7 @@
 
     solveRemoteLoader.createOnRemote = function(solve) {
       var deferred = $q.defer();
-      var url = cubeConfig.backend + '/solve';
+      var url = appConfig.backend + '/solve';
       $http.post(
         url,
         {solve: solve}

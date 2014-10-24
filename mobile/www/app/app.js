@@ -13,7 +13,7 @@
   ])
 
   .constant('appConfig', {
-    port: 8100
+    backend: 'http://home.bleathem.ca:9000'
   })
 
   .run(function($ionicPlatform, $cordovaSplashscreen) {
