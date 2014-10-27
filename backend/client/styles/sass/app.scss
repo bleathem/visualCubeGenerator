@@ -3,29 +3,39 @@
 $fa-font-path: "../../lib/fontawesome/fonts";
 @import "client/lib/fontawesome/scss/font-awesome";
 
-.list-group .scramble {
-  .moves {
-      font-size: 80%;
+.scramble-list, .solve-list {
+  display: table;
+
+  .scramble, .solve {
+    display: table-row;
+  }
+  .part {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+    padding-right: 5px;
   }
 
-  .chunk:after {
-      padding: 0;
-      content: "";
+  .part:last-child {
+    padding-right: 0px;
   }
 
   .graphic {
-      display: inline-block;
-      width: 100px;
+    width: 100px;
   }
 
-  .timer-card {
-    display: inline-block;
-    float:right;
-    margin: 1ex 0 0 0;
+  .moves {
+    font-size: 100%;
+    white-space: normal;
   }
 }
 
-.scramble {
+.scramble-list .moves .time {
+  display: inline-block;
+  padding-top: 15px;
+}
+
+.scramble, .solve {
   .chunk {
       padding: 0;
       white-space: nowrap;
@@ -73,17 +83,4 @@ $fa-font-path: "../../lib/fontawesome/fonts";
 .my-clock-icon {
   @extend .fa;
   @extend .fa-clock-o;
-}
-
-.solves-list {
-  .time {
-    padding-left: 10px;
-  }
-
-  .graphic {
-    display: inline-block;
-    vertical-align: middle;
-    width: 100px;
-    padding-left: 10px;
-  }
 }

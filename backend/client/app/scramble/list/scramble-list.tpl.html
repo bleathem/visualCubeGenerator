@@ -1,9 +1,17 @@
 <div class="container">
   <h2>Scrambles</h2>
   <section>
-    <div class="list-group">
+    <div class="list-group scramble-list">
       <a ng-repeat="scramble in scrambles" class="list-group-item" href="#/scramble/{{$index}}">
-        <scramble-view scramble="scramble" width="100"></scramble-view>
+        <div class="scramble">
+          <div class="part graphic">
+            <scramble-graphic state="scramble.state"></scramble-graphic>
+          </div>
+          <div class="part moves">
+            <scramble-moves moves="scramble.moves"></scramble-moves>
+            <solve-time ng-show="scramble.solveTime" class="padding-left" time='scramble .solveTime'></solve-time>
+          </div>
+        </div>
       </a>
     </div>
   </section>

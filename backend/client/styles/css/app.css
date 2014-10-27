@@ -5946,26 +5946,34 @@ button.close {
 .fa-meanpath:before {
   content: "\f20c"; }
 
-.list-group .scramble .moves {
-  font-size: 80%; }
-.list-group .scramble .chunk:after {
-  padding: 0;
-  content: ""; }
-.list-group .scramble .graphic {
-  display: inline-block;
-  width: 100px; }
-.list-group .scramble .timer-card {
-  display: inline-block;
-  float: right;
-  margin: 1ex 0 0 0; }
+.scramble-list, .solve-list {
+  display: table; }
+  .scramble-list .scramble, .scramble-list .solve, .solve-list .scramble, .solve-list .solve {
+    display: table-row; }
+  .scramble-list .part, .solve-list .part {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+    padding-right: 5px; }
+  .scramble-list .part:last-child, .solve-list .part:last-child {
+    padding-right: 0px; }
+  .scramble-list .graphic, .solve-list .graphic {
+    width: 100px; }
+  .scramble-list .moves, .solve-list .moves {
+    font-size: 100%;
+    white-space: normal; }
 
-.scramble .chunk {
+.scramble-list .moves .time {
+  display: inline-block;
+  padding-top: 15px; }
+
+.scramble .chunk, .solve .chunk {
   padding: 0;
   white-space: nowrap; }
-.scramble .chunk:after {
+.scramble .chunk:after, .solve .chunk:after {
   padding: 0 1ex;
   content: "\2022"; }
-.scramble .chunk:last-child:after {
+.scramble .chunk:last-child:after, .solve .chunk:last-child:after {
   content: "";
   padding: 0; }
 
@@ -5988,10 +5996,3 @@ button.close {
   line-height: 225%;
   font-size: 350%; }
 
-.solves-list .time {
-  padding-left: 10px; }
-.solves-list .graphic {
-  display: inline-block;
-  vertical-align: middle;
-  width: 100px;
-  padding-left: 10px; }

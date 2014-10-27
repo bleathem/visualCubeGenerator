@@ -35,14 +35,25 @@
         </ul>
       </div>
     </div>
-    <ul class="list-group solves-list">
+    <ul class="list-group solve-list">
       <li class="list-group-item list-group-item-info">
         Solves
       </li>
       <li class="list-group-item" ng-repeat="solve in solveModel.solves track by solve.state">
-        {{solve.date | date:'yyyy-MM-dd HH:mm:ss'}}
-        <solve-time time="solve.solveTime" class="padding-left"></solve-time>
-        <scramble-graphic state="solve.state"></scramble-graphic>
+        <div class="solve">
+          <div class="part">
+            <p>{{solve.date | date:'MMM d HH:mm'}}</p>
+            <p>
+              <solve-time time='solve.solveTime'></solve-time>
+            </p>
+          </div>
+          <div class="part graphic">
+            <scramble-graphic state="solve.state"></scramble-graphic>
+          </div>
+          <div class="part moves">
+            <scramble-moves moves="solve.moves"></scramble-moves>
+          </div>
+        </div>
       </li>
     </ul>
   </section>
