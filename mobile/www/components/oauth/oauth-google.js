@@ -1,10 +1,10 @@
 (function (angular) {
   'use strict';
-  angular.module('oauth.google', [])
+  angular.module('oauth.google', ['visualCubeGenerator.config'])
 
-  .factory('googleapi', ['$window', 'googleTokenPromise', function($window, googleTokenPromise) {
+  .factory('googleapi', ['$window', 'appConfig', 'googleTokenPromise', function($window, appConfig, googleTokenPromise) {
     var authorize = function() {
-      var authUrl = 'http://home.bleathem.ca:9000/oauth/google';
+      var authUrl = appConfig.backend + '/oauth/google';
       var authWindow = $window.open(authUrl, '_blank', 'location=no,toolbar=no');
       return googleTokenPromise(authWindow);
     };
