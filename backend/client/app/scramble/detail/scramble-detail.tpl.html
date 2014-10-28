@@ -12,14 +12,14 @@
       <button class="btn btn-primary btn-lg active"
               role="button"
               ng-click="startTimer()"
-              ng-disabled="timerRunning || scramble.solveTime"
+              ng-disabled="timer.running || scramble.solveTime"
               data-toggle="modal" data-target="#timerModal">
         Start
       </button>
       <button class="btn btn-danger btn-lg active"
               role="button"
               ng-click="stopTimer()"
-              ng-disabled="!timerRunning">
+              ng-disabled="!timer.running">
         Stop
       </button>
     </div>

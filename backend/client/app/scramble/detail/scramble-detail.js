@@ -14,17 +14,21 @@
 
   .controller('ScrambleCtrl', ['$scope', '$stateParams', '$document', 'scrambles', 'solveManager', function ($scope, $stateParams, $document, scrambles, solveManager) {
     $scope.scramble = scrambles.get($stateParams.scrambleId);
-    $scope.timerRunning = false;
+    $scope.timer = {running: false};
 
     var onKeyup = function(event) {
       if (event.keyCode === 32) {
-        $scope.startTimer();
+        $scope.$apply(function() {
+          $scope.startTimer();
+        });
       }
     };
 
     var onKeydown = function(event) {
       if (event.keyCode === 32) {
-        $scope.stopTimer();
+        $scope.$apply(function() {
+          $scope.stopTimer();
+        });
       }
     };
 
@@ -32,14 +36,14 @@
 
     $scope.startTimer = function() {
       $scope.$broadcast('timer-start');
-      $scope.timerRunning = true;
+      $scope.timer.running = true;
       angular.element($document[0].body).off('keyup', onKeyup);
       angular.element($document[0].body).on('keydown', onKeydown);
     };
 
     $scope.stopTimer = function() {
       $scope.$broadcast('timer-stop');
-      $scope.timerRunning = false;
+      $scope.timer.running = false;
       angular.element($document[0].body).off('keydown', onKeydown);
     };
 
