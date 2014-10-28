@@ -13,11 +13,12 @@ var generateDevConstants = function() {
   var backend;
   var port = process.env.PORT || 9000;
 
-  if (process.env.BACKEND_HOSTNAME) {
-    backend = 'https://' + BACKEND_HOSTNAME;
-  } else {
-    backend = 'http://localhost:' + port;
-  }
+  var rest = {
+    protocol: process.env.REST_PROTOCOL || 'http',
+    hostname: process.env.REST_HOSTNAME || 'localhost',
+    port: process.env.REST_PORT || port
+  };
+  backend = protocol + '://' + hostname + ':' + port;
   return {
     backend: backend,
     port: port

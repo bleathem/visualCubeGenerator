@@ -11,6 +11,7 @@ var gulp    = require('gulp'),
     sass   = require('gulp-sass'),
     mocha = require('gulp-spawn-mocha'),
     exec = require('child_process').exec,
+    env = require('node-env-file'),
     ngconstant = require('./gulp-config.js');
 
 var paths = {
@@ -26,6 +27,9 @@ var paths = {
 
 var build = ['sass', 'css', 'lint'];
 
+if (process.env.NODE_ENV === 'development') {
+  env(__dirname + '/env/development.env');
+}
 
 gulp.task('sass', function () {
   return gulp.src(paths.styles.sass)

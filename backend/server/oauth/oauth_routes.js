@@ -27,7 +27,7 @@ module.exports = exports = function (router) {
         } else {
           userString = querystring.escape(JSON.stringify(user));
         }
-        var host = referrer ? referrer : 'http://localhost/';
+        var host = referrer ? referrer : process.env.REST_PROTOCOL + '://' + process.env.REST_HOSTNAME;
         res.redirect(host + '#/oauth/callback?user=' + userString + '&error=' + error);
       })(req, res, next);
     });

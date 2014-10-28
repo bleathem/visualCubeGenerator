@@ -1,6 +1,2 @@
 cp $OPENSHIFT_DATA_DIR/keys.nogit.js $OPENSHIFT_REPO_DIR/backend/server/oauth/keys.nogit.js
-export DB_URL=$OPENSHIFT_MONGODB_DB_URL
-export BACKEND_HOSTNAME=$OPENSHIFT_APP_DNS
-export URL=$OPENSHIFT_NODEJS_IP
-export PORT=$OPENSHIFT_NODEJS_PORT
-export STATIC_DIR=${OPENSHIFT_REPO_DIR}backend/client
+source $OPENSHIFT_REPO_DIR/backend/openshift.env
