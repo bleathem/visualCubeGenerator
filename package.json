@@ -3,12 +3,15 @@
   "version": "0.0.0",
   "main": "backend/server/server.js",
   "scripts": {
-    "postinstall": "export HOME=$OPENSHIFT_REPO_DIR; cd backend; ../node_modules/bower/bin/bower install",
+    "postinstall": "export HOME=$OPENSHIFT_REPO_DIR; ./node_modules/gulp/bin/gulp.js --gulpfile backend/gulp-config.js config; cd backend; ../node_modules/bower/bin/bower --config.interactive=false install;",
     "start": "supervisor backend/server/server.js"
   },
   "dependencies": {
     "bower": "*",
     "express": "*",
+    "gulp": "^3.8.9",
+    "gulp-file": "^0.1.0",
+    "gulp-ng-constant": "^0.2.0",
     "mongoose": "*",
     "passport": "^0.2.1",
     "passport-google-oauth": "^0.1.5",

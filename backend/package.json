@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "dependencies": {
     "express": "*",
+    "gulp-file": "^0.1.0",
+    "gulp-ng-constant": "^0.2.0",
     "gulp-spawn-mocha": "^0.4.1",
     "istanbul": "^0.3.2",
     "mongoose": "*",

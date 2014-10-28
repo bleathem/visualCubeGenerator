@@ -10,7 +10,8 @@ var gulp    = require('gulp'),
     lr_port = 35729,
     sass   = require('gulp-sass'),
     mocha = require('gulp-spawn-mocha'),
-    exec = require('child_process').exec;
+    exec = require('child_process').exec,
+    ngconstant = require('./gulp-config.js');
 
 var paths = {
   scripts: ['!client/lib/**/*.js', 'client/**/*.js'],

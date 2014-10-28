@@ -5,13 +5,9 @@
     'ngFx',
     'ui.router',
     'http.helpers',
-    'visualCubeGenerator.main'
+    'visualCubeGenerator.main',
+    'visualCubeGenerator.config'
   ])
-
-  .constant('appConfig', {
-    backend: '' // REST calls will be made using relative URLs
-    //backend: 'https://vcgnode-bleathemredhat.rhcloud.com'
-  })
 
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/home');
