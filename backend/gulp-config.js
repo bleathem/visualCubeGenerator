@@ -18,7 +18,7 @@ var generateDevConstants = function() {
     hostname: process.env.REST_HOSTNAME || 'localhost',
     port: process.env.REST_PORT || port
   };
-  backend = protocol + '://' + hostname + ':' + port;
+  backend = rest.protocol + '://' + rest.hostname + ':' + rest.port;
   return {
     backend: backend,
     port: port

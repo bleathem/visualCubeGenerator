@@ -86,7 +86,7 @@ passport.use('google', new OAuth2Strategy({
   clientID: authKey.client_id,
   clientSecret: authKey.client_secret,
 
-  callbackURL: 'http://home.bleathem.ca:' + port + '/oauth/google/callback',
+  callbackURL: process.env.REST_PROTOCOL + '://' + process.env.REST_HOSTNAME + ':' + process.env.REST_PORT + '/oauth/google/callback',
 }, authCallback));
 
 passport.use(new BearerStrategy(

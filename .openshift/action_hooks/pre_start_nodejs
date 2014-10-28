@@ -1,2 +1,2 @@
 cp $OPENSHIFT_DATA_DIR/keys.nogit.js $OPENSHIFT_REPO_DIR/backend/server/oauth/keys.nogit.js
-source $OPENSHIFT_REPO_DIR/backend/openshift.env
+source ${OPENSHIFT_REPO_DIR}/backend/env/openshift.env
