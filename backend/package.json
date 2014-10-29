@@ -1,6 +1,7 @@
 {
   "name": "package",
   "version": "0.0.0",
+  "private": true,
   "dependencies": {
     "express": "*",
     "gulp-file": "^0.1.0",

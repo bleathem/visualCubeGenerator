@@ -1,6 +1,7 @@
 {
   "name": "package",
   "version": "0.0.0",
+  "private": true,
   "main": "backend/server/server.js",
   "scripts": {
     "postinstall": "source ${OPENSHIFT_REPO_DIR}/backend/env/openshift.env; export HOME=$OPENSHIFT_REPO_DIR; ./node_modules/gulp/bin/gulp.js --gulpfile backend/gulp-config.js config; cd backend; ../node_modules/bower/bin/bower --config.interactive=false install;",
