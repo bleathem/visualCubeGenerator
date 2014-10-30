@@ -11,6 +11,8 @@ var sh = require('shelljs');
 var karma = require('gulp-karma');
 
 var paths = {
+  src: ['src/**/*.*'],
+  lib: ['lib/**/*.*'],
   scripts: ['!www/lib/**/*.js', 'www/**/*.js'],
   sass: ['./scss/**/*.scss']
 };
@@ -25,9 +27,9 @@ var testFiles = [
   'www/components/**/*.js'
 ];
 
-gulp.task('default', ['lint', 'sass', 'test', 'watch']);
+gulp.task('default', ['build', 'lint', 'sass', 'test', 'watch']);
 
-gulp.task('ionic', ['lint', 'sass', 'test', 'watch'])
+gulp.task('ionic', ['build', 'lint', 'sass', 'test', 'watch'])
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -83,4 +85,11 @@ gulp.task('test', function() {
       // Make sure failed tests cause gulp to exit non-zero
       throw err;
     });
+});
+
+gulp.task('build', function() {
+  gulp.src(paths.src)
+    .pipe(gulp.dest('www'));
+  gulp.src(paths.lib)
+    .pipe(gulp.dest('www/lib'));
 });
