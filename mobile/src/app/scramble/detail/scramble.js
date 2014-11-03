@@ -7,7 +7,7 @@ require('../../../components/cube/solve/solve-services.js');
 
 angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services', 'timer'])
 
-  .config(['$stateProvider', function($stateProvider) {
+  .config(function($stateProvider) {
     $stateProvider
       .state('tab.scramble-detail', {
         url: '/scramble/:scrambleId',
@@ -18,9 +18,9 @@ angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services'
           }
         }
       });
-  }])
+  })
 
-  .controller('ScrambleCtrl', ['$scope', '$stateParams', '$location', '$ionicModal', 'scrambles', 'solveManager', function ($scope, $stateParams, $location, $ionicModal, scrambles, solveManager) {
+  .controller('ScrambleCtrl', function ($scope, $stateParams, $location, $ionicModal, scrambles, solveManager) {
     if (scrambles.length === 0) {
       $location.path('/tab/scrambles');
     }
@@ -64,5 +64,5 @@ angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services'
     $scope.$on('$destroy', function() {
       $scope.modal.remove();
     });
-  }])
+  })
 ;

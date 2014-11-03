@@ -4,7 +4,7 @@ require('../../../components/cube/scramble/scramble-services.js');
 
 angular.module('cube.scrambles', ['cube.scramble.services'])
 
-.config(['$stateProvider', function($stateProvider) {
+.config(function($stateProvider) {
   $stateProvider
     .state('tab.scrambles', {
       url: '/scrambles',
@@ -15,9 +15,9 @@ angular.module('cube.scrambles', ['cube.scramble.services'])
         }
       }
     });
-  }])
+  })
 
-  .controller('ScrambleListCtrl', ['$scope', '$ionicLoading', 'scrambles', function ($scope, $ionicLoading, scrambles) {
+  .controller('ScrambleListCtrl', function ($scope, $ionicLoading, scrambles) {
     $scope.scrambles = scrambles.all();
 
     $scope.scramble = function() {
@@ -30,5 +30,5 @@ angular.module('cube.scrambles', ['cube.scramble.services'])
         throw e;
       });
     };
-  }])
+  })
 ;

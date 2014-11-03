@@ -5,7 +5,7 @@ require('../oauth/oauth.js');
 angular.module('http.helpers', ['oauth'])
 
 /** From http://engineering.talis.com/articles/elegant-api-auth-angular-js/ **/
-.run(['$injector', 'auth', function($injector, auth) {
+.run(function($injector, auth) {
   console.log('Registering Bearer token transformRequest');
   $injector.get('$http').defaults.transformRequest = function(data, headersGetter) {
     if (auth && auth.user) {
@@ -15,7 +15,7 @@ angular.module('http.helpers', ['oauth'])
         return angular.toJson(data);
     }
   };
-}])
+})
 
 /** From http://www.bennadel.com/blog/2615-posting-form-data-with-http-in-angularjs.htm **/
 .factory('serializeParameterObject', function() {
@@ -46,7 +46,7 @@ angular.module('http.helpers', ['oauth'])
   return serializeData;
 })
 
-.factory('transformRequestAsFormPost', ['serializeParameterObject', function(serializeParameterObject) {
+.factory('transformRequestAsFormPost', function(serializeParameterObject) {
   function transformRequest(data, getHeaders) {
       var headers = getHeaders();
       headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
@@ -54,4 +54,4 @@ angular.module('http.helpers', ['oauth'])
   }
 
   return transformRequest;
-}]);
+});

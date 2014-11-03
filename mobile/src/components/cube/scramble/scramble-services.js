@@ -6,16 +6,13 @@ var scramblers333 = require('scramble_333');
 
 angular.module('cube.scramble.services', [])
 
-.factory('$localStorage', function() {
-  return window.localStorage;
-})
-
 .factory('Scrambler333', function() {
   scramblers333.initialize(null, Math);
   return scramblers333;
 })
 
-.factory('scrambles', ['Scrambler333', '$localStorage', '$q', '$timeout', function(scrambler, $localStorage, $q, $timeout) {
+.factory('scrambles', function(Scrambler333, $q, $timeout) {
+  var scrambler = Scrambler333;
   var generateScrambles = function(max) {
     var scrambles = [];
     for (var count = 0; count < max; count++) {
@@ -53,9 +50,9 @@ angular.module('cube.scramble.services', [])
       return deferred.promise;
     }
   };
-}])
+})
 
-.directive('scrambleView', ['Scrambler333', 'scrambles', function() {
+.directive('scrambleView', function() {
   return {
     restrict: 'E',
     replace: true,
@@ -67,9 +64,10 @@ angular.module('cube.scramble.services', [])
       scope.width = attrs.width;
     }
   };
-}])
+})
 
-.directive('scrambleGraphic', ['Scrambler333', function(scrambler) {
+.directive('scrambleGraphic', function(Scrambler333) {
+  var scrambler = Scrambler333;
   return {
     restrict: 'E',
     replace: true,
@@ -87,7 +85,7 @@ angular.module('cube.scramble.services', [])
       scrambler.drawScramble(div[0], scope.state, width, height);
     }
   };
-}])
+})
 
 .directive('scrambleMoves', function() {
   return {

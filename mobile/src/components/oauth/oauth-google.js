@@ -4,7 +4,7 @@ require('../../app/config.js');
 
 angular.module('oauth.google', ['visualCubeGenerator.config'])
 
-.factory('googleapi', ['$window', 'appConfig', 'googleTokenPromise', function($window, appConfig, googleTokenPromise) {
+.factory('googleapi', function($window, appConfig, googleTokenPromise) {
   var authorize = function() {
     var authUrl = appConfig.backend + '/oauth/google';
     var authWindow = $window.open(authUrl, '_blank', 'location=no,toolbar=no');
@@ -14,9 +14,9 @@ angular.module('oauth.google', ['visualCubeGenerator.config'])
   return {
     authorize: authorize
   };
-}])
+})
 
-.factory('googleTokenPromise', ['$window', '$q', function($window, $q) {
+.factory('googleTokenPromise', function($window, $q) {
   var getTokenPromiseJs = function(authWindow) {
     var deferred = $q.defer();
     angular.element(authWindow.opener).on('oauthcallback', function(event, params) {
@@ -56,17 +56,17 @@ angular.module('oauth.google', ['visualCubeGenerator.config'])
   };
 
   return $window.cordova ? getTokenPromiseInstalled : getTokenPromiseJs;
-}])
+})
 
-.directive('gPlusButton', [function() {
+.directive('gPlusButton', function() {
   return {
     restrict: 'E',
     replace: true,
     templateUrl: 'components/oauth/google-sign-in.tpl.html'
   };
-}])
+})
 
-.directive('profile', [function() {
+.directive('profile', function() {
   return {
     restrict: 'E',
     scope: {
@@ -75,4 +75,4 @@ angular.module('oauth.google', ['visualCubeGenerator.config'])
     },
     templateUrl: 'components/oauth/google-profile.tpl.html'
   };
-}]);
+});

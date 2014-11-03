@@ -10,7 +10,7 @@ angular.module('account', [
   'oauth.google'
 ])
 
-.config(['$stateProvider', function($stateProvider) {
+.config(function($stateProvider) {
   $stateProvider
     .state('tab.account', {
       url: '/account',
@@ -21,9 +21,9 @@ angular.module('account', [
         }
       }
     });
-}])
+})
 
-.controller('AccountCtrl', ['$scope', 'googleapi', 'auth', 'synchSolves', function ($scope, googleapi, auth, synchSolves) {
+.controller('AccountCtrl', function ($scope, googleapi, auth, synchSolves) {
   $scope.auth = auth;
   $scope.authorize = function() {
     googleapi.authorize().then(function(user) {
@@ -37,5 +37,5 @@ angular.module('account', [
   $scope.logout = function() {
     auth.logout();
   };
-}])
+})
 ;

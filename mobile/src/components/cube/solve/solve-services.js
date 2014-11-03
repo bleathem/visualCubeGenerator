@@ -9,12 +9,12 @@ angular.module('cube.solve.services', ['oauth'])
   return window.localStorage;
 })
 
-.run(['solveModel', 'solveLocalLoader', 'averageLoader', 'synchSolves', function(solveModel, solveLocalLoader, averageLoader, synchSolves) {
+.run(function(solveModel, solveLocalLoader, averageLoader, synchSolves) {
   // load locally-cached values prior to asynchronously fetching remote values
   solveModel.solves = solveLocalLoader.readSolves();
   solveModel.averages = averageLoader.readAverages();
   synchSolves();
-}])
+})
 
 .factory('solveModel', function() {
   var solveModel = {
@@ -25,8 +25,7 @@ angular.module('cube.solve.services', ['oauth'])
   return solveModel;
 })
 
-.factory('solveManager', ['$q', 'solveModel', 'solveLocalLoader', 'solveRemoteLoader', 'averageLoader', 'synchSolves', 'auth',
-                          function($q, solveModel, solveLocalLoader, solveRemoteLoader, averageLoader, synchSolves, auth) {
+.factory('solveManager', function($q, solveModel, solveLocalLoader, solveRemoteLoader, averageLoader, synchSolves, auth) {
   var solveManager = {};
 
   solveManager.save = function(solve) {
@@ -46,10 +45,9 @@ angular.module('cube.solve.services', ['oauth'])
 
   return solveManager;
 
-}])
+})
 
-.factory('synchSolves', ['$rootScope', '$q', '$log', 'auth', 'appConfig', 'solveModel', 'solveLocalLoader', 'solveRemoteLoader', 'averageLoader',
-                         function($rootScope, $q, $log, auth, appConfig, solveModel, solveLocalLoader, solveRemoteLoader, averageLoader) {
+.factory('synchSolves', function($rootScope, $q, $log, auth, appConfig, solveModel, solveLocalLoader, solveRemoteLoader, averageLoader) {
   var uploadSolves = function() {
     var deferred = $q.defer();
     var solvesToUpload = solveModel.solves.filter(function(solve) {
@@ -166,9 +164,9 @@ angular.module('cube.solve.services', ['oauth'])
       $rootScope.$broadcast('solvesUpdated');
     });
   };
-}])
+})
 
-.factory('averageLoader', ['$rootScope', '$localStorage', '$q', '$timeout', function($rootScope, $localStorage, $q, $timeout) {
+.factory('averageLoader', function($rootScope, $localStorage, $q, $timeout) {
   var averageLoader = {};
 
   var sumSolveTimes = function(sum, solve) {
@@ -208,9 +206,9 @@ angular.module('cube.solve.services', ['oauth'])
   };
 
   return averageLoader;
-}])
+})
 
-.factory('solveLocalLoader', ['$rootScope', '$localStorage', '$q', '$timeout', function($rootScope, $localStorage, $q, $timeout) {
+.factory('solveLocalLoader', function($rootScope, $localStorage, $q, $timeout) {
   var solveLocalLoader = {};
 
   solveLocalLoader.save = function(solve) {
@@ -264,9 +262,9 @@ angular.module('cube.solve.services', ['oauth'])
   };
 
   return solveLocalLoader;
-}])
+})
 
-.factory('solveRemoteLoader', ['$http', '$q', '$log', 'auth', 'appConfig', function($http, $q, $log, auth, appConfig) {
+.factory('solveRemoteLoader', function($http, $q, $log, auth, appConfig) {
   var solveRemoteLoader = {};
 
   solveRemoteLoader.fecthRecent = function() {
@@ -325,7 +323,7 @@ angular.module('cube.solve.services', ['oauth'])
   };
 
   return solveRemoteLoader;
-}])
+})
 
 .directive('solveTime', function() {
   return {
