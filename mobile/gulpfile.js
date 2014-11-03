@@ -18,7 +18,8 @@ var runSequence = require('run-sequence');
 var paths = {
   src: ['src/**/!(*.js)', '!src/{scss,scss/**}'],
   scripts: ['src/**/*.js'],
-  sass: ['./src/scss/**/*.scss']
+  sass: ['./src/scss/**/*.scss'],
+  fonts: ['lib/ionic/fonts/**/*.*']
 };
 
 var testFiles = [
@@ -45,7 +46,7 @@ var libs = {
   "ng-cordova": "./lib/ngCordova/dist/ng-cordova.js"
 }
 
-gulp.task('build', ['lint', 'build-html', 'browserify-vendor', 'sass']);
+gulp.task('build', ['lint', 'build-html', 'browserify-vendor', 'build-fonts', 'sass']);
 
 gulp.task('watch', ['watch-scripts', 'watch-sass']);
 
@@ -55,7 +56,7 @@ gulp.task('default', function(callback) {
 
 gulp.task('ionic',   ['default']);
 
-gulp.task('sass', function(done) {
+gulp.task('sass', ['build-fonts'], function(done) {
   gulp.src('./src/scss/ionic.app.scss')
     .pipe(sass())
     .pipe(gulp.dest('./www/css/'))
@@ -159,6 +160,11 @@ gulp.task('build-html', function() {
   return gulp.src(paths.src)
     .pipe(gulp.dest('www'));
 });
+
+gulp.task('build-fonts', function() {
+  return gulp.src(paths.fonts)
+    .pipe(gulp.dest('www/fonts'));
+})
 
 gulp.task('clean', function(done) {
   del(['www/**'], function (err) {
