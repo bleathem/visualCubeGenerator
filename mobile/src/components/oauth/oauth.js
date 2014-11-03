@@ -1,48 +1,49 @@
-(function (angular) {
-  'use strict';
-  angular.module('oauth', ['ui.router'])
+'use strict';
+var angular = require('angular');
+require('angular-ui-router');
 
-  .config(function ($stateProvider) {
-    $stateProvider.state('oauth_callback', {
-      url: '/oauth/callback?user&error',
-      controller: 'TokenCallbackController'
-    });
-  })
+angular.module('oauth', ['ui.router'])
 
-  .controller('TokenCallbackController', ['$window', '$stateParams', function($window, $stateParams) {
-    var $opener = $window.opener.angular.element($window.opener);
-    $opener.triggerHandler('oauthcallback', $stateParams);
-  }])
+.config(function ($stateProvider) {
+  $stateProvider.state('oauth_callback', {
+    url: '/oauth/callback?user&error',
+    controller: 'TokenCallbackController'
+  });
+})
 
-  .run(function(auth) {
-    auth.readUser();
-  })
+.controller('TokenCallbackController', ['$window', '$stateParams', function($window, $stateParams) {
+  var $opener = $window.opener.angular.element($window.opener);
+  $opener.triggerHandler('oauthcallback', $stateParams);
+}])
 
-  .factory('auth', function($localStorage) {
-    var auth = {
-      user: null
-    };
+.run(function(auth) {
+  auth.readUser();
+})
 
-    auth.readUser = function() {
-      var json = $localStorage.getItem('user');
-      if (json) {
-        this.user = JSON.parse(json);
-      }
-      return this.user;
-    };
+.factory('auth', function($localStorage) {
+  var auth = {
+    user: null
+  };
 
-    auth.setUser = function(setUser) {
-      this.user = setUser;
-      $localStorage.setItem('user', JSON.stringify(this.user));
-      return this.user;
-    };
+  auth.readUser = function() {
+    var json = $localStorage.getItem('user');
+    if (json) {
+      this.user = JSON.parse(json);
+    }
+    return this.user;
+  };
 
-    auth.logout = function() {
-      this.user = null;
-      $localStorage.removeItem('user');
-      return this.user;
-    };
+  auth.setUser = function(setUser) {
+    this.user = setUser;
+    $localStorage.setItem('user', JSON.stringify(this.user));
+    return this.user;
+  };
 
-    return auth;
-  })
-})(angular);
+  auth.logout = function() {
+    this.user = null;
+    $localStorage.removeItem('user');
+    return this.user;
+  };
+
+  return auth;
+});

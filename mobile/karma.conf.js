@@ -12,17 +12,6 @@ module.exports = function(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
 
-
-    // list of files / patterns to load in the browser
-    // files: [
-    //   'www/lib/jsss/scramble_333.js',
-    //   'www/lib/ionic/js/ionic.bundle.js',
-    //   'www/lib/angular-mocks/angular-mocks.js',
-    //   'www/app/**/*.js',
-    //   'www/components/**/*.js',
-    // ],
-
-
     // list of files to exclude
     exclude: [
     ],

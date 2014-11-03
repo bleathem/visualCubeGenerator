@@ -8,28 +8,30 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
 var karma = require('gulp-karma');
 
 var paths = {
-  src: ['src/**/*.*'],
+  src: ['src/**/!(*.js|*.map|*.src)'],
   lib: ['lib/**/*.*'],
-  scripts: ['!www/lib/**/*.js', 'www/**/*.js'],
+  scripts: ['src/**/*.js'],
   sass: ['./scss/**/*.scss']
 };
 
 var testFiles = [
-  'www/lib/jsss/scramble_333.js',
-  'www/lib/ionic/js/ionic.bundle.js',
-  'www/lib/angular-mocks/angular-mocks.js',
-  'www/lib/ngCordova/dist/ng-cordova.min.js',
-  'www/lib/angular-timer/dist/angular-timer.js',
-  'www/app/**/*.js',
-  'www/components/**/*.js'
+  'lib/jsss/scramble_333.js',
+  'lib/ionic/js/ionic.bundle.js',
+  'lib/angular-mocks/angular-mocks.js',
+  'lib/ngCordova/dist/ng-cordova.min.js',
+  'lib/angular-timer/dist/angular-timer.js',
+  'src/app/**/*.js',
+  'src/components/**/*.js'
 ];
 
-gulp.task('default', ['build', 'lint', 'sass', 'test', 'watch']);
+gulp.task('default', ['build', 'lint', 'browserify', 'sass', 'watch']);
 
-gulp.task('ionic', ['build', 'lint', 'sass', 'test', 'watch'])
+gulp.task('ionic', ['build', 'lint', 'browserify', 'sass', 'watch'])
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -44,9 +46,15 @@ gulp.task('sass', function(done) {
 });
 
 gulp.task('lint', function () {
+  config = {
+    browserify: true,
+    globals: {
+      angular: true
+    }
+  }
   return gulp.src(paths.scripts)
     .pipe(plumber())
-    .pipe(jshint())
+    .pipe(jshint(config))
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
@@ -87,9 +95,16 @@ gulp.task('test', function() {
     });
 });
 
+gulp.task('browserify', function() {
+    return browserify('./src/app/app.js')
+        .bundle()
+        //Pass desired output filename to vinyl-source-stream
+        .pipe(source('bundle.js'))
+        // Start piping stream to tasks!
+        .pipe(gulp.dest('./www/'));
+});
+
 gulp.task('build', function() {
   gulp.src(paths.src)
     .pipe(gulp.dest('www'));
-  gulp.src(paths.lib)
-    .pipe(gulp.dest('www/lib'));
 });
