@@ -31,7 +31,7 @@ angular.module('visualCubeGenerator', [
   backend: 'http://home.bleathem.ca:9000'
 })
 
-.run(function($ionicPlatform, $cordovaSplashscreen) {
+.run(['$ionicPlatform', '$cordovaSplashscreen', function($ionicPlatform, $cordovaSplashscreen) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -46,9 +46,9 @@ angular.module('visualCubeGenerator', [
       $cordovaSplashscreen.hide();
     }
   });
-})
+}])
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -66,4 +66,4 @@ angular.module('visualCubeGenerator', [
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/scrambles');
 
-});
+}]);

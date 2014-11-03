@@ -6,7 +6,6 @@
     "ionic"
   ],
   "watchPatterns": [
-    "www/**/*",
-    "!www/lib/**/*"
+    "www/**/*"
   ]
 }

@@ -11,9 +11,15 @@ var sh = require('shelljs');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 var karma = require('gulp-karma');
 var del = require('del');
 var runSequence = require('run-sequence');
+var gulpif = require('gulp-if');
+var uglify = require('gulp-uglify');
+var ngAnnotate = require('gulp-ng-annotate');
+
+var production = process.env.NODE_ENV === 'production';
 
 var paths = {
   src: ['src/**/!(*.js)', '!src/{scss,scss/**}'],
@@ -59,11 +65,9 @@ gulp.task('ionic',   ['default']);
 gulp.task('sass', ['build-fonts'], function(done) {
   gulp.src('./src/scss/ionic.app.scss')
     .pipe(sass())
-    .pipe(gulp.dest('./www/css/'))
-    .pipe(minifyCss({
+    .pipe(gulpif(production, minifyCss({
       keepSpecialComments: 0
-    }))
-    .pipe(rename({ extname: '.min.css' }))
+    })))
     .pipe(gulp.dest('./www/css/'))
     .on('end', done);
 });
@@ -124,6 +128,8 @@ gulp.task('browserify-vendor', function() {
     b.require(require.resolve(libs[lib]), {expose: lib});
   }
   return b.bundle().pipe(source('vendor.js'))
+    .pipe(gulpif(production, buffer()))
+    .pipe(gulpif(production, uglify()))
     .pipe(gulp.dest('./www/'));
 })
 
@@ -138,9 +144,15 @@ gulp.task('browserify', function() {
 
 gulp.task('watch-scripts', function() {
   var b = browserify('./src/app/app.js');
-  console.log(watchify.args);
   for (lib in libs) {
     b.external(lib);
+  }
+  if (production) {
+    return b.bundle().pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe(ngAnnotate())
+      .pipe(uglify())
+      .pipe(gulp.dest('./www/'));
   }
   var bundler = watchify(b);
   bundler.on('update', rebundle);

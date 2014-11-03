@@ -4,12 +4,12 @@ require('angular-ui-router');
 
 angular.module('oauth', ['ui.router'])
 
-.config(function ($stateProvider) {
+.config(['$stateProvider', function ($stateProvider) {
   $stateProvider.state('oauth_callback', {
     url: '/oauth/callback?user&error',
     controller: 'TokenCallbackController'
   });
-})
+}])
 
 .controller('TokenCallbackController', ['$window', '$stateParams', function($window, $stateParams) {
   var $opener = $window.opener.angular.element($window.opener);
@@ -20,7 +20,7 @@ angular.module('oauth', ['ui.router'])
   auth.readUser();
 })
 
-.factory('auth', function($localStorage) {
+.factory('auth', ['$localStorage', function($localStorage) {
   var auth = {
     user: null
   };
@@ -46,4 +46,4 @@ angular.module('oauth', ['ui.router'])
   };
 
   return auth;
-});
+}]);

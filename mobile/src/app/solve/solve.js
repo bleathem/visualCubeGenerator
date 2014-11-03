@@ -4,7 +4,7 @@ require('../../components/cube/solve/solve-services.js');
 
 angular.module('cube.solve', ['cube.solve.services'])
 
-.config(function($stateProvider) {
+.config(['$stateProvider', function($stateProvider) {
   $stateProvider
     .state('tab.dash', {
       url: '/dash',
@@ -15,7 +15,7 @@ angular.module('cube.solve', ['cube.solve.services'])
         }
       }
     });
-  })
+  }])
 
   .controller('SolvesCtrl', ['$scope', 'solveModel', 'solveManager', function ($scope, solveModel, solveManager) {
     $scope.solveModel = solveModel;
