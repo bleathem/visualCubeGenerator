@@ -12,12 +12,13 @@ var browserify = require('browserify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var karma = require('gulp-karma');
+var del = require('del');
+var runSequence = require('run-sequence');
 
 var paths = {
-  src: ['src/**/!(*.js|*.map|*.src)'],
-  lib: ['lib/**/*.*'],
+  src: ['src/**/!(*.js)', '!src/{scss,scss/**}'],
   scripts: ['src/**/*.js'],
-  sass: ['./scss/**/*.scss']
+  sass: ['./src/scss/**/*.scss']
 };
 
 var testFiles = [
@@ -44,12 +45,18 @@ var libs = {
   "ng-cordova": "./lib/ngCordova/dist/ng-cordova.js"
 }
 
-gulp.task('default', ['build', 'lint', 'browserify', 'sass', 'watch-sass', 'watch-scripts']);
+gulp.task('build', ['lint', 'build-html', 'browserify-vendor', 'sass']);
 
-gulp.task('ionic', ['build', 'lint', 'browserify', 'sass', 'watch-sass', 'watch-scripts'])
+gulp.task('watch', ['watch-scripts', 'watch-sass']);
+
+gulp.task('default', function(callback) {
+  runSequence('clean', 'build', 'watch');
+});
+
+gulp.task('ionic',   ['default']);
 
 gulp.task('sass', function(done) {
-  gulp.src('./scss/ionic.app.scss')
+  gulp.src('./src/scss/ionic.app.scss')
     .pipe(sass())
     .pipe(gulp.dest('./www/css/'))
     .pipe(minifyCss({
@@ -74,7 +81,7 @@ gulp.task('lint', function () {
 });
 
 gulp.task('watch-sass', function() {
-  gulp.watch(paths.sass, ['sass']);
+  return gulp.watch(paths.sass, ['sass']);
 });
 
 gulp.task('install', ['git-check'], function() {
@@ -129,7 +136,8 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('watch-scripts', function() {
-  var b = browserify('./src/app/app.js', watchify.args);
+  var b = browserify('./src/app/app.js');
+  console.log(watchify.args);
   for (lib in libs) {
     b.external(lib);
   }
@@ -147,7 +155,16 @@ gulp.task('watch-scripts', function() {
   return rebundle();
 });
 
-gulp.task('build', function() {
-  gulp.src(paths.src)
+gulp.task('build-html', function() {
+  return gulp.src(paths.src)
     .pipe(gulp.dest('www'));
 });
+
+gulp.task('clean', function(done) {
+  del(['www/**'], function (err) {
+    if (!err) {
+      console.log('Files in www/ deleted')
+    };
+    done(err);
+  });
+})
