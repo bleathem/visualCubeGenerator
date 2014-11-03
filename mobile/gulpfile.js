@@ -29,6 +29,20 @@ var testFiles = [
   'src/components/**/*.js'
 ];
 
+var libs = {
+  "ionic": "./lib/ionic/js/ionic.js",
+  "angular": "./lib/angular/angular.js",
+  "angular-animate": "./lib/angular-animate/angular-animate.js",
+  "angular-sanitize": "./lib/angular-sanitize/angular-sanitize.js",
+  "angular-ui-router": "./lib/angular-ui-router/release/angular-ui-router.js",
+  "ionic-angular": "./lib/ionic/js/ionic-angular.js",
+  "angular-timer": "./lib/angular-timer/dist/angular-timer.js",
+  "raphael": "./lib/raphael/raphael.js",
+  "scramble_333": "./lib/jsss/scramble_333.js",
+  "scramble_222": "./lib/jsss/scramble_222.js",
+  "ng-cordova": "./lib/ngCordova/dist/ng-cordova.js"
+}
+
 gulp.task('default', ['build', 'lint', 'browserify', 'sass', 'watch']);
 
 gulp.task('ionic', ['build', 'lint', 'browserify', 'sass', 'watch'])
@@ -95,13 +109,22 @@ gulp.task('test', function() {
     });
 });
 
+gulp.task('browserify-vendor', function() {
+  var b = browserify();
+  for (lib in libs) {
+    b.require(require.resolve(libs[lib]), {expose: lib});
+  }
+  return b.bundle().pipe(source('vendor.js'))
+    .pipe(gulp.dest('./www/'));
+})
+
 gulp.task('browserify', function() {
-    return browserify('./src/app/app.js')
-        .bundle()
-        //Pass desired output filename to vinyl-source-stream
-        .pipe(source('bundle.js'))
-        // Start piping stream to tasks!
-        .pipe(gulp.dest('./www/'));
+  var b = browserify('./src/app/app.js');
+  for (lib in libs) {
+    b.external(lib);
+  }
+  return b.bundle().pipe(source('bundle.js'))
+    .pipe(gulp.dest('./www/'));
 });
 
 gulp.task('build', function() {
