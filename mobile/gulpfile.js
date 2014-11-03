@@ -9,6 +9,7 @@ var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
 var browserify = require('browserify');
+var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var karma = require('gulp-karma');
 
@@ -43,9 +44,9 @@ var libs = {
   "ng-cordova": "./lib/ngCordova/dist/ng-cordova.js"
 }
 
-gulp.task('default', ['build', 'lint', 'browserify', 'sass', 'watch']);
+gulp.task('default', ['build', 'lint', 'browserify', 'sass', 'watch-sass', 'watch-scripts']);
 
-gulp.task('ionic', ['build', 'lint', 'browserify', 'sass', 'watch'])
+gulp.task('ionic', ['build', 'lint', 'browserify', 'sass', 'watch-sass', 'watch-scripts'])
 
 gulp.task('sass', function(done) {
   gulp.src('./scss/ionic.app.scss')
@@ -72,7 +73,7 @@ gulp.task('lint', function () {
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch-sass', function() {
   gulp.watch(paths.sass, ['sass']);
 });
 
@@ -125,6 +126,25 @@ gulp.task('browserify', function() {
   }
   return b.bundle().pipe(source('bundle.js'))
     .pipe(gulp.dest('./www/'));
+});
+
+gulp.task('watch-scripts', function() {
+  var b = browserify('./src/app/app.js', watchify.args);
+  for (lib in libs) {
+    b.external(lib);
+  }
+  var bundler = watchify(b);
+  bundler.on('update', rebundle);
+
+  function rebundle() {
+    return bundler.bundle()
+      // log errors if they happen
+      .on('error', gutil.log.bind(gutil, 'Browserify Error'))
+      .pipe(source('bundle.js'))
+      .pipe(gulp.dest('./www'));
+  }
+
+  return rebundle();
 });
 
 gulp.task('build', function() {

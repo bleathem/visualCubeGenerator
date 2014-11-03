@@ -75,6 +75,7 @@
     "karma-chrome-launcher": "^0.1.4",
     "karma-jasmine": "^0.2.2",
     "shelljs": "^0.3.0",
-    "vinyl-source-stream": "^1.0.0"
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.1.1"
   }
 }
