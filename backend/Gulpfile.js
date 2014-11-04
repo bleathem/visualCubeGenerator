@@ -61,6 +61,10 @@ gulp.task('build', ['lint', 'build-html', 'browserify-vendor', 'build-fonts', 's
 
 gulp.task('watch', ['watch-scripts', 'watch-sass']);
 
+gulp.task('build-production', function(callback) {
+  runSequence('clean', 'config', ['build-html', 'browserify-vendor', 'build-fonts', 'sass']);
+});
+
 // gulp.task('default', ['build', 'testBackend', 'live', 'serve', 'watch']);
 
 gulp.task('default', function(callback) {

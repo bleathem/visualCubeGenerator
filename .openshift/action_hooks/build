@@ -1,0 +1,4 @@
+source ${OPENSHIFT_REPO_DIR}/backend/env/openshift.env;
+cd ${OPENSHIFT_REPO_DIR}/backend
+HOME=$OPENSHIFT_REPO_DIR ../node_modules/bower/bin/bower --config.interactive=false install
+HOME=$OPENSHIFT_REPO_DIR gulp build-production
