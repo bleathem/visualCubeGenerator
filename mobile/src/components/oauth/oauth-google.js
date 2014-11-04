@@ -1,6 +1,6 @@
 'use strict';
 var angular = require('angular');
-require('../../app/config.js');
+// require('../../app/config.js');
 
 angular.module('oauth.google', ['visualCubeGenerator.config'])
 

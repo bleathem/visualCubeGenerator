@@ -1,3 +1,4 @@
+'use strict';
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var bower = require('bower');
@@ -73,7 +74,7 @@ gulp.task('sass', ['build-fonts'], function(done) {
 });
 
 gulp.task('lint', function () {
-  config = {
+  var config = {
     browserify: true,
     globals: {
       angular: true
@@ -124,7 +125,7 @@ gulp.task('test', function() {
 
 gulp.task('browserify-vendor', function() {
   var b = browserify();
-  for (lib in libs) {
+  for (var lib in libs) {
     b.require(require.resolve(libs[lib]), {expose: lib});
   }
   return b.bundle().pipe(source('vendor.js'))
@@ -135,7 +136,7 @@ gulp.task('browserify-vendor', function() {
 
 gulp.task('browserify', function() {
   var b = browserify('./src/app/app.js');
-  for (lib in libs) {
+  for (var lib in libs) {
     b.external(lib);
   }
   return b.bundle().pipe(source('bundle.js'))
@@ -144,7 +145,7 @@ gulp.task('browserify', function() {
 
 gulp.task('watch-scripts', function() {
   var b = browserify('./src/app/app.js');
-  for (lib in libs) {
+  for (var lib in libs) {
     b.external(lib);
   }
   if (production) {
