@@ -1,7 +1,7 @@
-@import "client/lib/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
+@import "lib/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
 
 $fa-font-path: "../fonts";
-@import "client/lib/fontawesome/scss/font-awesome";
+@import "lib/fontawesome/scss/font-awesome";
 
 .scramble-list, .solve-list {
   display: table;

@@ -31,26 +31,26 @@ var production = process.env.NODE_ENV === 'production';
 var paths = {
   src: ['client/src/**/!(*.js)', '!client/src/{scss,scss/**}'],
   scripts: ['client/src/**/*.js'],
-  views: ['!client/lib/*.html', 'client/**/*.html', 'client/index.html'],
+  views: ['client/**/*.html', 'client/index.html'],
   styles: {
     css: ['client/www/**/*.css'],
     scss: ['client/src/scss/**/*.scss'],
     dest: 'client/www/css'
   },
   tests: ['server/test/**/*.spec.js'],
-  fonts: ['client/lib/fontawesome/fonts/**']
+  fonts: ['lib/fontawesome/fonts/**']
 };
 
 var libs = {
-  "angular": "./client/lib/angular/angular.js",
-  "angular-ui-router": "./client/lib/angular-ui-router/release/angular-ui-router.js",
-  "angular-timer": "./client/lib/angular-timer/dist/angular-timer.js",
-  "raphael": "./client/lib/raphael/raphael.js",
-  "scramble_333": "./client/lib/jsss/scramble_333.js",
-  "scramble_222": "./client/lib/jsss/scramble_222.js",
-  "ui-bootstrap": "./client/lib/angular-bootstrap/ui-bootstrap.js",
-  "ui-bootstrap-tpls": "./client/lib/angular-bootstrap/ui-bootstrap-tpls.js",
-  "ng-fx": "./client/lib/ngFx/dist/ngFx.js"
+  "angular": "./lib/angular/angular.js",
+  "angular-ui-router": "./lib/angular-ui-router/release/angular-ui-router.js",
+  "angular-timer": "./lib/angular-timer/dist/angular-timer.js",
+  "raphael": "./lib/raphael/raphael.js",
+  "scramble_333": "./lib/jsss/scramble_333.js",
+  "scramble_222": "./lib/jsss/scramble_222.js",
+  "ui-bootstrap": "./lib/angular-bootstrap/ui-bootstrap.js",
+  "ui-bootstrap-tpls": "./lib/angular-bootstrap/ui-bootstrap-tpls.js",
+  "ng-fx": "./lib/ngFx/dist/ngFx.js"
 }
 
 if (!production) {
