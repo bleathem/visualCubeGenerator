@@ -63,7 +63,7 @@
     "gulp-nodemon": "*",
     "gulp-notify": "*",
     "gulp-plumber": "*",
-    "gulp-sass": "*",
+    "gulp-ruby-sass": "^0.7.1",
     "gulp-task-listing": "*",
     "gulp-uglify": "^1.0.1",
     "gulp-util": "^3.0.1",
