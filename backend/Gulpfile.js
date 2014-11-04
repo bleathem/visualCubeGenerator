@@ -74,7 +74,7 @@ gulp.task('default', function(callback) {
 gulp.task('sass', function () {
   return gulp.src(paths.styles.scss)
     .pipe(plumber())
-    .pipe(sass())
+    .pipe(sass()).on('error', errorHandler)
     .pipe(gulpif(production, minifyCss({
       keepSpecialComments: 0
     })))
@@ -213,3 +213,9 @@ gulp.task('mongo', function () {
   console.log(dataFolder);
   exec('mongod --dbpath ' + dataFolder, console.log);
 })
+
+// Handle the error
+function errorHandler (error) {
+  console.log(error.toString());
+  this.emit('end');
+}
