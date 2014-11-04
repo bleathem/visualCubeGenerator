@@ -2,8 +2,8 @@
 'use strict';
 var angular = require('angular');
 require('angular-timer');
-require('../../../components/cube/scramble/scramble-services.js');
-require('../../../components/cube/solve/solve-services.js');
+require('@vcg/scramble-services');
+require('@vcg/solve-services');
 
 angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services', 'timer'])
 

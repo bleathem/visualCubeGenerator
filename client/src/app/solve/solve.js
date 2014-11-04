@@ -1,7 +1,7 @@
 'use strict';
 var angular = require('angular');
 require('angular-ui-router');
-require('vcg-solve-services');
+require('@vcg/solve-services');
 
 angular.module('visualCubeGenerator.main.solve', ['ui.router'])
 

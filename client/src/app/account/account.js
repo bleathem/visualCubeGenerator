@@ -1,8 +1,8 @@
 'use strict';
 var angular = require('angular');
 require('angular-ui-router');
-require('vcg-oauth');
-require('vcg-oauth-google');
+require('@vcg/oauth');
+require('@vcg/oauth-google');
 
 angular.module('visualCubeGenerator.main.account', [
   'ui.router',

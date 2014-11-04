@@ -1,8 +1,8 @@
 'use strict';
 var angular = require('angular');
 require('angular-timer');
-require('vcg-scramble-services');
-require('vcg-solve-services');
+require('@vcg/scramble-services');
+require('@vcg/solve-services');
 
 
 angular.module('visualCubeGenerator.main.scramble.detail', ['ui.router', 'cube.scramble.services', 'cube.solve.services', 'timer'])

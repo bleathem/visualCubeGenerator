@@ -15,7 +15,7 @@ require('./scramble/detail/scramble.js');
 require('./scramble/list/scramble-list.js');
 require('./solve/solve.js');
 
-require('../components/http/http-helpers.js');
+require('@vcg/http-helpers');
 
 angular.module('visualCubeGenerator', [
   'ionic',

@@ -117,7 +117,11 @@ gulp.task('lint', function () {
 });
 
 gulp.task('serve', function () {
-  nodemon({script: 'server/server.js', ignore: ['node_modules/**/*.js']})
+  nodemon({
+    script: 'server/server.js',
+    ignore: ['**/node_modules/**/*.js'],
+    watch: ['server']
+    })
     .on('restart', function () {
       refresh(client);
     });

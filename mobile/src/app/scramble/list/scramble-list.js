@@ -1,6 +1,6 @@
 'use strict';
 var angular = require('angular');
-require('../../../components/cube/scramble/scramble-services.js');
+require('@vcg/scramble-services');
 
 angular.module('cube.scrambles', ['cube.scramble.services'])
 

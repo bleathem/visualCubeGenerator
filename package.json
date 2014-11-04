@@ -17,11 +17,11 @@
     "ui-bootstrap-tpls": "./lib/angular-bootstrap/ui-bootstrap-tpls.js",
     "ng-fx": "./lib/ngFx/dist/ngFx.js",
 
-    "vcg-oauth": "./components/oauth/oauth.js",
-    "vcg-oauth-google": "./components/oauth/oauth-google.js",
-    "vcg-http-helpers": "./components/http/http-helpers.js",
-    "vcg-scramble-services": "./components/cube/scramble/scramble-services.js",
-    "vcg-solve-services": "./components/cube/solve/solve-services.js"
+    "@vcg/oauth": "./components/oauth/oauth.js",
+    "@vcg/oauth-google": "./components/oauth/oauth-google.js",
+    "@vcg/http-helpers": "./components/http/http-helpers.js",
+    "@vcg/scramble-services": "./components/cube/scramble/scramble-services.js",
+    "@vcg/solve-services": "./components/cube/solve/solve-services.js"
   },
   "browserify-shim": {
     "angular": "angular",

@@ -1,8 +1,8 @@
 'use strict';
 var angular = require('angular');
 require('angular-ui-router');
-require('../../components/oauth/oauth.js');
-require('../../components/oauth/oauth-google.js');
+require('@vcg/oauth');
+require('@vcg/oauth-google');
 
 angular.module('account', [
   'ui.router',

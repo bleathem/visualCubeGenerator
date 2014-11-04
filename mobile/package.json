@@ -14,7 +14,13 @@
     "raphael": "./lib/raphael/raphael.js",
     "scramble_333": "./lib/jsss/scramble_333.js",
     "scramble_222": "./lib/jsss/scramble_222.js",
-    "ng-cordova": "./lib/ngCordova/dist/ng-cordova.js"
+    "ng-cordova": "./lib/ngCordova/dist/ng-cordova.js",
+
+    "@vcg/oauth": "../components/oauth/oauth.js",
+    "@vcg/oauth-google": "../components/oauth/oauth-google.js",
+    "@vcg/http-helpers": "../components/http/http-helpers.js",
+    "@vcg/scramble-services": "../components/cube/scramble/scramble-services.js",
+    "@vcg/solve-services": "../components/cube/solve/solve-services.js"
   },
   "browserify-shim": {
     "angular": "angular",

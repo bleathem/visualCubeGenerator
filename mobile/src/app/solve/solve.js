@@ -1,6 +1,6 @@
 'use strict';
 var angular = require('angular');
-require('../../components/cube/solve/solve-services.js');
+require('@vcg/solve-services');
 
 angular.module('cube.solve', ['cube.solve.services'])
 
