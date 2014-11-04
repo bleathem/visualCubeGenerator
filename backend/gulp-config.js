@@ -34,5 +34,5 @@ gulp.task('config', function () {
       }
     }))
     // Writes config.js to dist/ folder
-    .pipe(gulp.dest('client/app/'));
+    .pipe(gulp.dest('client/src/app/'));
 });
