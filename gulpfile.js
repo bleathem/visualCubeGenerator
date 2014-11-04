@@ -62,7 +62,7 @@ gulp.task('build', ['lint', 'build-html', 'browserify-vendor', 'build-fonts', 's
 gulp.task('watch', ['watch-scripts', 'watch-sass']);
 
 gulp.task('build-production', function(callback) {
-  runSequence('clean', 'config', ['build-html', 'browserify-vendor', 'build-fonts', 'sass']);
+  runSequence('clean', 'config', 'build-html', 'browserify-vendor', 'build-fonts', 'sass');
 });
 
 // gulp.task('default', ['build', 'testBackend', 'live', 'serve', 'watch']);
@@ -150,7 +150,7 @@ gulp.task('browserify-vendor', function() {
 
 gulp.task('browserify', function() {
   var b = browserify('./client/src/app/app.js');
-  for (lib in libs) {
+  for (var lib in libs) {
     b.external(lib);
   }
   return b.bundle().pipe(source('bundle.js'))
@@ -185,7 +185,9 @@ gulp.task('watch-scripts', function() {
 });
 
 gulp.task('build-html', function() {
+  console.log('build-html');
   return gulp.src(paths.src)
+    .on('error', errorHandler)
     .pipe(gulp.dest('client/www'));
 });
 

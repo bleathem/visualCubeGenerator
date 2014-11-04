@@ -10,7 +10,7 @@ require('./config.nogit.js');
 
 require('./main/main.js');
 
-require('../components/http/http-helpers.js');
+require('vcg-http-helpers');
 
 angular.module('visualCubeGenerator', [
   'ngFx',

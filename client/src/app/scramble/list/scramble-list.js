@@ -1,7 +1,7 @@
 'use strict';
 var angular = require('angular');
 require('angular-ui-router');
-require('../../../components/cube/scramble/scramble-services.js');
+require('vcg-scramble-services');
 
 angular.module('visualCubeGenerator.main.scrambles', ['ui.router', 'cube.scramble.services'])
 

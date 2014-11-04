@@ -1,7 +1,7 @@
 node_modules/
 **/lib
 mobile/www
-backend/client/www
+client/www
 platforms/
 plugins/
 .sass-cache
