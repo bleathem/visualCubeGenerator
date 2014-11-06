@@ -1,34 +1,30 @@
 'use strict';
-var gulp    = require('gulp')
-  , gutil = require('gulp-util')
-  , bower   = require('gulp-bower')
-  , jshint  = require('gulp-jshint')
-  , refresh = require('gulp-livereload')
-  // , notify  = require('gulp-notify')
-  ,  plumber = require('gulp-plumber')
-  , client  = require('tiny-lr')()
-  , nodemon = require('gulp-nodemon')
-  , karma = require('gulp-karma')
-  , lr_port = 35729
-  , sass   = require('gulp-ruby-sass')
-  , minifyCss = require('gulp-minify-css')
-  , mocha = require('gulp-spawn-mocha')
-  , exec = require('child_process').exec
-  , env = require('node-env-file')
-  , glob = require('glob')
-  , browserify = require('browserify')
-  , watchify = require('watchify')
-  , source = require('vinyl-source-stream')
-  , buffer = require('vinyl-buffer')
-  , transform = require('vinyl-transform')
-  , ngconstant = require('./gulp-config.js')
-  , del = require('del')
+var gulp        = require('gulp')
+  , gulpif      = require('gulp-if')
+  , jshint      = require('gulp-jshint')
+  , karma       = require('gulp-karma')
+  , refresh     = require('gulp-livereload')
+  , minifyCss   = require('gulp-minify-css')
+  , mocha       = require('gulp-mocha')
+  , ngAnnotate  = require('gulp-ng-annotate')
+  , nodemon     = require('gulp-nodemon')
+  , plumber     = require('gulp-plumber')
+  , sass        = require('gulp-ruby-sass')
+  , uglify      = require('gulp-uglify')
+  , gutil       = require('gulp-util')
+  , browserify  = require('browserify')
+  , exec        = require('child_process').exec
+  , del         = require('del')
+  , env         = require('node-env-file')
   , runSequence = require('run-sequence')
-  , gulpif = require('gulp-if')
-  , uglify = require('gulp-uglify')
-  , ngAnnotate = require('gulp-ng-annotate');
+  , client      = require('tiny-lr')()
+  , source      = require('vinyl-source-stream')
+  , buffer      = require('vinyl-buffer')
+  , watchify    = require('watchify')
+  , ngconstant  = require('./gulp-config.js');
 
-var production = process.env.NODE_ENV === 'production';
+var lr_port = 35729
+  , production = process.env.NODE_ENV === 'production';
 
 var paths = {
   src: ['client/src/**/!(*.js)', '!client/src/{scss,scss/**}'],
@@ -101,10 +97,6 @@ gulp.task('sass', function () {
     .pipe(gulp.dest(paths.styles.dest))
     .pipe(refresh(client));
     // .pipe(notify({message: 'Sass done'}));
-});
-
-gulp.task('bowerInstall', function  () {
-  return bower().pipe();
 });
 
 gulp.task('html', function () {
