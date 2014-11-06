@@ -20,7 +20,8 @@
     "@vcg/oauth-google": "../components/oauth/oauth-google.js",
     "@vcg/http-helpers": "../components/http/http-helpers.js",
     "@vcg/scramble-services": "../components/cube/scramble/scramble-services.js",
-    "@vcg/solve-services": "../components/cube/solve/solve-services.js"
+    "@vcg/solve-services": "../components/cube/solve/solve-services.js",
+    "@vcg/appConfig": "./src/app/config.nogit.js"
   },
   "browserify-shim": {
     "angular": "angular",

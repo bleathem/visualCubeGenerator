@@ -1,4 +1,36 @@
 'use strict';
+
+var paths = {
+  client: {
+    src: 'client/src',
+    app: 'client/src/app/app.js',
+    target: 'client/www',
+    statics: ['client/src/**/!(*.js)', '!client/src/{scss,scss/**}'],
+    scripts: ['client/src/**/*.js'],
+    styles: {
+      scss: ['client/src/scss/**/*.scss'],
+      css: ['client/www/**/*.css'],
+      dest: 'client/www/css'
+    },
+    fonts: ['lib/fontawesome/fonts/**'],
+    views: ['client/www/**/*.html'],
+  },
+  server : {
+    tests: ['server/test/**/*.spec.js'],
+  },
+  components: {
+    specs: ['components/**/*.spec.js'],
+    target: 'components/build',
+    tests: ['client/www/vendor.js', 'components/build/**/*.js']
+  }
+};
+
+var opts = {
+  paths: paths,
+  production: process.env.NODE_ENV === 'production',
+  lr_port: 35729
+}
+
 var gulp        = require('gulp')
   , gulpif      = require('gulp-if')
   , jshint      = require('gulp-jshint')
@@ -21,50 +53,26 @@ var gulp        = require('gulp')
   , source      = require('vinyl-source-stream')
   , buffer      = require('vinyl-buffer')
   , watchify    = require('watchify')
-  , ngconstant  = require('./gulp-config.js');
-
-var lr_port = 35729
-  , production = process.env.NODE_ENV === 'production';
-
-var paths = {
-  src: ['client/src/**/!(*.js)', '!client/src/{scss,scss/**}'],
-  scripts: ['client/src/**/*.js'],
-  views: ['client/**/*.html', 'client/index.html'],
-  styles: {
-    css: ['client/www/**/*.css'],
-    scss: ['client/src/scss/**/*.scss'],
-    dest: 'client/www/css'
-  },
-  tests: ['server/test/**/*.spec.js'],
-  fonts: ['lib/fontawesome/fonts/**'],
-  components: {
-    scripts: ['components/**/*.spec.js']
-  }
-};
+  , ngconstant  = require('./tasks/config.js')(gulp, opts);
 
 var libs = {
-  "angular": "./lib/angular/angular.js",
-  "angular-ui-router": "./lib/angular-ui-router/release/angular-ui-router.js",
-  "angular-timer": "./lib/angular-timer/dist/angular-timer.js",
-  "raphael": "./lib/raphael/raphael.js",
-  "scramble_333": "./lib/jsss/scramble_333.js",
-  "scramble_222": "./lib/jsss/scramble_222.js",
-  "ui-bootstrap": "./lib/angular-bootstrap/ui-bootstrap.js",
-  "ui-bootstrap-tpls": "./lib/angular-bootstrap/ui-bootstrap-tpls.js",
-  "ng-fx": "./lib/ngFx/dist/ngFx.js"
+  runtime: {
+    "angular": "./lib/angular/angular.js",
+    "angular-ui-router": "./lib/angular-ui-router/release/angular-ui-router.js",
+    "angular-timer": "./lib/angular-timer/dist/angular-timer.js",
+    "raphael": "./lib/raphael/raphael.js",
+    "scramble_333": "./lib/jsss/scramble_333.js",
+    "scramble_222": "./lib/jsss/scramble_222.js",
+    "ui-bootstrap": "./lib/angular-bootstrap/ui-bootstrap.js",
+    "ui-bootstrap-tpls": "./lib/angular-bootstrap/ui-bootstrap-tpls.js",
+    "ng-fx": "./lib/ngFx/dist/ngFx.js"
+  },
+  test: {
+    "angular-mocks": "./lib/angular-mocks/angular-mocks.js"
+  }
 }
 
-var testFiles = [
-  'client/www/vendor.js',
-  'components/vendor-tests.nogit.js',
-  'components/tests.nogit.js'
-];
-
-var testLibs = {
-  "angular-mocks": "./lib/angular-mocks/angular-mocks.js"
-}
-
-if (!production) {
+if (!opts.production) {
   env(__dirname + '/env/development.env');
 }
 
@@ -76,41 +84,36 @@ gulp.task('build-production', function(callback) {
   runSequence('clean', 'config', 'build-html', 'browserify-vendor', 'build-fonts', 'sass');
 });
 
-// gulp.task('default', ['build', 'testBackend', 'live', 'serve', 'watch']);
-
 gulp.task('default', function(callback) {
   runSequence('clean', 'config', 'build', 'live', 'serve', 'watch-scripts', 'watch');
 });
 
 gulp.task('test', function(callback) {
-  runSequence(['browserify-vendor', 'browserify-vendor-tests', 'browserify-tests'], 'run-browser-tests');
+  runSequence(['browserify-vendor', 'browserify-vendor-tests', 'browserify-tests'], 'test-components');
 });
 
 
 gulp.task('sass', function () {
-  return gulp.src(paths.styles.scss)
+  return gulp.src(opts.paths.client.styles.scss)
     .pipe(plumber())
     .pipe(sass()).on('error', errorHandler)
-    .pipe(gulpif(production, minifyCss({
+    .pipe(gulpif(opts.production, minifyCss({
       keepSpecialComments: 0
     })))
-    .pipe(gulp.dest(paths.styles.dest))
+    .pipe(gulp.dest(opts.paths.client.styles.dest))
     .pipe(refresh(client));
-    // .pipe(notify({message: 'Sass done'}));
 });
 
 gulp.task('html', function () {
-  return gulp.src(paths.views)
+  return gulp.src(opts.paths.client.views)
     .pipe(plumber())
     .pipe(refresh(client));
-    // .pipe(notify({message: 'Views refreshed'}));
 });
 
 gulp.task('css', function () {
-  return gulp.src(paths.styles.css)
+  return gulp.src(opts.paths.client.styles.css)
     .pipe(plumber())
     .pipe(refresh(client));
-    // .pipe(notify({message: 'CSS refreshed'}));
 });
 
 gulp.task('lint', function () {
@@ -120,12 +123,10 @@ gulp.task('lint', function () {
       angular: true
     }
   }
-  return gulp.src(paths.scripts)
+  return gulp.src(opts.paths.client.scripts)
     .pipe(plumber())
     .pipe(jshint(config))
     .pipe(jshint.reporter('jshint-stylish'));
-    // .pipe(refresh(client));
-    // .pipe(notify({message: 'Lint done'}));
 });
 
 gulp.task('serve', function () {
@@ -140,7 +141,7 @@ gulp.task('serve', function () {
 });
 
 gulp.task('live', function () {
-  client.listen(lr_port, function (err) {
+  client.listen(opts.lr_port, function (err) {
     if (err) {
       return console.error(err);
     }
@@ -148,52 +149,51 @@ gulp.task('live', function () {
 });
 
 gulp.task('watch', function () {
-  gulp.watch(paths.styles.sass, ['sass']);
-  gulp.watch(paths.views, ['html']);
-  gulp.watch(paths.scripts, ['lint']);
+  gulp.watch(opts.paths.client.styles.sass, ['sass']);
+  gulp.watch(opts.paths.client.views, ['html']);
+  gulp.watch(opts.paths.client.scripts, ['lint']);
 });
 
 gulp.task('browserify-vendor', function() {
   var b = browserify();
-  for (var lib in libs) {
-    b.require(require.resolve(libs[lib]), {expose: lib});
+  for (var lib in libs.runtime) {
+    b.require(require.resolve(libs.runtime[lib]), {expose: lib});
   }
   return b.bundle().pipe(source('vendor.js'))
-    .pipe(gulpif(production, buffer()))
-    .pipe(gulpif(production, uglify()))
-    .pipe(gulp.dest('./client/www/'));
+    .pipe(gulpif(opts.production, buffer()))
+    .pipe(gulpif(opts.production, uglify()))
+    .pipe(gulp.dest(opts.paths.client.target))
 })
 
 gulp.task('browserify', function() {
-  var b = browserify('./client/src/app/app.js');
-  for (var lib in libs) {
+  var b = browserify('./' + opts.paths.client.app);
+  for (var lib in libs.runtime) {
     b.external(lib);
   }
   return b.bundle().pipe(source('bundle.js'))
-    .pipe(gulp.dest('./client/www/'));
+    .pipe(gulp.dest(opts.paths.client.target));
 });
 
 gulp.task('watch-scripts', function() {
-  var b = browserify('./client/src/app/app.js');
-  for (var lib in libs) {
+  var b = browserify('./' + opts.paths.client.app);
+  for (var lib in libs.runtime) {
     b.external(lib);
   }
-  if (production) {
+  if (opts.production) {
     return b.bundle().pipe(source('bundle.js'))
       .pipe(buffer())
       .pipe(ngAnnotate())
       .pipe(uglify())
-      .pipe(gulp.dest('./client/www/'));
+      .pipe(gulp.dest(opts.paths.client.target));
   }
   var bundler = watchify(b);
   bundler.on('update', rebundle);
 
   function rebundle() {
     return bundler.bundle()
-      // log errors if they happen
       .on('error', gutil.log.bind(gutil, 'Browserify Error'))
       .pipe(source('bundle.js'))
-      .pipe(gulp.dest('./client/www'))
+      .pipe(gulp.dest(opts.paths.client.target))
       .pipe(refresh(client));
   }
 
@@ -202,57 +202,63 @@ gulp.task('watch-scripts', function() {
 
 gulp.task('build-html', function() {
   console.log('build-html');
-  return gulp.src(paths.src)
+  return gulp.src(opts.paths.client.statics)
     .on('error', errorHandler)
-    .pipe(gulp.dest('client/www'));
+    .pipe(gulp.dest(opts.paths.client.target));
 });
 
 gulp.task('build-fonts', function() {
-  return gulp.src(paths.fonts)
-    .pipe(gulp.dest('client/www/fonts'));
+  return gulp.src(opts.paths.client.fonts)
+    .pipe(gulp.dest(opts.paths.client.target+'/fonts'));
 })
 
 gulp.task('clean', function(done) {
-  del(['client/www/**'], function (err) {
+  var paths = [opts.paths.client.target + '/**', opts.paths.components.target + '/**']
+  del(paths, function (err) {
     if (!err) {
-      console.log('Files in client/www/ deleted')
+      paths.forEach(function(path) {
+        console.log('Files in "' + path + '" deleted')
+      })
     };
     done(err);
   });
 })
 
-gulp.task('browserify-tests', function() {
+gulp.task('browserify-tests', function(done) {
   var b = browserify();
-  for (var lib in libs) {
+  for (var lib in libs.runtime) {
     b.external(lib);
   }
-  for (var testLib in testLibs) {
+  for (var testLib in libs.test) {
     b.external(testLib);
   }
-  gulp.src(paths.components.scripts)
+  gulp.src(opts.paths.components.specs)
     .pipe(gutil.buffer(function(err, files) {
       if (err) { (err); }
       b.add(files);
-      b.bundle().pipe(source('tests.nogit.js'))
-        .pipe(gulp.dest('./components'));
+      // number prefix ensures bundles are loaded in the correct run
+      b.bundle()
+        .pipe(source('2_tests.nogit.js'))
+        .pipe(gulp.dest(opts.paths.components.target))
+        .on('end', done);
     }));
 });
 
 gulp.task('browserify-vendor-tests', function() {
   var b = browserify();
-  for (var lib in libs) {
+  for (var lib in libs.runtime) {
     b.external(lib);
   }
-  for (var testLib in testLibs) {
-    b.require(require.resolve(testLibs[testLib]), {expose: testLib});
+  for (var testLib in libs.test) {
+    b.require(require.resolve(libs.test[testLib]), {expose: testLib});
   }
-  return b.bundle().pipe(source('vendor-tests.nogit.js'))
-    .pipe(gulp.dest('./components'));
+  // number prefix ensures bundles are loaded in the correct order
+  return b.bundle().pipe(source('1_vendor-tests.nogit.js'))
+    .pipe(gulp.dest(opts.paths.components.target));
 })
 
-gulp.task('run-browser-tests', function() {
-  // Be sure to return the stream
-  return gulp.src(testFiles)
+gulp.task('test-components', function() {
+  return gulp.src(opts.paths.components.tests)
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: 'run' //'run|watch'
@@ -260,8 +266,8 @@ gulp.task('run-browser-tests', function() {
     .on('error', errorHandler);
 });
 
-gulp.task('testBackend', function () {
-    return gulp.src(paths.tests, {read: false})
+gulp.task('test-backend', function () {
+    return gulp.src(opts.paths.server.tests, {read: false})
         .pipe(mocha({reporter: 'spec'}));
 });
 
@@ -271,7 +277,7 @@ gulp.task('mongo', function () {
   exec('mongod --dbpath ' + dataFolder, console.log);
 })
 
-// Handle the error
+// Handle errors
 function errorHandler (error) {
   console.log(error.toString());
   this.emit('end');
