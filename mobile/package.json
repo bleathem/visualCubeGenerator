@@ -16,7 +16,6 @@
     "scramble_333": "./lib/jsss/scramble_333.js",
     "scramble_222": "./lib/jsss/scramble_222.js",
     "ng-cordova": "./lib/ngCordova/dist/ng-cordova.js",
-
     "@vcg/oauth": "../components/oauth/oauth.js",
     "@vcg/oauth-google": "../components/oauth/oauth-google.js",
     "@vcg/http-helpers": "../components/http/http-helpers.js",
@@ -29,19 +28,29 @@
     "scramble_333": "scramblers['333']",
     "ionic": {
       "exports": "ionic",
-      "depends": [ "ionic-angular" ]
+      "depends": [
+        "ionic-angular"
+      ]
     },
     "angular-mocks": {
-      "depends": [ "angular" ]
+      "depends": [
+        "angular"
+      ]
     },
     "angular-animate": {
-      "depends": [ "angular" ]
+      "depends": [
+        "angular"
+      ]
     },
     "angular-sanitize": {
-      "depends": [ "angular" ]
+      "depends": [
+        "angular"
+      ]
     },
     "angular-ui-router": {
-      "depends": [ "angular" ]
+      "depends": [
+        "angular"
+      ]
     },
     "ionic-angular": {
       "depends": [
@@ -54,7 +63,8 @@
   },
   "browserify": {
     "transform": [
-      "browserify-shim"
+      "browserify-shim",
+      "partialify"
     ]
   },
   "dependencies": {},
@@ -79,6 +89,7 @@
     "karma": "^0.12.23",
     "karma-chrome-launcher": "^0.1.4",
     "karma-jasmine": "^0.2.2",
+    "partialify": "^3.1.1",
     "run-sequence": "^1.0.1",
     "shelljs": "^0.3.0",
     "vinyl-buffer": "^1.0.0",

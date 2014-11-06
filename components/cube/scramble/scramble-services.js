@@ -59,7 +59,7 @@ angular.module('cube.scramble.services', [])
     scope: {
       scramble: '=scramble'
     },
-    templateUrl: 'components/cube/scramble/scramble-view.tpl.html',
+    template: require('./scramble-view.tpl.html'),
     link: function (scope, element, attrs) {
       scope.width = attrs.width;
     }

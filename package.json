@@ -26,7 +26,11 @@
   },
   "browserify-shim": {
     "angular": "angular",
-    "angular-mocks": { "depends": ["angular"] },
+    "angular-mocks": {
+      "depends": [
+        "angular"
+      ]
+    },
     "raphael": "raphael",
     "scramble_333": "scramblers['333']",
     "angular-ui-router": {
@@ -40,7 +44,8 @@
   },
   "browserify": {
     "transform": [
-      "browserify-shim"
+      "browserify-shim",
+      "partialify"
     ]
   },
   "dependencies": {
@@ -89,6 +94,7 @@
     "karma-jasmine": "^0.2.2",
     "mocha": "^1.21.4",
     "morgan": "*",
+    "partialify": "^3.1.1",
     "run-sequence": "^1.0.1",
     "should": "^4.0.4",
     "supertest": "^0.14.0",
