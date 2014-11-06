@@ -1,7 +1,8 @@
 'use strict';
 
-var ngConstant = require('gulp-ng-constant'),
-    file = require('gulp-file');
+var file       = require('gulp-file')
+  , ngConstant = require('gulp-ng-constant')
+  ;
 
 var generateDevConstants = function() {
   var backend;
@@ -16,18 +17,19 @@ var generateDevConstants = function() {
   return {
     backend: backend,
     port: port
-  }
-}
+  };
+};
 
 module.exports = function(gulp, opts) {
-  gulp.task('config', function () {
+  gulp.task('angular-config', function () {
     file('config.nogit.json', '{}')
       .pipe(ngConstant({
         name: 'visualCubeGenerator.config',
         constants: {
-          appConfig: generateDevConstants()
-        }
+          appConfig: generateDevConstants(),
+        },
+        wrap: '// jshint quotmark: double \n<%= __ngModule %>'
       }))
       .pipe(gulp.dest(opts.paths.client.src + '/app/'));
   });
-}
+};
