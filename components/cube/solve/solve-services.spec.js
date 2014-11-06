@@ -1,9 +1,12 @@
 /* global describe:false */
 /* global beforeEach:false */
 /* global it:false */
-/* global inject:false */
 /* global expect:false */
 'use strict';
+var angular = require('angular');
+require('angular-mocks');
+require('@vcg/solve-services')
+
 describe('Cube: solve: services:', function() {
   describe('solves factory:', function() {
 
@@ -13,12 +16,12 @@ describe('Cube: solve: services:', function() {
     var $rootScope;
     var $timeout;
     var $httpBackend;
-    var cubeConfig;
-
-    beforeEach(module('cube.solve.services'));
+    var appConfig;
 
     beforeEach(function() {
-      module(function($provide) {
+      angular.mock.module('visualCubeGenerator.config');
+      angular.mock.module('cube.solve.services');
+      angular.mock.module(function($provide) {
         $localStorageMock = (function() {
           var store = {
             solves: null,
@@ -44,13 +47,13 @@ describe('Cube: solve: services:', function() {
     });
 
     beforeEach(function() {
-      inject(function(_solveModel_, _solveManager_,  _$rootScope_, _$timeout_, _$httpBackend_, _cubeConfig_) {
+      angular.mock.inject(function(_solveModel_, _solveManager_,  _$rootScope_, _$timeout_, _$httpBackend_, _appConfig_) {
         solveModel = _solveModel_;
         solveManager = _solveManager_;
         $rootScope = _$rootScope_;
         $timeout = _$timeout_;
         $httpBackend = _$httpBackend_;
-        cubeConfig = _cubeConfig_;
+        appConfig = _appConfig_;
       });
     });
 
@@ -58,7 +61,7 @@ describe('Cube: solve: services:', function() {
       var solvePostUrl;
 
       beforeEach(function() {
-        solvePostUrl = cubeConfig.backend + '/solve';
+        solvePostUrl = appConfig.backend + '/solve';
       });
 
       it('should return save a solve to $localStorage', function() {
@@ -123,12 +126,12 @@ describe('Cube: solve: services:', function() {
 
   describe('filters:', function() {
 
-    beforeEach(module('cube.solve.services'));
+    beforeEach(angular.mock.module('cube.solve.services'));
 
     describe('solve time filter: ', function() {
 
       it('should convert time in milliseconds to a human readble format',
-        inject(function(solveTimeFilter) {
+        angular.mock.inject(function(solveTimeFilter) {
           expect(solveTimeFilter(0)).toBe('0:00.000');
           expect(solveTimeFilter(2123)).toBe('0:02.123');
           expect(solveTimeFilter(2123.2376)).toBe('0:02.123');
@@ -138,7 +141,7 @@ describe('Cube: solve: services:', function() {
       );
 
       it('should convert time a time to milliseconds',
-        inject(function(solveTimeFilter) {
+        angular.mock.inject(function(solveTimeFilter) {
           var data = {
             minutes: 2,
             seconds: 34,

@@ -6,6 +6,7 @@
   "browser": {
     "ionic": "./lib/ionic/js/ionic.js",
     "angular": "./lib/angular/angular.js",
+    "angular-mocks": "./lib/angular-mocks/angular-mocks.js",
     "angular-animate": "./lib/angular-animate/angular-animate.js",
     "angular-sanitize": "./lib/angular-sanitize/angular-sanitize.js",
     "angular-ui-router": "./lib/angular-ui-router/release/angular-ui-router.js",
@@ -28,24 +29,19 @@
     "scramble_333": "scramblers['333']",
     "ionic": {
       "exports": "ionic",
-      "depends": [
-        "ionic-angular"
-      ]
+      "depends": [ "ionic-angular" ]
+    },
+    "angular-mocks": {
+      "depends": [ "angular" ]
     },
     "angular-animate": {
-      "depends": [
-        "angular"
-      ]
+      "depends": [ "angular" ]
     },
     "angular-sanitize": {
-      "depends": [
-        "angular"
-      ]
+      "depends": [ "angular" ]
     },
     "angular-ui-router": {
-      "depends": [
-        "angular"
-      ]
+      "depends": [ "angular" ]
     },
     "ionic-angular": {
       "depends": [

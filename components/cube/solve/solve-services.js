@@ -1,9 +1,10 @@
 /* global window:false */
 'use strict';
 var angular = require('angular');
-require('../../oauth/oauth.js');
+require('@vcg/oauth');
+require('@vcg/appConfig');
 
-angular.module('cube.solve.services', ['oauth'])
+angular.module('cube.solve.services', ['oauth', 'visualCubeGenerator.config'])
 
 .factory('$localStorage', function() {
   return window.localStorage;

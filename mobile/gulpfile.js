@@ -29,16 +29,6 @@ var paths = {
   fonts: ['lib/ionic/fonts/**/*.*']
 };
 
-var testFiles = [
-  'lib/jsss/scramble_333.js',
-  'lib/ionic/js/ionic.bundle.js',
-  'lib/angular-mocks/angular-mocks.js',
-  'lib/ngCordova/dist/ng-cordova.min.js',
-  'lib/angular-timer/dist/angular-timer.js',
-  'src/app/**/*.js',
-  'src/components/**/*.js'
-];
-
 var libs = {
   "ionic": "./lib/ionic/js/ionic.js",
   "angular": "./lib/angular/angular.js",
@@ -110,19 +100,6 @@ gulp.task('git-check', function(done) {
   done();
 });
 
-gulp.task('test', function() {
-  // Be sure to return the stream
-  return gulp.src(testFiles)
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: 'run' //'watch'
-    }))
-    .on('error', function(err) {
-      // Make sure failed tests cause gulp to exit non-zero
-      throw err;
-    });
-});
-
 gulp.task('browserify-vendor', function() {
   var b = browserify();
   for (var lib in libs) {
@@ -187,3 +164,8 @@ gulp.task('clean', function(done) {
     done(err);
   });
 })
+
+function errorHandler (error) {
+  console.log(error.toString());
+  this.emit('end');
+}

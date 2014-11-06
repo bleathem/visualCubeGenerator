@@ -1,6 +1,6 @@
 'use strict';
 var angular = require('angular');
-require('../oauth/oauth.js');
+require('@vcg/oauth');
 
 angular.module('http.helpers', ['oauth'])
 

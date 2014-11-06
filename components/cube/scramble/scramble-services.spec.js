@@ -1,16 +1,19 @@
 /* global describe:false */
 /* global beforeEach:false */
 /* global it:false */
-/* global inject:false */
 /* global expect:false */
 'use strict';
-describe('Cube: solve: services:', function() {
+var angular = require('angular');
+require('angular-mocks');
+require('@vcg/scramble-services')
+
+describe('Cube: scramble: services:', function() {
   describe('scrambles factory:', function() {
 
-    beforeEach(module('cube.scramble.services'));
+    beforeEach(angular.mock.module('cube.scramble.services'));
 
     it('should generate 5 scrambles',
-      inject(function(scrambles, $timeout) {
+      angular.mock.inject(function(scrambles, $timeout) {
         expect(scrambles.all().length).toBe(5);
         scrambles.regenerate(5);
         $timeout.flush();

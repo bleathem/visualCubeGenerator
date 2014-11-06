@@ -8,23 +8,25 @@ var gulp    = require('gulp')
   ,  plumber = require('gulp-plumber')
   , client  = require('tiny-lr')()
   , nodemon = require('gulp-nodemon')
+  , karma = require('gulp-karma')
   , lr_port = 35729
   , sass   = require('gulp-ruby-sass')
   , minifyCss = require('gulp-minify-css')
   , mocha = require('gulp-spawn-mocha')
   , exec = require('child_process').exec
   , env = require('node-env-file')
+  , glob = require('glob')
   , browserify = require('browserify')
   , watchify = require('watchify')
   , source = require('vinyl-source-stream')
   , buffer = require('vinyl-buffer')
+  , transform = require('vinyl-transform')
   , ngconstant = require('./gulp-config.js')
   , del = require('del')
   , runSequence = require('run-sequence')
   , gulpif = require('gulp-if')
   , uglify = require('gulp-uglify')
   , ngAnnotate = require('gulp-ng-annotate');
-
 
 var production = process.env.NODE_ENV === 'production';
 
@@ -38,7 +40,10 @@ var paths = {
     dest: 'client/www/css'
   },
   tests: ['server/test/**/*.spec.js'],
-  fonts: ['lib/fontawesome/fonts/**']
+  fonts: ['lib/fontawesome/fonts/**'],
+  components: {
+    scripts: ['components/**/*.spec.js']
+  }
 };
 
 var libs = {
@@ -51,6 +56,16 @@ var libs = {
   "ui-bootstrap": "./lib/angular-bootstrap/ui-bootstrap.js",
   "ui-bootstrap-tpls": "./lib/angular-bootstrap/ui-bootstrap-tpls.js",
   "ng-fx": "./lib/ngFx/dist/ngFx.js"
+}
+
+var testFiles = [
+  'client/www/vendor.js',
+  'components/vendor-tests.nogit.js',
+  'components/tests.nogit.js'
+];
+
+var testLibs = {
+  "angular-mocks": "./lib/angular-mocks/angular-mocks.js"
 }
 
 if (!production) {
@@ -70,6 +85,11 @@ gulp.task('build-production', function(callback) {
 gulp.task('default', function(callback) {
   runSequence('clean', 'config', 'build', 'live', 'serve', 'watch-scripts', 'watch');
 });
+
+gulp.task('test', function(callback) {
+  runSequence(['browserify-vendor', 'browserify-vendor-tests', 'browserify-tests'], 'run-browser-tests');
+});
+
 
 gulp.task('sass', function () {
   return gulp.src(paths.styles.scss)
@@ -208,6 +228,45 @@ gulp.task('clean', function(done) {
     done(err);
   });
 })
+
+gulp.task('browserify-tests', function() {
+  var b = browserify();
+  for (var lib in libs) {
+    b.external(lib);
+  }
+  for (var testLib in testLibs) {
+    b.external(testLib);
+  }
+  gulp.src(paths.components.scripts)
+    .pipe(gutil.buffer(function(err, files) {
+      if (err) { (err); }
+      b.add(files);
+      b.bundle().pipe(source('tests.nogit.js'))
+        .pipe(gulp.dest('./components'));
+    }));
+});
+
+gulp.task('browserify-vendor-tests', function() {
+  var b = browserify();
+  for (var lib in libs) {
+    b.external(lib);
+  }
+  for (var testLib in testLibs) {
+    b.require(require.resolve(testLibs[testLib]), {expose: testLib});
+  }
+  return b.bundle().pipe(source('vendor-tests.nogit.js'))
+    .pipe(gulp.dest('./components'));
+})
+
+gulp.task('run-browser-tests', function() {
+  // Be sure to return the stream
+  return gulp.src(testFiles)
+    .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'run' //'run|watch'
+    }))
+    .on('error', errorHandler);
+});
 
 gulp.task('testBackend', function () {
     return gulp.src(paths.tests, {read: false})
