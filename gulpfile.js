@@ -50,6 +50,7 @@ var gulp        = require('gulp')
   , env         = require('node-env-file')
   , runSequence = require('run-sequence')
   , client      = require('tiny-lr')()
+  , _           = require('underscore')
   , source      = require('vinyl-source-stream')
   , buffer      = require('vinyl-buffer')
   , watchify    = require('watchify')
@@ -225,16 +226,14 @@ gulp.task('clean', function(done) {
 })
 
 gulp.task('browserify-tests', function(done) {
-  var b = browserify();
-  for (var lib in libs.runtime) {
-    b.external(lib);
-  }
-  for (var testLib in libs.test) {
-    b.external(testLib);
-  }
+  var externals = _.extend({}, libs.runtime, libs.test);
   gulp.src(opts.paths.components.specs)
     .pipe(gutil.buffer(function(err, files) {
       if (err) { (err); }
+      var b = browserify();
+      for (var external in externals) {
+        b.external(external);
+      }
       b.add(files);
       // number prefix ensures bundles are loaded in the correct run
       b.bundle()
