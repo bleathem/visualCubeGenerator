@@ -13,7 +13,7 @@ module.exports = function(gulp, opts) {
         angular: true
       }
     };
-    var source = opts.paths.client.scripts.concat([opts.paths.tasks]);
+    var source = opts.paths.client.scripts.concat([opts.paths.tasks], opts.paths.components.scripts);
     return gulp.src(source)
       .pipe(plumber())
       .pipe(jshint(config))

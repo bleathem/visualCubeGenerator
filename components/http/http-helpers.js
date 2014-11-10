@@ -9,7 +9,11 @@ angular.module('http.helpers', ['oauth'])
   console.log('Registering Bearer token transformRequest');
   $injector.get('$http').defaults.transformRequest = function(data, headersGetter) {
     if (auth && auth.user) {
+      /*jshint -W069 */
+      /*jshint camelcase: false */
       headersGetter()['Authorization'] = 'Bearer '+auth.user.googleAccount.token[0].access_token;
+      /*jshint +W069 */
+      /*jshint camelcase: true */
     }
     if (data) {
         return angular.toJson(data);

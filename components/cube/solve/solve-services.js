@@ -26,7 +26,7 @@ angular.module('cube.solve.services', ['oauth', 'visualCubeGenerator.config'])
   return solveModel;
 })
 
-.factory('solveManager', function($q, solveModel, solveLocalLoader, solveRemoteLoader, averageLoader, synchSolves, auth) {
+.factory('solveManager', function($q, solveModel, solveLocalLoader, solveRemoteLoader, averageLoader, synchSolves) {
   var solveManager = {};
 
   solveManager.save = function(solve) {
@@ -36,7 +36,7 @@ angular.module('cube.solve.services', ['oauth', 'visualCubeGenerator.config'])
       solveModel.averages = averageLoader.calculateAverages(solveModel.solves);
       averageLoader.writeAverages(solveModel.averages);
       deferred.resolve(solve);
-    }).then(function(solve) {
+    }).then(function() {
       synchSolves();
     });
     return deferred.promise;
@@ -167,7 +167,7 @@ angular.module('cube.solve.services', ['oauth', 'visualCubeGenerator.config'])
   };
 })
 
-.factory('averageLoader', function($rootScope, $localStorage, $q, $timeout) {
+.factory('averageLoader', function($rootScope, $localStorage) {
   var averageLoader = {};
 
   var sumSolveTimes = function(sum, solve) {

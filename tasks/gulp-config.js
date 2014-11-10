@@ -27,6 +27,7 @@ var paths = {
   },
   tasks: 'tasks/**/*.js',
   components: {
+    scripts: ['components/**/*.js', '!components/**/*.spec.js', '!components/build/**/*.js'],
     specs: ['components/**/*.spec.js'],
     target: 'components/build',
     tests: ['client/www/vendor.js', 'components/build/**/*.js']

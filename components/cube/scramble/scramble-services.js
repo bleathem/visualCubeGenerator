@@ -1,4 +1,3 @@
-/* global window:false */
 /* global document:false */
 'use strict';
 var angular = require('angular');
