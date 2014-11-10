@@ -4,7 +4,7 @@
   "dependencies": {
     "jsss": "https://github.com/cubing/jsss.git",
     "raphael": "~2.1.2",
-    "angular-timer": "https://github.com/bleathem/angular-timer",
+    "angular-timer": "https://github.com/bleathem/angular-timer.git",
     "angular": "*",
     "ngFx": "*",
     "angular-ui-router": "*",
