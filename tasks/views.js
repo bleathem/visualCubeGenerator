@@ -4,6 +4,7 @@ var concat     = require('gulp-concat')
   , gulpif    = require('gulp-if')
   , refresh    = require('gulp-livereload')
   , plumber   = require('gulp-plumber')
+  , uglify     = require('gulp-uglify')
   , gutil      = require('gulp-util')
   , templateCache = require('gulp-angular-templatecache')
   ;
@@ -31,7 +32,12 @@ module.exports = function(gulp, opts) {
         module: opts.moduleName + '.template',
         standalone: true
       }))
+
+      .pipe(gulpif(opts.production, plumber()))
+      .pipe(gulpif(opts.production, uglify()))
+
       .pipe(gulp.dest(opts.paths.client.target))
+
       .pipe(gulpif(opts.watching, plumber()))
       .pipe(gulpif(opts.watching, refresh(opts.browser)));
   });

@@ -23,7 +23,12 @@ module.exports = function(gulp, opts) {
     var componentCss = gulp.src(opts.paths.components.styles);
     return mergeStream(appCss, componentCss)
       .pipe(concat('app.css'))
+
+      .pipe(gulpif(opts.production, plumber()))
+      .pipe(gulpif(opts.production, minifyCss()))
+
       .pipe(gulp.dest(opts.paths.client.styles.dest))
+
       .pipe(gulpif(opts.watching, plumber()))
       .pipe(gulpif(opts.watching, refresh(opts.browser)));
   });

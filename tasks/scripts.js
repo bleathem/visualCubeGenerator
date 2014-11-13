@@ -16,7 +16,13 @@ module.exports = function(gulp, opts) {
     gutil.log('... building scripts');
     return gulp.src(scriptSource)
       .pipe(concat('bundle.js'))
+
+      .pipe(gulpif(opts.production, plumber()))
+      .pipe(gulpif(opts.production, ngAnnotate()))
+      .pipe(gulpif(opts.production, uglify()))
+
       .pipe(gulp.dest(opts.paths.client.target))
+
       .pipe(gulpif(opts.watching, plumber()))
       .pipe(gulpif(opts.watching, refresh(opts.browser)));
   });
@@ -30,6 +36,10 @@ module.exports = function(gulp, opts) {
   gulp.task('build-vendor', function () {
     gulp.src(opts.libs.runtime)
       .pipe(concat('vendor.js'))
+
+      .pipe(gulpif(opts.production, plumber()))
+      .pipe(gulpif(opts.production, uglify()))
+
       .pipe(gulp.dest(opts.paths.client.target))
   });
 };
