@@ -16,12 +16,14 @@ require('./tasks/test-components.js')(gulp, opts);
 require('./tasks/watch.js')(gulp, opts);
 
 gulp.task('default', function(callback) {
-  runSequence('clean', 'angular-config', 'build', 'live', 'serve', 'watch');
+  runSequence('clean', 'build', 'live', 'serve', 'watch');
 });
 
-gulp.task('build', ['lint', 'build-html', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-sass']);
+gulp.task('build', ['lint', 'angular-config', 'build-html', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-sass']);
 
-gulp.task('test', ['test-components', 'test-backend']);
+gulp.task('test', function(callback) {
+  runSequence('clean', 'build', ['test-components', 'test-backend']);
+});
 
 gulp.task('watch', ['watch-built']);
 

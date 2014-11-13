@@ -10,9 +10,10 @@ module.exports = function(gulp, opts) {
       opts.libs.test,
       [
         opts.paths.components.specs,
-        opts.paths.client.src + '/app/config.nogit.js'
+        opts.paths.client.target + '/app/' + opts.paths.client.config
       ]
     );
+    console.log(files);
     return gulp.src(files)
       .pipe(karma({
         configFile: 'karma.conf.js',

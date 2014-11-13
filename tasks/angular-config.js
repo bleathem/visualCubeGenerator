@@ -22,7 +22,7 @@ var generateDevConstants = function() {
 
 module.exports = function(gulp, opts) {
   gulp.task('angular-config', function () {
-    file('config.nogit.json', '{}')
+    file(opts.paths.client.config, '{}')
       .pipe(ngConstant({
         name: 'visualCubeGenerator.config',
         constants: {
@@ -30,6 +30,6 @@ module.exports = function(gulp, opts) {
         },
         wrap: '// jshint quotmark: double \n<%= __ngModule %>'
       }))
-      .pipe(gulp.dest(opts.paths.client.src + '/app/'));
+      .pipe(gulp.dest(opts.paths.client.target + '/app/'));
   });
 };
