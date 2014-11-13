@@ -18,7 +18,7 @@ require('./tasks/views.js')(gulp, opts);
 require('./tasks/watch.js')(gulp, opts);
 
 gulp.task('default', function(callback) {
-  runSequence('clean', ['lint', 'build'], 'live', 'serve', 'watch');
+  runSequence(['clean'], ['lint', 'build'], ['watch-enable', 'live', 'serve'], 'watch');
 });
 
 gulp.task('test', function(callback) {
@@ -29,8 +29,8 @@ gulp.task('build-production', function(callback) {
   runSequence('clean', 'build');
 });
 
-gulp.task('build', ['angular-config', 'build-html', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-sass', 'copy-resources']);
+gulp.task('build', ['angular-config', 'build-views', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-styles', 'copy-resources']);
 
 gulp.task('run-tests', ['test-components', 'test-backend']);
 
-gulp.task('watch', ['watch-built']);
+gulp.task('watch', ['watch-scripts', 'watch-styles', 'watch-views', 'watch-templates']);

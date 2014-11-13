@@ -7,6 +7,10 @@ var refresh = require('gulp-livereload')
 module.exports = function(gulp, opts) {
   require('./lint.js')(gulp, opts);
 
+  gulp.task('watch-enable', function () {
+    opts.watching = true;
+  });
+
   gulp.task('live', function () {
     opts.browser.listen(opts.lrPort, function (err) {
       if (err) {
@@ -14,23 +18,4 @@ module.exports = function(gulp, opts) {
       }
     });
   });
-
-  gulp.task('watch-built', function () {
-    gulp.watch(opts.paths.client.built.styles, ['css']);
-    gulp.watch(opts.paths.client.built.views, ['html']);
-    gulp.watch(opts.paths.client.built.scripts, ['lint']);
-  });
-
-  gulp.task('html', function () {
-    return gulp.src(opts.paths.client.built.views)
-      .pipe(plumber())
-      .pipe(refresh(opts.browser));
-  });
-
-  gulp.task('css', function () {
-    return gulp.src(opts.paths.client.built.styles)
-      .pipe(plumber())
-      .pipe(refresh(opts.browser));
-  });
-
 };
