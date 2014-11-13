@@ -31,7 +31,9 @@ var paths = {
     scripts: ['components/**/*.js', '!components/**/*.spec.js'],
     templates: 'components/**/*.tpl.html',
     specs: 'components/**/*.js',
-    target: 'components/build'
+    target: 'components/build',
+    styles: 'components/**/*.css',
+    resources: ['components/**/*.*', '!components/**/*.js', '!components/**/*.css']
   },
   data: process.cwd() + '/data'
 };

@@ -27,7 +27,7 @@ gulp.task('build-production', function(callback) {
   runSequence('clean', 'build');
 });
 
-gulp.task('build', ['angular-config', 'build-html', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-sass']);
+gulp.task('build', ['angular-config', 'build-html', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-sass', 'copy-resources']);
 
 gulp.task('run-tests', ['test-components', 'test-backend']);
 
