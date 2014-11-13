@@ -26,5 +26,5 @@ gulp.task('test', ['test-components', 'test-backend']);
 gulp.task('watch', ['watch-built']);
 
 gulp.task('build-production', function(callback) {
-  runSequence('clean', 'angular-config', 'build-html', 'browserify-vendor', 'browserify-scripts', 'build-fonts', 'build-sass');
+  runSequence('clean', 'angular-config', 'build-html', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-sass');
 });
