@@ -1,6 +1,7 @@
 'use strict';
 
 var file       = require('gulp-file')
+  , footer = require('gulp-footer')
   , ngConstant = require('gulp-ng-constant')
   ;
 
@@ -30,6 +31,10 @@ module.exports = function(gulp, opts) {
         },
         wrap: '// jshint quotmark: double \n<%= __ngModule %>'
       }))
+      .pipe(footer(
+        '\nvisualCubeGenerator.config([\'$compileProvider\', function ($compileProvider) {\n  $compileProvider.debugInfoEnabled(<%= debug %>);\n}]);\n',
+        {debug: !opts.production}
+      ))
       .pipe(gulp.dest(opts.paths.client.target + '/app/'));
   });
 };
