@@ -5,6 +5,7 @@ var gulpif    = require('gulp-if')
   , plumber   = require('gulp-plumber')
   , sass      = require('gulp-ruby-sass')
   , del       = require('del')
+  , templateCache = require('gulp-angular-templatecache')
   ;
 
 module.exports = function(gulp, opts) {
@@ -24,6 +25,15 @@ module.exports = function(gulp, opts) {
   return gulp.src(opts.paths.client.statics)
     .on('error', opts.errorHandler)
     .pipe(gulp.dest(opts.paths.client.target));
+  });
+
+  gulp.task('build-templates', function () {
+    return gulp.src(opts.paths.components.templates)
+      .pipe(templateCache({
+        module: opts.moduleName + '.template',
+        standalone: true
+      }))
+      .pipe(gulp.dest(opts.paths.client.target));
   });
 
   gulp.task('build-sass', function () {

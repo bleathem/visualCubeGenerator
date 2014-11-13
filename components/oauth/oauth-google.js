@@ -60,7 +60,7 @@
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'components/oauth/google-sign-in.tpl.html'
+      templateUrl: 'oauth/google-sign-in.tpl.html'
     };
   })
 
@@ -71,7 +71,7 @@
         profile: '=profile',
         click: '=ngClick',
       },
-      templateUrl: 'components/oauth/google-profile.tpl.html'
+      templateUrl: 'oauth/google-profile.tpl.html'
     };
   });
 })(angular);

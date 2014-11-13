@@ -19,7 +19,7 @@ gulp.task('default', function(callback) {
   runSequence('clean', 'angular-config', 'build', 'live', 'serve', 'watch');
 });
 
-gulp.task('build', ['lint', 'build-html', 'build-vendor', 'build-scripts', 'build-fonts', 'build-sass']);
+gulp.task('build', ['lint', 'build-html', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-sass']);
 
 gulp.task('test', ['test-components', 'test-backend']);
 

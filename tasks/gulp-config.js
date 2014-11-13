@@ -28,6 +28,7 @@ var paths = {
   tasks: 'tasks/**/*.js',
   components: {
     scripts: ['components/**/*.js', '!components/**/*.spec.js'],
+    templates: 'components/**/*.tpl.html',
     specs: 'components/**/*.js',
     target: 'components/build'
   },
@@ -52,6 +53,7 @@ var libs = {
 };
 
 var opts = {
+  moduleName: 'visualCubeGenerator',
   browser: require('tiny-lr')(),
   paths: paths,
   libs: libs,

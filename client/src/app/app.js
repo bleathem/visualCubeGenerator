@@ -5,7 +5,8 @@
     'ui.router',
     'http.helpers',
     'visualCubeGenerator.main',
-    'visualCubeGenerator.config'
+    'visualCubeGenerator.config',
+    'visualCubeGenerator.template'
   ])
 
   .config(function ($stateProvider, $urlRouterProvider) {
