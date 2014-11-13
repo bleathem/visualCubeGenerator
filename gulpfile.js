@@ -11,8 +11,10 @@ require('./tasks/lint.js')(gulp, opts);
 require('./tasks/mongo.js')(gulp, opts);
 require('./tasks/scripts.js')(gulp, opts);
 require('./tasks/server.js')(gulp, opts);
+require('./tasks/styles.js')(gulp, opts);
 require('./tasks/test-backend.js')(gulp, opts);
 require('./tasks/test-components.js')(gulp, opts);
+require('./tasks/views.js')(gulp, opts);
 require('./tasks/watch.js')(gulp, opts);
 
 gulp.task('default', function(callback) {
