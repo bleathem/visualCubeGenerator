@@ -17,6 +17,10 @@ var request = require('supertest')
 var user;
 var headers = {Authorization: 'Bearer ' + data.user.googleAccount.token[0].access_token};
 
+after(function(){
+  mongoose.connection.close()
+});
+
 describe('Rest API:', function() {
 
   beforeEach(function (done) {

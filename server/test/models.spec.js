@@ -10,6 +10,10 @@ var Solve = require('../solve/solve_model');
 var User = require('../user/user_model');
 var data = require('./test_data');
 
+after(function(){
+  mongoose.connection.close()
+});
+
 describe('Models:', function() {
 
   beforeEach(function (done) {
