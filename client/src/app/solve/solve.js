@@ -1,20 +1,18 @@
 'use strict';
-var angular = require('angular');
-require('angular-ui-router');
-require('@vcg/solve-services');
+(function (angular) {
+  angular.module('visualCubeGenerator.main.solve', ['ui.router'])
 
-angular.module('visualCubeGenerator.main.solve', ['ui.router'])
+  .config(function ($stateProvider) {
+    $stateProvider
+      .state('visualCubeGenerator.main.solve', {
+        url: '/solve',
+        templateUrl: 'app/solve/solve.tpl.html',
+        controller: 'SolveController'
+      });
+  })
 
-.config(function ($stateProvider) {
-  $stateProvider
-    .state('visualCubeGenerator.main.solve', {
-      url: '/solve',
-      templateUrl: 'app/solve/solve.tpl.html',
-      controller: 'SolveController'
-    });
-})
-
-.controller('SolveController', function ($scope, solveModel, solveManager) {
-  $scope.solveModel = solveModel;
-  $scope.delete = solveManager.delete;
-});
+  .controller('SolveController', function ($scope, solveModel, solveManager) {
+    $scope.solveModel = solveModel;
+    $scope.delete = solveManager.delete;
+  });
+})(angular);

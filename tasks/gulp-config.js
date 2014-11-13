@@ -10,12 +10,12 @@ var paths = {
     app: 'client/src/app/app.js',
     target: 'client/www',
     built: {
-      scripts: ['client/www/**/*.js'],
-      styles: ['client/www/**/*.css'],
-      views: ['client/www/**/*.html']
+      scripts: 'client/www/**/*.js',
+      styles: 'client/www/**/*.css',
+      views: 'client/www/**/*.html'
     },
     statics: ['client/src/**/!(*.js)', '!client/src/{scss,scss/**}'],
-    scripts: ['client/src/**/*.js'],
+    scripts: 'client/src/**/*.js',
     styles: {
       scss: ['client/src/scss/**/*.scss'],
       dest: 'client/www/css'
@@ -27,29 +27,28 @@ var paths = {
   },
   tasks: 'tasks/**/*.js',
   components: {
-    scripts: ['components/**/*.js', '!components/**/*.spec.js', '!components/build/**/*.js'],
-    specs: ['components/**/*.spec.js'],
-    target: 'components/build',
-    tests: ['client/www/vendor.js', 'components/build/**/*.js']
+    scripts: ['components/**/*.js', '!components/**/*.spec.js'],
+    specs: 'components/**/*.js',
+    target: 'components/build'
   },
   data: process.cwd() + '/data'
 };
 
 var libs = {
-  runtime: {
-    'angular': './lib/angular/angular.js',
-    'angular-ui-router': './lib/angular-ui-router/release/angular-ui-router.js',
-    'angular-timer': './lib/angular-timer/dist/angular-timer.js',
-    'raphael': './lib/raphael/raphael.js',
-    'scramble_333': './lib/jsss/scramble_333.js',
-    'scramble_222': './lib/jsss/scramble_222.js',
-    'ui-bootstrap': './lib/angular-bootstrap/ui-bootstrap.js',
-    'ui-bootstrap-tpls': './lib/angular-bootstrap/ui-bootstrap-tpls.js',
-    'ng-fx': './lib/ngFx/dist/ngFx.js'
-  },
-  test: {
-    'angular-mocks': './lib/angular-mocks/angular-mocks.js'
-  }
+  runtime: [
+    './lib/angular/angular.js',
+    './lib/angular-ui-router/release/angular-ui-router.js',
+    './lib/angular-timer/dist/angular-timer.js',
+    './lib/raphael/raphael.js',
+    './lib/jsss/scramble_333.js',
+    './lib/jsss/scramble_222.js',
+    './lib/angular-bootstrap/ui-bootstrap.js',
+    './lib/angular-bootstrap/ui-bootstrap-tpls.js',
+    './lib/ngFx/dist/ngFx.js'
+  ],
+  test: [
+    './lib/angular-mocks/angular-mocks.js'
+  ]
 };
 
 var opts = {

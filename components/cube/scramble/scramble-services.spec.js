@@ -3,9 +3,6 @@
 /* global it:false */
 /* global expect:false */
 'use strict';
-var angular = require('angular');
-require('angular-mocks');
-require('@vcg/scramble-services')
 
 describe('Cube: scramble: services:', function() {
   describe('scrambles factory:', function() {

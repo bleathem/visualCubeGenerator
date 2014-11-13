@@ -1,18 +1,17 @@
 'use strict';
-var angular = require('angular');
-require('angular-ui-router');
+(function (angular) {
+  angular.module('visualCubeGenerator.main.home', ['ui.router'])
 
-angular.module('visualCubeGenerator.main.home', ['ui.router'])
+  .config(function ($stateProvider) {
 
-.config(function ($stateProvider) {
-
-  $stateProvider
-    .state('visualCubeGenerator.main.home', {
-      url: '/home',
-      templateUrl: 'app/home/home.tpl.html',
-      controller: 'HomeController'
-    });
-})
-.controller('HomeController', function ($scope) {
-  $scope.solves = [];
-});
+    $stateProvider
+      .state('visualCubeGenerator.main.home', {
+        url: '/home',
+        templateUrl: 'app/home/home.tpl.html',
+        controller: 'HomeController'
+      });
+  })
+  .controller('HomeController', function ($scope) {
+    $scope.solves = [];
+  });
+})(angular);

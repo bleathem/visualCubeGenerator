@@ -3,9 +3,6 @@
 /* global it:false */
 /* global expect:false */
 'use strict';
-var angular = require('angular');
-require('angular-mocks');
-require('@vcg/solve-services')
 
 describe('Cube: solve: services:', function() {
   describe('solves factory:', function() {
