@@ -59,7 +59,7 @@ var opts = {
   browser: require('tiny-lr')(),
   paths: paths,
   libs: libs,
-  port: process.env.PORT || 9000,
+  frontendPort: process.env.PORT || 9000,
   production: process.env.NODE_ENV === 'production',
   lrPort: 35729 + 1,
   watching: false,

@@ -57,7 +57,7 @@ var opts = {
   paths: paths,
   libs: libs,
   production: process.env.NODE_ENV === 'production',
-  port: 8000,
+  frontendPort: 8000,
   lrPort: 35729,
   watching: false,
   errorHandler: function (error) {
@@ -99,6 +99,6 @@ gulp.task('ionic',   ['build-production']);
 gulp.task('serve', function () {
   var app = connect()
       .use(serveStatic(opts.paths.client.target))
-      .listen(opts.port);
-  open('http://localhost:'+opts.port);
+      .listen(opts.frontendPort);
+  open('http://localhost:'+opts.frontendPort);
 });
