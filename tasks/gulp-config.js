@@ -21,7 +21,7 @@ var paths = {
       scss: ['client/src/scss/**/*.scss'],
       dest: 'client/www/css'
     },
-    fonts: ['lib/fontawesome/fonts/**']
+    fonts: 'lib/fontawesome/fonts/**'
   },
   server: {
     tests: ['server/test/**/*.spec.js'],
@@ -31,7 +31,6 @@ var paths = {
     scripts: ['components/**/*.js', '!components/**/*.spec.js'],
     templates: 'components/**/*.tpl.html',
     specs: 'components/**/*.js',
-    target: 'components/build',
     styles: 'components/**/*.css',
     resources: ['components/**/*.*', '!components/**/*.js', '!components/**/*.css']
   },
@@ -60,6 +59,7 @@ var opts = {
   browser: require('tiny-lr')(),
   paths: paths,
   libs: libs,
+  port: process.env.PORT || 9000,
   production: process.env.NODE_ENV === 'production',
   lrPort: 35729,
   watching: false,

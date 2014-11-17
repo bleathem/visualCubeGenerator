@@ -1,7 +1,8 @@
 'use strict';
 
 var nodemon = require('gulp-nodemon')
-  , refresh     = require('gulp-livereload')
+  , open    = require('open')
+  , refresh = require('gulp-livereload')
   ;
 
 module.exports = function(gulp, opts) {
@@ -13,6 +14,11 @@ module.exports = function(gulp, opts) {
       })
       .on('restart', function () {
         refresh(opts.browser);
-      });
+      })
+      .on('start', function() {
+        setTimeout(function() {
+            open('http://localhost:'+opts.port);
+          }, 500);
+      })
   });
 };

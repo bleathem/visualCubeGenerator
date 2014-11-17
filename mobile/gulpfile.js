@@ -1,129 +1,104 @@
 'use strict';
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var jshint  = require('gulp-jshint');
-var plumber = require('gulp-plumber');
-var concat = require('gulp-concat');
-var sass = require('gulp-ruby-sass');
-var minifyCss = require('gulp-minify-css');
-var rename = require('gulp-rename');
-var sh = require('shelljs');
-var karma = require('gulp-karma');
-var del = require('del');
-var runSequence = require('run-sequence');
-var gulpif = require('gulp-if');
-var uglify = require('gulp-uglify');
-var ngAnnotate = require('gulp-ng-annotate');
-var templateCache = require('gulp-angular-templatecache');
-
-var production = process.env.NODE_ENV === 'production';
-
-var opts = {
-  moduleName: 'visualCubeGenerator'
-}
+var gulp = require('gulp')
+  , connect = require('connect')
+  , open = require('open')
+  , serveStatic = require('serve-static')
+  , runSequence = require('run-sequence');
 
 var paths = {
-  src: ['src/**/!(*.js)', '!src/{scss,scss/**}'],
-  scripts: ['src/**/*.js'],
-  sass: ['./src/scss/**/*.scss'],
-  fonts: ['lib/ionic/fonts/**/*.*']
+  client: {
+    src: 'src',
+    app: 'src/app/app.js',
+    target: 'www',
+    config: 'config.nogit.js',
+    built: {
+      scripts: 'www/**/*.js',
+      styles: 'www/**/*.css',
+      views: 'www/**/*.html'
+    },
+    statics: ['src/**/!(*.js)', '!src/{scss,scss/**}'],
+    scripts: 'src/**/*.js',
+    styles: {
+      scss: ['src/scss/**/*.scss'],
+      dest: 'www/css'
+    },
+    fonts: 'lib/ionic/fonts/**/*.*'
+  },
+  tasks: 'tasks/**/*.js',
+  components: {
+    scripts: ['../components/**/*.js', '!../components/**/*.spec.js'],
+    templates: '../components/**/*.tpl.html',
+    specs: '../components/**/*.js',
+    styles: '../components/**/*.css',
+    resources: ['../components/**/*.*', '!../components/**/*.js', '!../components/**/*.css']
+  },
+  data: process.cwd() + '/data'
 };
 
-var libs = [
-  './lib/ionic/js/ionic.js',
-  './lib/angular/angular.js',
-  './lib/angular-animate/angular-animate.js',
-  './lib/angular-sanitize/angular-sanitize.js',
-  './lib/angular-ui-router/release/angular-ui-router.js',
-  './lib/ionic/js/ionic-angular.js',
-  './lib/angular-timer/dist/angular-timer.js',
-  './lib/raphael/raphael.js',
-  './lib/jsss/scramble_333.js',
-  './lib/jsss/scramble_222.js',
-  './lib/ngCordova/dist/ng-cordova.js'
-];
+var libs = {
+  runtime: [
+    './lib/ionic/js/ionic.js',
+    './lib/angular/angular.js',
+    './lib/angular-animate/angular-animate.js',
+    './lib/angular-sanitize/angular-sanitize.js',
+    './lib/angular-ui-router/release/angular-ui-router.js',
+    './lib/ionic/js/ionic-angular.js',
+    './lib/angular-timer/dist/angular-timer.js',
+    './lib/raphael/raphael.js',
+    './lib/jsss/scramble_333.js',
+    './lib/jsss/scramble_222.js',
+    './lib/ngCordova/dist/ng-cordova.js'
+  ]
+};
 
-gulp.task('build', ['lint', 'build-html', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-sass']);
+var opts = {
+  moduleName: 'visualCubeGenerator',
+  browser: require('tiny-lr')(),
+  paths: paths,
+  libs: libs,
+  production: process.env.NODE_ENV === 'production',
+  port: 8000,
+  lrPort: 35729,
+  watching: false,
+  errorHandler: function (error) {
+    console.log(error.toString());
+    this.emit('end');
+  }
+}
 
-gulp.task('watch', ['watch-scripts', 'watch-sass']);
+require('../tasks/angular-config.js')(gulp, opts);
+require('../tasks/build.js')(gulp, opts);
+require('../tasks/lint.js')(gulp, opts);
+require('../tasks/scripts.js')(gulp, opts);
+require('../tasks/styles.js')(gulp, opts);
+require('../tasks/test-components.js')(gulp, opts);
+require('../tasks/views.js')(gulp, opts);
+require('../tasks/watch.js')(gulp, opts);
+
 
 gulp.task('default', function(callback) {
-  runSequence('clean', 'build', 'watch');
+  runSequence(['clean'], ['lint', 'build'], ['watch-enable', 'live'], 'serve', 'watch');
 });
 
-gulp.task('ionic',   ['default']);
-
-gulp.task('clean', function(done) {
-  del(['www/**'], function (err) {
-    if (!err) {
-      console.log('Files in www/ deleted');
-    }
-    done(err);
-  });
+gulp.task('test', function(callback) {
+  runSequence('clean', ['lint', 'build'], 'run-tests');
 });
 
-gulp.task('build-html', function() {
-  return gulp.src(paths.src)
-    .pipe(gulp.dest('www'));
+gulp.task('build-production', function(callback) {
+  runSequence('clean', 'build');
 });
 
-gulp.task('build-templates', function () {
-  return gulp.src('../components/**/*.tpl.html')
-    .pipe(templateCache({
-      module: opts.moduleName + '.template',
-      standalone: true
-    }))
-    .pipe(gulp.dest('./www/'));
-});
+gulp.task('build', ['angular-config', 'build-views', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-styles', 'copy-resources']);
 
-gulp.task('build-fonts', function() {
-  return gulp.src(paths.fonts)
-    .pipe(gulp.dest('www/fonts'));
-});
+gulp.task('run-tests', ['test-components', 'test-backend']);
 
-gulp.task('build-scripts', function () {
-  gulp.src(['./src/**/*.js', '../components/**/*.js', '!../components/**/*.spec.js'])
-    .pipe(concat('bundle.js'))
-    .pipe(gulp.dest('./www/'));
-});
+gulp.task('watch', ['watch-scripts', 'watch-styles', 'watch-views', 'watch-templates']);
 
-gulp.task('build-vendor', function() {
-  gulp.src(libs)
-    .pipe(concat('vendor.js'))
-    .pipe(gulp.dest('./www/'));
-});
+gulp.task('ionic',   ['build-production']);
 
-gulp.task('build-sass', ['build-fonts'], function(done) {
-  gulp.src('./src/scss/ionic.app.scss')
-    .pipe(sass())
-    .pipe(gulpif(production, minifyCss({
-      keepSpecialComments: 0
-    })))
-    .pipe(gulp.dest('./www/css/'))
-    .on('end', done);
+gulp.task('serve', function () {
+  var app = connect()
+      .use(serveStatic(opts.paths.client.target))
+      .listen(opts.port);
+  open('http://localhost:'+opts.port);
 });
-
-gulp.task('lint', function () {
-  var config = {
-    globals: {
-      angular: true
-    }
-  };
-  return gulp.src(paths.scripts.concat(['gulpfile.js', ]))
-    .pipe(plumber())
-    .pipe(jshint(config))
-    .pipe(jshint.reporter('jshint-stylish'));
-});
-
-gulp.task('watch-scripts', function() {
-  return gulp.watch('./src/**/*.js', ['build-scripts']);
-});
-
-gulp.task('watch-sass', function() {
-  return gulp.watch(paths.sass, ['build-sass']);
-});
-
-var errorHandler = function(error) {
-  console.log(error.toString());
-  this.emit('end');
-};
