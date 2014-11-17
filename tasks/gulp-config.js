@@ -61,7 +61,7 @@ var opts = {
   libs: libs,
   port: process.env.PORT || 9000,
   production: process.env.NODE_ENV === 'production',
-  lrPort: 35729,
+  lrPort: 35729 + 1,
   watching: false,
   errorHandler: function (error) {
     console.log(error.toString());

@@ -1,6 +1,7 @@
 'use strict';
 
-var refresh = require('gulp-livereload')
+var embedlr = require("gulp-embedlr")
+  , refresh = require('gulp-livereload')
   , plumber = require('gulp-plumber')
   ;
 
@@ -9,6 +10,11 @@ module.exports = function(gulp, opts) {
 
   gulp.task('watch-enable', function () {
     opts.watching = true;
+    return gulp.src(opts.paths.client.target + '/index.html')
+      .pipe(embedlr({
+        port: opts.lrPort
+      }))
+      .pipe(gulp.dest(opts.paths.client.target))
   });
 
   gulp.task('live', function () {
