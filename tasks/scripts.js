@@ -10,9 +10,10 @@ var gulpif     = require('gulp-if')
   ;
 
 module.exports = function(gulp, opts) {
+  require('./angular-config');
   var scriptSource = [opts.paths.client.app, opts.paths.client.scripts].concat(opts.paths.components.scripts);
 
-  gulp.task('build-scripts', function () {
+  gulp.task('build-scripts', ['angular-config'], function () {
     gutil.log('... building scripts');
     return gulp.src(scriptSource)
       .pipe(concat('bundle.js'))
