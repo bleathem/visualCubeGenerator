@@ -1,7 +1,7 @@
 'use strict';
 
-var file       = require('gulp-file')
-  , footer = require('gulp-footer')
+var footer = require('gulp-footer')
+  , header = require('gulp-header')
   , ngConstant = require('gulp-ng-constant')
   ;
 
@@ -23,18 +23,18 @@ var generateDevConstants = function() {
 
 module.exports = function(gulp, opts) {
   gulp.task('angular-config', function () {
-    file(opts.paths.client.config, '{}')
+    return gulp.src(opts.paths.client.src + '/app/' + opts.paths.client.config)
       .pipe(ngConstant({
         name: 'visualCubeGenerator.config',
         constants: {
           appConfig: generateDevConstants(),
-        },
-        wrap: '// jshint quotmark: double \n<%= __ngModule %>'
+        }
       }))
+      .pipe(header('// jshint quotmark: double \n"use strict";\n(function (angular) {\n'))
       .pipe(footer(
-        '\nangular.module("visualCubeGenerator").config(["$compileProvider", function ($compileProvider) {\n  $compileProvider.debugInfoEnabled(<%= debug %>);\n}]);\n',
+        '\nangular.module("visualCubeGenerator").config(["$compileProvider", function ($compileProvider) {\n  $compileProvider.debugInfoEnabled(<%= debug %>);\n}]);\n})(angular);\n// jshint quotmark: single\n',
         {debug: !opts.production}
       ))
-      .pipe(gulp.dest(opts.paths.client.src + '/app/'));
+      .pipe(gulp.dest(opts.paths.client.target + '/app/'));
   });
 };
