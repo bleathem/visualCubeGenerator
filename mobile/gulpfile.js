@@ -1,9 +1,14 @@
 'use strict';
+
 var gulp = require('gulp')
   , connect = require('connect')
+  , env = require('node-env-file')
   , open = require('open')
   , serveStatic = require('serve-static')
   , runSequence = require('run-sequence');
+
+var envFile = process.env.NODE_ENV === 'production' ? 'production.env' : 'development.env';
+env(__dirname + '/../env/' + envFile);
 
 var paths = {
   client: {

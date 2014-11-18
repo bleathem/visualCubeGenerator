@@ -10,12 +10,9 @@
     'cube.scramble',
     'cube.scrambles',
     'account',
+    'visualCubeGenerator.config',
     'visualCubeGenerator.template'
   ])
-
-  .constant('appConfig', {
-    backend: 'http://home.bleathem.ca:9000'
-  })
 
   .run(function($ionicPlatform, $cordovaSplashscreen) {
     $ionicPlatform.ready(function() {

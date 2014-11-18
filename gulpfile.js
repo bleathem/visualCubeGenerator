@@ -1,7 +1,11 @@
 'use strict';
 
 var gulp        = require('gulp')
+  , env = require('node-env-file')
   , runSequence = require('run-sequence');
+
+var envFile = process.env.NODE_ENV === 'production' ? 'production.env' : 'development.env';
+env(__dirname + '/env/' + envFile);
 
 var opts = require('./tasks/gulp-config.js')(gulp, {});
 

@@ -1,7 +1,6 @@
 'use strict';
 
-var env = require('node-env-file')
-  , _   = require('underscore')
+var _ = require('underscore')
   ;
 
 var paths = {
@@ -71,8 +70,5 @@ var opts = {
 
 module.exports = function(gulp, baseOpts) {
   var newOpts = _.extend({}, baseOpts, opts);
-  if (!newOpts.production) {
-    env(__dirname + '/../env/development.env');
-  }
   return newOpts;
 };

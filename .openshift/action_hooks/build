@@ -1,4 +1,4 @@
-source ${OPENSHIFT_REPO_DIR}/env/openshift.env;
+source ${OPENSHIFT_REPO_DIR}/env/production.env;
 export PATH=$PATH:$GEM_HOME/bin
 cd ${OPENSHIFT_REPO_DIR}
 bundle install
