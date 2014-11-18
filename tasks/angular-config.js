@@ -32,7 +32,7 @@ module.exports = function(gulp, opts) {
       }))
       .pipe(header('// jshint quotmark: double \n"use strict";\n(function (angular) {\n'))
       .pipe(footer(
-        '\nangular.module("visualCubeGenerator").config(["$compileProvider", function ($compileProvider) {\n  $compileProvider.debugInfoEnabled(<%= debug %>);\n}]);\n})(angular);\n// jshint quotmark: single\n',
+        '\nangular.module("visualCubeGenerator").config(["$compileProvider", function ($compileProvider) {\n  $compileProvider.debugInfoEnabled && $compileProvider.debugInfoEnabled(<%= debug %>);\n}]);\n})(angular);\n// jshint quotmark: single\n',
         {debug: !opts.production}
       ))
       .pipe(gulp.dest(opts.paths.client.target + '/app/'));

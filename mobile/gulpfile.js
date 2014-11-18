@@ -10,7 +10,7 @@ var paths = {
     src: 'src',
     app: 'src/app/app.js',
     target: 'www',
-    config: 'config.nogit.js',
+    config: 'config.js',
     built: {
       scripts: 'www/**/*.js',
       styles: 'www/**/*.css',
