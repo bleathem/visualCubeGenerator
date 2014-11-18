@@ -22,7 +22,7 @@ var paths = {
       scss: ['src/scss/**/*.scss'],
       dest: 'www/css'
     },
-    fonts: 'lib/ionic/fonts/**/*.*'
+    fonts: 'lib/ionic/release/fonts/**/*.*'
   },
   tasks: 'tasks/**/*.js',
   components: {
@@ -37,12 +37,12 @@ var paths = {
 
 var libs = {
   runtime: [
-    './lib/ionic/js/ionic.js',
+    './lib/ionic/release/js/ionic.js',
     './lib/angular/angular.js',
     './lib/angular-animate/angular-animate.js',
     './lib/angular-sanitize/angular-sanitize.js',
     './lib/angular-ui-router/release/angular-ui-router.js',
-    './lib/ionic/js/ionic-angular.js',
+    './lib/ionic/release/js/ionic-angular.js',
     './lib/angular-timer/dist/angular-timer.js',
     './lib/raphael/raphael.js',
     './lib/jsss/scramble_333.js',
