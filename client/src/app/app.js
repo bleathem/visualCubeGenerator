@@ -6,7 +6,8 @@
     'http.helpers',
     'visualCubeGenerator.main',
     'visualCubeGenerator.config',
-    'visualCubeGenerator.template'
+    'visualCubeGenerator.template',
+    'angulartics', 'angulartics.google.analytics'
   ])
 
   .config(function ($stateProvider, $urlRouterProvider) {

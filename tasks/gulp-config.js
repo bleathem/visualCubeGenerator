@@ -46,7 +46,9 @@ var libs = {
     './lib/jsss/scramble_222.js',
     './lib/angular-bootstrap/ui-bootstrap.js',
     './lib/angular-bootstrap/ui-bootstrap-tpls.js',
-    './lib/ngFx/dist/ngFx.js'
+    './lib/ngFx/dist/ngFx.js',
+    './lib/angulartics/src/angulartics.js',
+    './lib/angulartics/src/angulartics-ga.js'
   ],
   test: [
     './lib/angular-mocks/angular-mocks.js'

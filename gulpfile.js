@@ -33,7 +33,7 @@ gulp.task('build-production', function(callback) {
   runSequence('clean', 'build');
 });
 
-gulp.task('build', ['angular-config', 'build-views', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-styles', 'copy-resources']);
+gulp.task('build', ['angular-config', 'build-views', 'enable-analytics', 'build-vendor', 'build-scripts', 'build-templates', 'build-fonts', 'build-styles', 'copy-resources']);
 
 gulp.task('run-tests', ['test-components', 'test-backend']);
 
