@@ -3,5 +3,6 @@ export PATH=$PATH:$GEM_HOME/bin
 cd ${OPENSHIFT_REPO_DIR}
 bundle install
 cp $OPENSHIFT_DATA_DIR/keys.nogit.js $OPENSHIFT_REPO_DIR/server/oauth/keys.nogit.js
+ln -s ${OPENSHIFT_DATA_DIR}/visual-cube-generator.apk client/www/app/
 HOME=$OPENSHIFT_REPO_DIR ./node_modules/.bin/bower --config.interactive=false install
 HOME=$OPENSHIFT_REPO_DIR gulp build-production
