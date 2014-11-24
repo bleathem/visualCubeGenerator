@@ -9,7 +9,8 @@
     "raphael": "~2.1.2",
     "angular-timer": "~1.1.6",
     "angular-mocks": "~1.2.25",
-    "ngCordova": "~0.1.4-alpha"
+    "ngCordova": "~0.1.4-alpha",
+    "angulartics": "~0.17.1"
   },
   "resolutions": {
     "angular": "~1.2.17"

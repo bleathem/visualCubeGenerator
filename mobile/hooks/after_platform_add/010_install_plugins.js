@@ -11,7 +11,8 @@ var pluginlist = [
   "org.apache.cordova.device",
   "org.apache.cordova.splashscreen",
   "org.apache.cordova.statusbar",
-  "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git" //"org.apache.cordova.core.inappbrowser"
+  "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git", //"org.apache.cordova.core.inappbrowser",
+  "https://github.com/phonegap-build/GAPlugin.git" //"com.adobe.plugins.GAPlugin"
 ];
 
 // no need to configure below

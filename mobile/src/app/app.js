@@ -11,10 +11,11 @@
     'cube.scrambles',
     'account',
     'visualCubeGenerator.config',
-    'visualCubeGenerator.template'
+    'visualCubeGenerator.template',
+    'angulartics', 'angulartics.google.analytics.cordova'
   ])
 
-  .run(function($ionicPlatform, $cordovaSplashscreen) {
+  .run(function($ionicPlatform, $cordovaSplashscreen, googleAnalyticsCordova) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -28,7 +29,14 @@
       if (window.navigator && window.navigator.splashscreen) {
         $cordovaSplashscreen.hide();
       }
+      googleAnalyticsCordova.init();
     });
+  })
+
+  .config(function(googleAnalyticsCordovaProvider) {
+    googleAnalyticsCordovaProvider.trackingId = 'UA-56918202-2';
+    googleAnalyticsCordovaProvider.period = 20; // default: 10 (in seconds)
+    googleAnalyticsCordovaProvider.debug = true; // default: false
   })
 
   .config(function($stateProvider, $urlRouterProvider) {

@@ -52,7 +52,9 @@ var libs = {
     './lib/raphael/raphael.js',
     './lib/jsss/scramble_333.js',
     './lib/jsss/scramble_222.js',
-    './lib/ngCordova/dist/ng-cordova.js'
+    './lib/ngCordova/dist/ng-cordova.js',
+    './lib/angulartics/src/angulartics.js',
+    './lib/angulartics/src/angulartics-ga-cordova.js'
   ]
 };
 
