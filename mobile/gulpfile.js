@@ -64,7 +64,15 @@ var opts = {
   paths: paths,
   libs: libs,
   production: process.env.NODE_ENV === 'production',
-  frontendPort: 8000,
+  frontend: {
+    hostname: process.env.REST_HOSTNAME || 'localhost',
+    port: 8000,
+  },
+  rest: {
+    protocol: process.env.REST_PROTOCOL || 'http',
+    hostname: process.env.REST_HOSTNAME || 'localhost',
+    port: process.env.REST_PORT || port
+  },
   lrPort: 35729,
   watching: false,
   errorHandler: function (error) {

@@ -17,7 +17,7 @@ module.exports = function(gulp, opts) {
       })
       .on('start', function() {
         setTimeout(function() {
-            open('http://localhost:'+opts.frontendPort);
+            open('http://' + opts.frontend.hostname + ':' + opts.frontend.port);
           }, 500);
       })
   });

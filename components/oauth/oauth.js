@@ -1,6 +1,6 @@
 'use strict';
 (function (angular) {
-  angular.module('oauth', ['ui.router'])
+  angular.module('oauth', ['ui.router', 'visualCubeGenerator.config'])
 
   .config(function ($stateProvider) {
     $stateProvider.state('oauth_callback', {
@@ -9,9 +9,8 @@
     });
   })
 
-  .controller('TokenCallbackController', function($window, $stateParams) {
-    var $opener = $window.opener.angular.element($window.opener);
-    $opener.triggerHandler('oauthcallback', $stateParams);
+  .controller('TokenCallbackController', function($window, $stateParams, appConfig) {
+    $window.opener && $window.opener.postMessage($stateParams, appConfig.frontend);
   })
 
   .run(function(auth) {

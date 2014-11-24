@@ -60,10 +60,18 @@ var opts = {
   browser: require('tiny-lr')(),
   paths: paths,
   libs: libs,
-  frontendPort: process.env.PORT || 9000,
   production: process.env.NODE_ENV === 'production',
   lrPort: 35729 + 1,
   watching: false,
+  frontend: {
+    hostname: process.env.REST_HOSTNAME || 'localhost',
+    port: process.env.CLIENT_PORT || 9000
+  },
+  rest: {
+    protocol: process.env.REST_PROTOCOL || 'http',
+    hostname: process.env.REST_HOSTNAME || 'localhost',
+    port: process.env.REST_PORT || port
+  },
   errorHandler: function (error) {
     console.log(error.toString());
     this.emit('end');

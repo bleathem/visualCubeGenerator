@@ -5,19 +5,16 @@ var footer = require('gulp-footer')
   , ngConstant = require('gulp-ng-constant')
   ;
 
-var generateDevConstants = function() {
-  var backend;
+var generateDevConstants = function(opts) {
+  var backend, frontend;
   var port = process.env.PORT || 9000;
 
-  var rest = {
-    protocol: process.env.REST_PROTOCOL || 'http',
-    hostname: process.env.REST_HOSTNAME || 'localhost',
-    port: process.env.REST_PORT || port
-  };
-  backend = rest.protocol + '://' + rest.hostname + ':' + rest.port;
+  backend = opts.rest.protocol + '://' + opts.rest.hostname + ':' + opts.rest.port;
+  frontend = 'http://' + opts.frontend.hostname + ':' + opts.frontend.port;
   return {
     backend: backend,
-    port: port
+    frontend: frontend,
+    port: opts.frontend.port
   };
 };
 
@@ -27,7 +24,7 @@ module.exports = function(gulp, opts) {
       .pipe(ngConstant({
         name: 'visualCubeGenerator.config',
         constants: {
-          appConfig: generateDevConstants(),
+          appConfig: generateDevConstants(opts),
         }
       }))
       .pipe(header('// jshint quotmark: double \n"use strict";\n(function (angular) {\n'))
