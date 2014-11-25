@@ -36,7 +36,7 @@
   .config(function(googleAnalyticsCordovaProvider) {
     googleAnalyticsCordovaProvider.trackingId = 'UA-56918202-2';
     googleAnalyticsCordovaProvider.period = 20; // default: 10 (in seconds)
-    googleAnalyticsCordovaProvider.debug = true; // default: false
+    googleAnalyticsCordovaProvider.debug = false; // default: false
   })
 
   .config(function($stateProvider, $urlRouterProvider) {

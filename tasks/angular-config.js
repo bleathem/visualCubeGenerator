@@ -14,7 +14,8 @@ var generateDevConstants = function(opts) {
   return {
     backend: backend,
     frontend: frontend,
-    port: opts.frontend.port
+    port: opts.frontend.port,
+    production: opts.production
   };
 };
 
