@@ -11,17 +11,18 @@
       </div>
       <button class="btn btn-primary btn-lg active"
               role="button"
-              ng-click="startTimer()"
-              ng-disabled="timer.running || scramble.solveTime"
+              timer-start
+              ng-disabled="timerStatus.running || scramble.solveTime"
               data-toggle="modal" data-target="#timerModal">
         Start
       </button>
       <button class="btn btn-danger btn-lg active"
               role="button"
-              ng-click="stopTimer()"
-              ng-disabled="!timer.running">
+              timer-stop
+              ng-disabled="!timerStatus.running">
         Stop
       </button>
+      <timer-keyboard-control timer-status="timerStatus" timer-scramble="scramble"></timer-keyboard-control>
     </div>
   </section>
 </div>

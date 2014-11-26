@@ -12,47 +12,109 @@
       });
   })
 
-  .controller('ScrambleCtrl', function ($scope, $stateParams, $document, scrambles, solveManager) {
+  .controller('ScrambleCtrl', function ($scope, $stateParams, scrambles, solveManager) {
     $scope.scramble = scrambles.get($stateParams.scrambleId);
-    $scope.timer = {running: false};
-
-    var onKeyup = function(event) {
-      if (event.keyCode === 32) {
-        $scope.$apply(function() {
-          $scope.startTimer();
-        });
-      }
+    $scope.timerStatus = {
+      running: false
     };
 
-    var onKeydown = function(event) {
-      if (event.keyCode === 32) {
-        $scope.$apply(function() {
-          $scope.stopTimer();
-        });
-      }
-    };
-
-    angular.element($document[0].body).on('keyup', onKeyup);
-
-    $scope.startTimer = function() {
-      $scope.$broadcast('timer-start');
-      $scope.timer.running = true;
-      angular.element($document[0].body).off('keyup', onKeyup);
-      angular.element($document[0].body).on('keydown', onKeydown);
-    };
-
-    $scope.stopTimer = function() {
-      $scope.$broadcast('timer-stop');
-      $scope.timer.running = false;
-      angular.element($document[0].body).off('keydown', onKeydown);
-    };
-
-    $scope.$on('timer-stopped', function(event, data){
-     if (! $scope.scramble.solveTime) {
-       $scope.scramble.solveTime = data.millis;
-       solveManager.save($scope.scramble);
-     }
+    $scope.$on('timer-start', function(event, data) {
+      $scope.timerStatus.running = true;
     });
+
+    $scope.$on('timer-stopped', function(event, data) {
+      $scope.timerStatus.running = false;
+      if (! $scope.scramble.solveTime) {
+        $scope.scramble.solveTime = data.millis;
+        solveManager.save($scope.scramble);
+      }
+    });
+  })
+
+  .directive('timerStart', function() {
+    return {
+      link: function($scope, el, attrs) {
+        angular.element(el).on('click', function() {
+          $scope.$apply(function() {
+            $scope.$parent.$broadcast('timer-start');
+          });
+        });
+      }
+    }
+  })
+
+  .directive('timerStop', function() {
+    return {
+      link: function($scope, el, attrs) {
+        el.on('click', function() {
+          $scope.$apply(function() {
+            $scope.$parent.$broadcast('timer-stop');
+          });
+        });
+      }
+    }
+  })
+
+  .directive('timerKeyboardControl', function($document, $state) {
+    return {
+      scope: {
+        timerStatus: '=',
+        scramble: '=timerScramble'
+      },
+      link: function($scope, el, attrs) {
+        var stopping = false;
+
+        var getTimerState = function() {
+          if ($scope.timerStatus.running) {
+            return 'running';
+          } else if ($scope.scramble.solveTime) {
+            return stopping ? 'stopping' : 'finished';
+          } else {
+            return 'ready';
+          }
+        }
+
+        var onKeyup = function(event) {
+          if (event.keyCode === 32) {
+            switch(getTimerState()) {
+              case 'ready':
+                $scope.$apply(function() {
+                  $scope.$parent.$broadcast('timer-start');
+                });
+                break;
+              case 'stopping':
+                stopping = false;
+                break;
+              case 'finished':
+                $state.go('visualCubeGenerator.main.scrambles');
+                break;
+            }
+          }
+        };
+
+        var onKeydown = function(event) {
+          if (event.keyCode === 32) {
+            switch(getTimerState()) {
+              case 'running':
+                $scope.$apply(function() {
+                  stopping = true;
+                  $scope.$parent.$broadcast('timer-stop');
+                });
+                break;
+            }
+          }
+        };
+
+        angular.element($document[0].body).on('keyup', onKeyup);
+        angular.element($document[0].body).on('keydown', onKeydown);
+
+        $scope.$on('$destroy', function() {
+          angular.element($document[0].body).off('keyup', onKeyup);
+          angular.element($document[0].body).off('keydown', onKeydown);
+        });
+
+      }
+    }
   })
   ;
 })(angular);

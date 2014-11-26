@@ -24,5 +24,44 @@
         throw e;
       });
     };
+  })
+
+  .directive('selectScramble', function($state) {
+    return {
+      scope: {
+        index: '&selectIndex'
+      },
+      link: function($scope, el, attrs) {
+        var selectScramble = function(index) {
+          $state.go('visualCubeGenerator.main.scramble', {
+            scrambleId: index
+          });
+        };
+
+        var onKey = function(event) {
+          if (event.keyCode === 32) {
+            event.stopPropagation();
+            selectScramble($scope.index());
+          }
+        }
+
+        el.on('keyup', onKey);
+      }
+    };
+  })
+
+  .directive('focusScramble', function($document, $timeout) {
+    return {
+      link: function($scope, el, attrs) {
+        $timeout(function() {
+          var tabbables = $document[0].querySelectorAll('.tabbable');
+          if (tabbables && tabbables[0]) {
+            tabbables[0].focus();
+          }
+        });
+      }
+    };
   });
+
+  ;
 })(angular);

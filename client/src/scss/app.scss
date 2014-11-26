@@ -35,6 +35,10 @@ $fa-font-path: "../fonts";
   padding-top: 15px;
 }
 
+.scramble-list .tabbable {
+  outline:none;
+}
+
 .scramble, .solve {
   .chunk {
       padding: 0;
