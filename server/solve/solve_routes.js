@@ -9,4 +9,6 @@ module.exports = exports = function (router) {
     .post(passport.authenticate('bearer', { session: false }), controller.create);
   router.route('/create_all')
     .post(passport.authenticate('bearer', { session: false }), controller.createAll);
+  router.route('/solves.csv')
+    .get(passport.authenticate('bearer', { session: false }), controller.sendCsv)
 };

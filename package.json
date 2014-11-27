@@ -17,6 +17,7 @@
     "q": "*",
     "request": "^2.45.0",
     "supervisor": "^0.6.0",
+    "through": "^2.3.6",
     "underscore": "^1.7.0"
   },
   "devDependencies": {

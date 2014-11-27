@@ -1,7 +1,9 @@
 "use strict";
 
 var Solve = require('./solve_model.js'),
-    Q    = require('q');
+    through = require('through'),
+    Q    = require('q'),
+    _ = require('underscore');
 
 var createAll = function(solves) {
   var deferred = Q.defer();
@@ -31,12 +33,16 @@ var createAll = function(solves) {
 
 module.exports = exports = {
   listByUser: function(req, res, next) {
-    Solve.find({_user: req.user.id}).sort({date: -1}).skip(0).limit(100).exec()
-      .then(function (solves) {
-        res.json(solves);
-      }, function (reason) {
-        next(reason);
-      });
+    if (req.headers.accept === 'text/csv') {
+      exports.sendCsv(req, res, next);
+    } else {
+      Solve.find({_user: req.user.id}).sort({date: -1}).skip(0).limit(100).exec()
+        .then(function (solves) {
+          res.json(solves);
+        }, function (reason) {
+          next(reason);
+        });
+    }
   },
 
   create: function(req, res, next) {
@@ -60,5 +66,16 @@ module.exports = exports = {
       }, function (reason) {
         next(reason);
       });
+  },
+
+  sendCsv: function(req, res, next) {
+    res.attachment('solves.csv');
+    res.write('date, solveTime, moves, state\n');
+    var template = _.template('<%= date %>, <%= solveTime %>, <%= moves %>, <%= state %>\n');
+    Solve.find({_user: req.user.id}).sort({date: -1}).limit(10000).stream()
+      .pipe(through(function(solve) {
+        this.queue(template(solve));
+      }))
+      .pipe(res);
   }
 };

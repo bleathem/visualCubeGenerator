@@ -11,6 +11,8 @@ var request = require('supertest')
   , User = require('../user/user_model')
   , Solve = require('../solve/solve_model')
   , Q = require('q')
+  , _ = require('underscore')
+  ;
 
 // mongoose.set('debug', true);
 
@@ -192,5 +194,37 @@ describe('Rest API:', function() {
           });
       })
     });
+  });
+
+  describe('CSV down load', function() {
+    it('download a csv file', function(done) {
+      function csvParser(res, callback) {
+        res.setEncoding('utf8');
+        res.data = '';
+        res.on('data', function (chunk) {
+          res.data += chunk;
+        });
+        res.on('end', function () {
+          callback(null, res.data);
+        });
+      }
+      var solvesToCreate = data.uniqueSolves(102, user);
+      Solve.collection.insert(solvesToCreate, function() {
+        var csvHeaders = _.extend({'Accept': 'text/csv'}, headers);
+        request(app)
+          .get('/solve/solves.csv')
+          .set(csvHeaders)
+          .expect(200)
+          .expect('Content-Type', 'text/csv; charset=utf-8')
+          .parse(csvParser)
+          .end(function(err, res) {
+            if (err) return done(err);
+            var solvesCsv = res.body;
+            solvesCsv.should.not.be.empty;
+            solvesCsv.split('\n').length.should.equal(solvesToCreate.length + 2);
+            done();
+          });
+        });
+    })
   });
 });

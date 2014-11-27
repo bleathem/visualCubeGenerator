@@ -45,7 +45,7 @@ var uniqueSolves = function(max, user) {
       moves: solve.moves,
       state: state,
       solveTime: solve.solveTime,
-      date: solve.date + i,
+      date: solve.date + i*1000,
       _user: user._id,
     }
     newSolves.push(newSolve);
