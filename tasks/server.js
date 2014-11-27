@@ -5,6 +5,8 @@ var nodemon = require('gulp-nodemon')
   , refresh = require('gulp-livereload')
   ;
 
+var started = false;
+
 module.exports = function(gulp, opts) {
   gulp.task('serve', function () {
     nodemon({
@@ -16,9 +18,14 @@ module.exports = function(gulp, opts) {
         refresh(opts.browser);
       })
       .on('start', function() {
-        setTimeout(function() {
-            open('http://' + opts.frontend.hostname + ':' + opts.frontend.port);
-          }, 500);
+        if (started) {
+          refresh(opts.browser);
+        } else {
+          started = true;
+          setTimeout(function() {
+              open('http://' + opts.frontend.hostname + ':' + opts.frontend.port);
+            }, 500);
+        }
       })
   });
 };
