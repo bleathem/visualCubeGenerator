@@ -212,7 +212,7 @@ describe('Rest API:', function() {
       Solve.collection.insert(solvesToCreate, function() {
         var csvHeaders = _.extend({'Accept': 'text/csv'}, headers);
         request(app)
-          .get('/solve/solves.csv')
+          .get('/solve?')
           .set(csvHeaders)
           .expect(200)
           .expect('Content-Type', 'text/csv; charset=utf-8')

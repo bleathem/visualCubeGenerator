@@ -1,7 +1,9 @@
 "use strict";
 
-var controller = require('./solve_controllers.js'),
-    passport   = require('passport');
+var controller = require('./solve_controllers.js')
+  , bewit = require('../bewit/bewit_controllers.js')
+  , passport   = require('passport')
+  ;
 
 module.exports = exports = function (router) {
   router.route('/')
@@ -9,6 +11,6 @@ module.exports = exports = function (router) {
     .post(passport.authenticate('bearer', { session: false }), controller.create);
   router.route('/create_all')
     .post(passport.authenticate('bearer', { session: false }), controller.createAll);
-  router.route('/solves.csv')
-    .get(passport.authenticate('bearer', { session: false }), controller.sendCsv)
+  router.route('/csv')
+    .get(bewit.validateMac, controller.sendCsv);
 };

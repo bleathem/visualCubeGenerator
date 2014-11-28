@@ -1,8 +1,22 @@
 <div class="container">
   <h2>Account</h2>
   <section>
+    <h3>Sign-in</h3>
     <g-plus-button ng-click="authorize()" ng-hide="auth.user"></g-plus-button>
     <profile profile="auth.user.googleAccount" ng-click="logout" ng-show="auth.user"></profile>
     <pre ng-show="message">{{message}}</pre>
+  </section>
+  <section>
+    <h3>Data Export</h3>
+    <div ng-show="auth.user">
+      <p>
+        Export your solve history as a <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a>:
+      </p>
+      <button ng-click="getFile()" class='btn btn-primary active' href="/solve/solves.csv">Export Solves</button>
+    </div>
+    <div ng-hide="auth.user">
+      <p>
+        Sign-in to export your solve history as a <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a>:
+      </p>
   </section>
 </div>

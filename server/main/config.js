@@ -23,6 +23,7 @@ module.exports = exports = function (app, express, routers) {
   app.use('/oauth', routers.oauthRouter);
   app.use('/solve', routers.solveRouter);
   app.use('/user', routers.userRouter);
+  app.use('/bewit', routers.bewitRouter);
   app.use(middle.logError);
   app.use(middle.handleError);
 };

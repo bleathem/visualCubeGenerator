@@ -1,11 +1,13 @@
 'use strict';
 
-var passport       = require('passport'),
-    authKey        = require('./keys.nogit.js').web,
-    OAuth2Strategy = require('passport-google-oauth').OAuth2Strategy,
-    request        = require('request'),
-    User           = require('../user/user_model'),
-    BearerStrategy = require('passport-http-bearer').Strategy
+var passport       = require('passport')
+  , authKey        = require('./keys.nogit.js').web
+  , OAuth2Strategy = require('passport-google-oauth').OAuth2Strategy
+  , request        = require('request')
+  , User           = require('../user/user_model')
+  , HawkStrategy   = require('passport-hawk')
+  , BearerStrategy = require('passport-http-bearer').Strategy
+  ;
 
 var port = process.env.PORT || 9000;
 
@@ -89,7 +91,7 @@ passport.use('google', new OAuth2Strategy({
   callbackURL: process.env.REST_PROTOCOL + '://' + process.env.REST_HOSTNAME + ':' + process.env.REST_PORT + '/oauth/google/callback',
 }, authCallback));
 
-passport.use(new BearerStrategy(
+passport.use('bearer', new BearerStrategy(
   function(token, done) {
     User.findOne({'googleAccount.token.access_token': token }, function (err, user) {
       if (err) { return done(err); }
