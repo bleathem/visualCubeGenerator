@@ -23,6 +23,7 @@ var paths = {
     fonts: 'lib/fontawesome/fonts/**'
   },
   server: {
+    scripts: ['server/**/*.js'],
     tests: ['server/test/**/*.spec.js'],
   },
   tasks: 'tasks/**/*.js',

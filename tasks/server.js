@@ -12,7 +12,8 @@ module.exports = function(gulp, opts) {
     nodemon({
       script: 'server/server.js',
       ignore: ['**/node_modules/**/*.js'],
-      watch: ['server']
+      watch: ['server'],
+      nodeArgs: ['--debug'] 
       })
       .on('restart', function () {
         refresh(opts.browser);

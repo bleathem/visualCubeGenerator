@@ -7,13 +7,13 @@ var jshint  = require('gulp-jshint')
 module.exports = function(gulp, opts) {
   gulp.task('lint', function () {
     var config = {
-      browserify: true,
       laxcomma: true,
       globals: {
         angular: true
       }
     };
-    var source = opts.paths.client.scripts.concat([opts.paths.tasks], opts.paths.components.scripts);
+    var source = [].concat(opts.paths.client.scripts, opts.paths.tasks, opts.paths.components.scripts, opts.paths.server.scripts);
+    console.log(source);
     return gulp.src(source)
       .pipe(plumber())
       .pipe(jshint(config))
