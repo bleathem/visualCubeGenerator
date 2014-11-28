@@ -5,7 +5,6 @@ var passport       = require('passport')
   , OAuth2Strategy = require('passport-google-oauth').OAuth2Strategy
   , request        = require('request')
   , User           = require('../user/user_model')
-  , HawkStrategy   = require('passport-hawk')
   , BearerStrategy = require('passport-http-bearer').Strategy
   ;
 
