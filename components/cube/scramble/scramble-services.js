@@ -14,11 +14,12 @@
       var scrambles = [];
       for (var count = 0; count < max; count++) {
         // Generate a random scramble
+        var scrambleLoop = scrambler.getRandomScramble();
         var randomScramble = {
           /* jshint -W106 */
-          moves: scrambler.getRandomScramble().scramble_string.trim(),
+          moves: scrambleLoop.scramble_string.trim(),
           /* jshint +W106 */
-          state: scrambler.getRandomScramble().state,
+          state: scrambleLoop.state,
         };
         scrambles.push(randomScramble);
       }
