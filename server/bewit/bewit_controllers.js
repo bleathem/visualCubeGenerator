@@ -28,8 +28,17 @@ module.exports = exports = {
   validateMac: function (req, res, next) {
     var reqFixed = _.extend({}, req);
     reqFixed.url = '/solve' + reqFixed.url;
-    hawk.uri.authenticate(reqFixed, credentialsFunc, {}, function (err, credentials, attributes) {
+    var options = {
+      port: process.env.REST_PORT,
+      host: process.env.REST_HOSTNAME
+    }
+    hawk.uri.authenticate(reqFixed, credentialsFunc, options, function (err, credentials, attributes) {
       if (err) {
+        console.log({
+          url: req.url,
+          host: req.host,
+          port: req.port
+        });
         return res.status(401).send(err.message);
       }
       next();
