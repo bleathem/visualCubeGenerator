@@ -1,7 +1,6 @@
 'use strict';
 
-var concat        = require('gulp-concat')
-  , gulpif        = require('gulp-if')
+var gulpif        = require('gulp-if')
   , refresh       = require('gulp-livereload')
   , plumber       = require('gulp-plumber')
   , replace       = require('gulp-replace')
@@ -25,7 +24,7 @@ module.exports = function(gulp, opts) {
       return;
     }
     return gulp.src(index)
-    .pipe(replace(/.*\<!-- replace-marker: anayltics --\>/, script))
+    .pipe(replace(/.*<!-- replace-marker: anayltics -->/, script))
     .pipe(gulp.dest(opts.paths.client.target));
   });
 
@@ -42,7 +41,7 @@ module.exports = function(gulp, opts) {
     if (opts.watching) {
       gulp.watch(opts.paths.client.statics, ['build-views']);
     }
-  })
+  });
 
   gulp.task('build-templates', function () {
     gutil.log('... building templates');
@@ -65,5 +64,5 @@ module.exports = function(gulp, opts) {
     if (opts.watching) {
       gulp.watch(opts.paths.components.templates, ['build-templates']);
     }
-  })
+  });
 };

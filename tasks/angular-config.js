@@ -2,12 +2,12 @@
 
 var footer = require('gulp-footer')
   , header = require('gulp-header')
+  , gulpif = require('gulp-if')
   , ngConstant = require('gulp-ng-constant')
   ;
 
 var generateDevConstants = function(opts) {
   var backend, frontend;
-  var port = process.env.PORT || 9000;
 
   backend = opts.rest.protocol + '://' + opts.rest.hostname + ':' + opts.rest.port;
   frontend = 'http://' + opts.frontend.hostname + ':' + opts.frontend.port;
@@ -29,9 +29,10 @@ module.exports = function(gulp, opts) {
         }
       }))
       .pipe(header('// jshint quotmark: double \n"use strict";\n(function (angular) {\n'))
-      .pipe(footer(
-        '\nangular.module("visualCubeGenerator").config(["$compileProvider", function ($compileProvider) {\n  $compileProvider.debugInfoEnabled && $compileProvider.debugInfoEnabled(<%= debug %>);\n}]);\n})(angular);\n// jshint quotmark: single\n',
-        {debug: !opts.production}
+      .pipe(gulpif(opts.production, footer(
+        '\nangular.module("visualCubeGenerator").config(["$compileProvider", function ($compileProvider) {\n  $compileProvider.debugInfoEnabled && $compileProvider.debugInfoEnabled(false);\n}]);'
+      )))
+      .pipe(footer('\n})(angular);\n// jshint quotmark: single\n'
       ))
       .pipe(gulp.dest(opts.paths.client.target + '/app/'));
   });

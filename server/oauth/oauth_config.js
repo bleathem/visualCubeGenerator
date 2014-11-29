@@ -8,8 +8,6 @@ var passport       = require('passport')
   , BearerStrategy = require('passport-http-bearer').Strategy
   ;
 
-var port = process.env.PORT || 9000;
-
 var authCallback = function(accessToken, refreshToken, params, profile, done) {
   request.get({
     url: 'https://www.googleapis.com/plus/v1/people/me/openIdConnect',
@@ -25,14 +23,14 @@ var authCallback = function(accessToken, refreshToken, params, profile, done) {
         refresh_token: refreshToken,
         token_type: params.token_type,
         expiry: expiryDate
-      }
+      };
       var user = {
         $set: {
           name: openIdProfile.name,
           giveName: openIdProfile.given_name,
           familyName: openIdProfile.family_name
         }
-      }
+      };
       User.findOneAndUpdate(
         { 'googleAccount.sub': openIdProfile.sub },
         user,
@@ -48,7 +46,7 @@ var authCallback = function(accessToken, refreshToken, params, profile, done) {
                 refresh_token: tokenLoop.refresh_token,
                 token_type: tokenLoop.token_type,
                 expiry: tokenLoop.expiry
-              })
+              });
             });
             openIdProfile.token = tokens;
             User.findByIdAndUpdate(
@@ -79,7 +77,7 @@ var authCallback = function(accessToken, refreshToken, params, profile, done) {
         });
     }
   });
-}
+};
 
 passport.use('google', new OAuth2Strategy({
   authorizationURL: authKey.auth_uri,

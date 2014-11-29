@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /*
  * MiddleWare for the entire app
@@ -13,7 +13,7 @@ module.exports = exports = {
     next();
   },
 
-  handleError: function (err, req, res, next) {
+  handleError: function (err, req, res) {
     if (err) {
       res.status(500).send(err);
     }

@@ -1,8 +1,7 @@
-"use strict";
+'use strict';
 
-var controller  = require('./oauth_controllers.js'),
-    passport    = require('./oauth_config.js').passport,
-    querystring = require("querystring");
+var passport    = require('./oauth_config.js').passport,
+    querystring = require('querystring');
 
 var referrer;
 
@@ -17,7 +16,7 @@ module.exports = exports = function (router) {
       })(req, res, next);
     })
     .get('/google/callback', function (req, res, next) {
-      passport.authenticate('google', function(err, user, info) {
+      passport.authenticate('google', function(err, user) {
         var error = '',
             userString = '';
         if (err) {

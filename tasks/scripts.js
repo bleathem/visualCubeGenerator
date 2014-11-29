@@ -36,7 +36,7 @@ module.exports = function(gulp, opts) {
     if (opts.watching) {
       gulp.watch(scriptSource, ['build-scripts']);
     }
-  })
+  });
 
   gulp.task('build-vendor', function () {
     gulp.src(opts.libs.runtime)
@@ -45,6 +45,6 @@ module.exports = function(gulp, opts) {
       .pipe(gulpif(opts.production, plumber()))
       .pipe(gulpif(opts.production, uglify()))
 
-      .pipe(gulp.dest(opts.paths.client.target))
+      .pipe(gulp.dest(opts.paths.client.target));
   });
 };

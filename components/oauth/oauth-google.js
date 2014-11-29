@@ -18,7 +18,7 @@
     var getTokenPromiseJs = function(authWindow) {
       var deferred = $q.defer();
       angular.element(authWindow.opener).on('message', function(event) {
-        if (event.origin != appConfig.backend) {
+        if (event.origin !== appConfig.backend) {
           console.log('Ignoring message from unexpected origin.');
         }
         var params = event.data;

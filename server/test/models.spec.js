@@ -1,38 +1,30 @@
 'use strict';
-
 process.env.NODE_ENV = 'test';
 process.env.DB_URL = 'mongodb://localhost/visualCubeGenerator-test';
-
 var mongoose = require('mongoose');
 var should = require('should');
-var config = require('../main/config');
 var Solve = require('../solve/solve_model');
 var User = require('../user/user_model');
 var data = require('./test_data');
-
-after(function(){
-  mongoose.connection.close()
+after(function () {
+  mongoose.connection.close();
 });
-
-describe('Models:', function() {
-
+describe('Models:', function () {
   beforeEach(function (done) {
     function clearDB() {
       for (var i in mongoose.connection.collections) {
-        mongoose.connection.collections[i].remove(function() {});
+        mongoose.connection.collections[i].remove(function () {
+        });
       }
       return done();
     }
-
-     return clearDB();
-   }
-  );
-
-  describe('solve', function() {
-    describe('#create()', function() {
+    return clearDB();
+  });
+  describe('solve', function () {
+    describe('#create()', function () {
       it('should create a new Solve', function (done) {
         var solve = data.solve;
-        Solve.create(solve, function(err, createdSolve) {
+        Solve.create(solve, function (err, createdSolve) {
           if (err) {
             console.log(err);
           }
@@ -46,16 +38,16 @@ describe('Models:', function() {
       });
     });
   });
-  describe('user', function() {
-    describe('#create()', function() {
+  describe('user', function () {
+    describe('#create()', function () {
       it('should create a new User', function (done) {
         var user = data.user;
-        User.create(user, function(err, createdUser) {
+        User.create(user, function (err, createdUser) {
           should.not.exist(err);
           createdUser.name.should.equal(user.name);
           done();
         });
       });
     });
-  })
+  });
 });

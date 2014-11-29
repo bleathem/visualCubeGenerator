@@ -31,8 +31,8 @@ module.exports = exports = {
     var options = {
       port: process.env.REST_PORT,
       host: process.env.REST_HOSTNAME
-    }
-    hawk.uri.authenticate(reqFixed, credentialsFunc, options, function (err, credentials, attributes) {
+    };
+    hawk.uri.authenticate(reqFixed, credentialsFunc, options, function (err) {
       if (err) {
         console.log({
           url: req.url,

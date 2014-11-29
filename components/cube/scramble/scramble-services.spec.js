@@ -1,7 +1,3 @@
-/* global describe:false */
-/* global beforeEach:false */
-/* global it:false */
-/* global expect:false */
 'use strict';
 
 describe('Cube: scramble: services:', function() {

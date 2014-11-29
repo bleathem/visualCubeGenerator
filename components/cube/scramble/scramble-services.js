@@ -1,4 +1,4 @@
-/* global document:false */
+/* global scramblers:false */
 'use strict';
 (function (angular) {
   angular.module('cube.scramble.services', [])
@@ -85,7 +85,7 @@
     };
   })
 
-  .directive('scrambleMoves', function() {
+  .directive('scrambleMoves', function($document) {
     return {
       restrict: 'E',
       scope: {
@@ -103,7 +103,7 @@
           if ((i) % chunkLength === 0) {
             inner = angular.element('<span class="chunk"/>');
             outer.append(inner);
-            outer.append(document.createTextNode(' '));
+            outer.append($document[0].createTextNode(' '));
           }
           inner.text(inner.text() + ' ' + chunks[i]);
         }

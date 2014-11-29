@@ -23,14 +23,15 @@ var paths = {
     fonts: 'lib/fontawesome/fonts/**'
   },
   server: {
-    scripts: ['server/**/*.js'],
+    scripts: ['server/**/*.js', '!server/**/*.spec.js'],
     tests: ['server/test/**/*.spec.js'],
   },
   tasks: 'tasks/**/*.js',
   components: {
+    js: ['components/**/*.js'],
     scripts: ['components/**/*.js', '!components/**/*.spec.js'],
     templates: 'components/**/*.tpl.html',
-    specs: 'components/**/*.js',
+    specs: 'components/**/*.spec.js',
     styles: 'components/**/*.css',
     resources: ['components/**/*.*', '!components/**/*.js', '!components/**/*.css']
   },
@@ -71,7 +72,7 @@ var opts = {
   rest: {
     protocol: process.env.REST_PROTOCOL || 'http',
     hostname: process.env.REST_HOSTNAME || 'localhost',
-    port: process.env.REST_PORT || port
+    port: process.env.REST_PORT || process.env.PORT || 9000
   },
   errorHandler: function (error) {
     console.log(error.toString());

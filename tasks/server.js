@@ -13,7 +13,7 @@ module.exports = function(gulp, opts) {
       script: 'server/server.js',
       ignore: ['**/node_modules/**/*.js'],
       watch: ['server'],
-      nodeArgs: ['--debug'] 
+      nodeArgs: ['--debug']
       })
       .on('restart', function () {
         refresh(opts.browser);
@@ -27,6 +27,6 @@ module.exports = function(gulp, opts) {
               open('http://' + opts.frontend.hostname + ':' + opts.frontend.port);
             }, 500);
         }
-      })
+      });
   });
 };

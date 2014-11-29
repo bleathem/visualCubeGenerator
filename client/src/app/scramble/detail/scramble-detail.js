@@ -18,7 +18,7 @@
       running: false
     };
 
-    $scope.$on('timer-start', function(event, data) {
+    $scope.$on('timer-start', function() {
       $scope.timerStatus.running = true;
     });
 
@@ -33,26 +33,26 @@
 
   .directive('timerStart', function() {
     return {
-      link: function($scope, el, attrs) {
+      link: function($scope, el) {
         angular.element(el).on('click', function() {
           $scope.$apply(function() {
             $scope.$parent.$broadcast('timer-start');
           });
         });
       }
-    }
+    };
   })
 
   .directive('timerStop', function() {
     return {
-      link: function($scope, el, attrs) {
+      link: function($scope, el) {
         el.on('click', function() {
           $scope.$apply(function() {
             $scope.$parent.$broadcast('timer-stop');
           });
         });
       }
-    }
+    };
   })
 
   .directive('timerKeyboardControl', function($document, $state) {
@@ -61,7 +61,7 @@
         timerStatus: '=',
         scramble: '=timerScramble'
       },
-      link: function($scope, el, attrs) {
+      link: function($scope) {
         var stopping = false;
 
         var getTimerState = function() {
@@ -72,7 +72,7 @@
           } else {
             return 'ready';
           }
-        }
+        };
 
         var onKeyup = function(event) {
           if (event.keyCode === 32) {
@@ -114,7 +114,7 @@
         });
 
       }
-    }
+    };
   })
   ;
 })(angular);

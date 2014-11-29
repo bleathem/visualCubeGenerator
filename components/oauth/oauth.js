@@ -10,7 +10,9 @@
   })
 
   .controller('TokenCallbackController', function($window, $stateParams, appConfig) {
-    $window.opener && $window.opener.postMessage($stateParams, appConfig.frontend);
+    if ($window.opener) {
+      $window.opener.postMessage($stateParams, appConfig.frontend);
+    }
   })
 
   .run(function(auth) {

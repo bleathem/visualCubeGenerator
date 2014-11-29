@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var controller = require('./solve_controllers.js')
   , bewit = require('../bewit/bewit_controllers.js')

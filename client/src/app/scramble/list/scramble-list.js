@@ -31,7 +31,7 @@
       scope: {
         index: '&selectIndex'
       },
-      link: function($scope, el, attrs) {
+      link: function($scope, el) {
         var selectScramble = function(index) {
           $state.go('visualCubeGenerator.main.scramble', {
             scrambleId: index
@@ -43,7 +43,7 @@
             event.stopPropagation();
             selectScramble($scope.index());
           }
-        }
+        };
 
         el.on('keyup', onKey);
       }
@@ -52,7 +52,7 @@
 
   .directive('focusScramble', function($document, $timeout) {
     return {
-      link: function($scope, el, attrs) {
+      link: function() {
         $timeout(function() {
           var tabbables = $document[0].querySelectorAll('.tabbable');
           if (tabbables && tabbables[0]) {
@@ -62,6 +62,4 @@
       }
     };
   });
-
-  ;
 })(angular);

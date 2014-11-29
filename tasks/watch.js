@@ -1,8 +1,6 @@
 'use strict';
 
-var embedlr = require("gulp-embedlr")
-  , refresh = require('gulp-livereload')
-  , plumber = require('gulp-plumber')
+var embedlr = require('gulp-embedlr')
   ;
 
 module.exports = function(gulp, opts) {
@@ -14,7 +12,7 @@ module.exports = function(gulp, opts) {
       .pipe(embedlr({
         port: opts.lrPort
       }))
-      .pipe(gulp.dest(opts.paths.client.target))
+      .pipe(gulp.dest(opts.paths.client.target));
   });
 
   gulp.task('live', function () {

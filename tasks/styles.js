@@ -38,7 +38,7 @@ module.exports = function(gulp, opts) {
     if (opts.watching) {
       gulp.watch(styleSource, ['build-styles']);
     }
-  })
+  });
 
   gulp.task('copy-resources', function() {
     return gulp.src(opts.paths.components.resources)
@@ -46,7 +46,7 @@ module.exports = function(gulp, opts) {
         dirname: ''
       }))
       .pipe(gulp.dest(opts.paths.client.target+'/css'));
-  })
+  });
 
   gulp.task('build-fonts', function() {
     return gulp.src(opts.paths.client.fonts)
