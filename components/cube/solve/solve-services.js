@@ -164,7 +164,7 @@
     };
   })
 
-  .factory('averageLoader', function($rootScope, $localStorage) {
+  .factory('averageLoader', function($rootScope, $localStorage, solveSorter) {
     var averageLoader = {};
 
     var sumSolveTimes = function(sum, solve) {
@@ -176,9 +176,7 @@
     };
 
     averageLoader.calculateAverages = function(solves) {
-      solves = solves.sort(function(a, b) {
-        return a.date - b.date;
-      });
+      solves = solveSorter.sort(solves);
       var averages = {};
       var seed = {
         best: solves[0],
@@ -194,19 +192,19 @@
     };
 
     averageLoader.readAverages = function() {
-      var averages = JSON.parse($localStorage.getItem('averages')) || [];
+      var averages = angular.fromJson($localStorage.getItem('averages')) || [];
       return averages;
     };
 
     averageLoader.writeAverages = function(averages) {
-      $localStorage.setItem('averages', JSON.stringify(averages));
+      $localStorage.setItem('averages', angular.toJson(averages));
       return averages;
     };
 
     return averageLoader;
   })
 
-  .factory('solveLocalLoader', function($rootScope, $localStorage, $q, $timeout) {
+  .factory('solveLocalLoader', function($rootScope, $localStorage, $q, $timeout, solveSorter) {
     var solveLocalLoader = {};
 
     solveLocalLoader.save = function(solve) {
@@ -247,19 +245,39 @@
     };
 
     solveLocalLoader.readSolves = function() {
-      var solves = JSON.parse($localStorage.getItem('solves')) || [];
+      var solves = angular.fromJson($localStorage.getItem('solves')) || [];
       return solves;
     };
 
     solveLocalLoader.writeSolves = function(solves) {
-      solves.sort(function(a, b) {
-        return a.date - b.date;
-      });
-      $localStorage.setItem('solves', JSON.stringify(solves));
+      solves = solveSorter.sort(solves);
+      $localStorage.setItem('solves', angular.toJson(solves));
       return solves;
     };
 
     return solveLocalLoader;
+  })
+
+  .factory('solveSorter', function() {
+    var getTime = function(date) {
+      if (date instanceof Date) {
+        return date.getTime;
+      }
+      if (isNaN(date)) {
+        return new Date(date).getTime();
+      }
+      return date;
+    };
+
+    return {
+      sort: function(solves) {
+        return solves.sort(function(a, b) {
+          var aTime = getTime(a.date)
+            , bTime = getTime(b.date);
+          return bTime - aTime;
+        });
+      }
+    };
   })
 
   .factory('solveRemoteLoader', function($http, $q, $log, auth, appConfig) {
