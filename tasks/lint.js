@@ -13,7 +13,10 @@ module.exports = function(gulp, opts) {
         angular: true
       }
     };
-    var source = [].concat(opts.paths.client.scripts, opts.paths.tasks, opts.paths.components.scripts, opts.paths.server.scripts);
+    var source = [].concat(opts.paths.client.scripts, opts.paths.tasks, opts.paths.components.scripts);
+    if (opts.paths.server && opts.paths.server.scripts) {
+      source.concat(opts.paths.server.scripts);
+    }
     return gulp.src(source)
       .pipe(plumber())
       .pipe(jshint(config))
@@ -33,7 +36,10 @@ module.exports = function(gulp, opts) {
         expect: true
       }
     };
-    var source = [].concat(opts.paths.server.tests, opts.paths.components.specs);
+    var source = [opts.paths.components.specs];
+    if (opts.paths.server && opts.paths.server.tests) {
+      source.concat(opts.paths.server.tests);
+    }
     return gulp.src(source)
       .pipe(plumber())
       .pipe(jshint(config))
