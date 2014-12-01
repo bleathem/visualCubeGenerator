@@ -114,6 +114,7 @@ gulp.task('ionic',   ['build-production']);
 gulp.task('serve', function () {
   var app = connect()
       .use(serveStatic(opts.paths.client.target))
-      .listen(opts.frontendPort);
-  open('http://localhost:'+opts.frontendPort);
+      .listen(opts.frontend.port);
+  console.log("Listening on port " + opts.frontend.port)
+  open('http://localhost:'+opts.frontend.port);
 });
