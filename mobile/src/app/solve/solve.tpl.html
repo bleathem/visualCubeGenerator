@@ -10,24 +10,31 @@
       <div class="item">
         Best over last 10: <solve-time class="padding-left" time='solveModel.averages.ao10.best.solveTime'></solve-time>
       </div>
-      <div class="item">
-        Lifetime best: <solve-time class="padding-left" time='solveModel.averages.all.best.solveTime'></solve-time>
-      </div>
+      <li class="item" ng-show="solveModel.averages.all.n < 100">
+        Best over last {{solveModel.averages.all.n}}: <solve-time class="padding-left" time='solveModel.averages.all.best.solveTime'></solve-time>
+      </li>
+      <li class="item" ng-show="solveModel.averages.all.n >= 100">
+        Best over last 100: <solve-time class="padding-left" time='solveModel.averages.ao100.best.solveTime'></solve-time>
+      </li>
+
     </div>
 
     <div class="card">
       <div class="item item-divider">
         Average times
       </div>
-      <div class="item">
-        Average over last 5: <solve-time class="padding-left" time='solveModel.averages.ao5.solveTime'></solve-time>
-      </div>
-      <div class="item">
-        Average over last 10: <solve-time class="padding-left" time='solveModel.averages.ao10.solveTime'></solve-time>
-      </div>
-      <div class="item">
-        Lifetime average: <solve-time class="padding-left" time='solveModel.averages.all.solveTime'></solve-time>
-      </div>
+      <li class="item">
+        Average over last 5: <solve-time class="padding-left" time='solveModel.averages.ao5.mean'></solve-time> &plusmn; {{solveModel.averages.ao5.standardDeviation | solveTime}}
+      </li>
+      <li class="item">
+        Average over last 10: <solve-time class="padding-left" time='solveModel.averages.ao10.mean'></solve-time> &plusmn; {{solveModel.averages.ao10.standardDeviation | solveTime}}
+      </li>
+      <li class="item" ng-show="solveModel.averages.all.n < 100">
+        Average over last {{solveModel.averages.all.n}}: <solve-time class="padding-left" time='solveModel.averages.all.mean'></solve-time> &plusmn; {{solveModel.averages.all.standardDeviation | solveTime}}
+      </li>
+      <li class="item" ng-show="solveModel.averages.all.n >= 100">
+        Average over last 100: <solve-time class="padding-left" time='solveModel.averages.ao100.mean'></solve-time> &plusmn; {{solveModel.averages.ao100.standardDeviation | solveTime}}
+      </li>
     </div>
 
     <ion-list type="list-inset" option-buttons="itemButtons">
