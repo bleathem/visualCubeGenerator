@@ -171,24 +171,49 @@
       if (solve.solveTime < sum.best.solveTime) {
         sum.best = solve;
       }
-      sum.solveTime += solve.solveTime;
+      sum.n++;
+      sum.delta = solve.solveTime - sum.mean;
+      sum.mean = sum.mean + sum.delta / sum.n;
+      sum.m2 = sum.m2 + sum.delta*(solve.solveTime - sum.mean);
+      if (sum.n === 5) {
+        snapshotAverages(sum, 'ao5')
+      }
+      if (sum.n === 10) {
+        snapshotAverages(sum, 'ao10')
+      }
+      if (sum.n === 100) {
+        snapshotAverages(sum, 'ao100')
+      }
       return sum;
     };
+
+    var snapshotAverages= function(sum, name) {
+      sum.averages[name] = {
+        n: sum.n,
+        best: sum.best,
+        mean: sum.mean,
+        standardDeviation: calculateStandardDeviation(sum)
+      }
+    }
+
+    var calculateStandardDeviation = function(sum) {
+      return Math.sqrt(sum.m2 / (sum.n - 1));
+    }
 
     averageLoader.calculateAverages = function(solves) {
       solves = solveSorter.sort(solves);
       var averages = {};
-      var seed = {
+      var sum = {
+        n: 0,
+        delta: 0,
         best: solves[0],
-        solveTime: 0
+        mean: 0,
+        m2: 0,
+        averages: {}
       };
-      averages.ao5 = solves.slice(0, 5).reduce(sumSolveTimes, angular.extend({}, seed));
-      averages.ao5.solveTime = averages.ao5.solveTime / 5;
-      averages.ao10 = solves.slice(0, 10).reduce(sumSolveTimes, angular.extend({}, seed));
-      averages.ao10.solveTime = averages.ao10.solveTime / 10;
-      averages.all = solves.reduce(sumSolveTimes, angular.extend({}, seed));
-      averages.all.solveTime = averages.all.solveTime / solves.length;
-      return averages;
+      solves.reduce(sumSolveTimes, sum);
+      snapshotAverages(sum, 'all');
+      return sum.averages;
     };
 
     averageLoader.readAverages = function() {
