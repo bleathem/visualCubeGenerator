@@ -1,11 +1,4 @@
 <ion-view title="Scramble">
-  <ion-nav-buttons side="left">
-
-   <a class="button button-energized" href="#/tab/scrambles">
-     <i class="icon ion-ios7-arrow-back">Back</i>
-   </a>
-  </ion-nav-buttons>
-
   <ion-content has-header="true" padding="false">
     <div class="detail">
       <scramble-view scramble="scramble"></scramble-view>
@@ -14,6 +7,11 @@
               ng-hide="scramble.solveTime">
         Start
       </button>
+      <a class="button button-full button-back button-energized"
+          href="#/tab/scrambles"
+          ng-show="scramble.solveTime">
+        <i class="icon ion-ios7-arrow-back">Back</i>
+      </a>
     </div>
   </ion-content>
 </ion-view>

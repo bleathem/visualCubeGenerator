@@ -105,7 +105,7 @@ $ionicons-font-path: "../fonts" !default;
 
     .timer-card .item {
       text-align: center;
-      line-height: 225%;
+      line-height: 100%;
       font-size: 250%;
     }
   }
@@ -123,6 +123,20 @@ $ionicons-font-path: "../fonts" !default;
     font-size: 600%;
 }
 
+.detail a.button-back .icon:before {
+  font-size: 100%;
+  padding-right: 10px;
+  vertical-align: baseline;
+}
+
+.detail a.button-back {
+  font-size: 400%;
+}
+
+.detail a.button-back {
+    height: 100px;
+    line-height: 100px;
+}
 
 .timer-modal .timer-card .item {
   text-align: center;
