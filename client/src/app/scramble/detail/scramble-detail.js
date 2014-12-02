@@ -5,7 +5,7 @@
   .config(function ($stateProvider) {
 
     $stateProvider
-      .state('visualCubeGenerator.main.scramble', {
+      .state('visualCubeGenerator.main.scramble-detail', {
         url: '/scramble/:scrambleId',
         templateUrl: 'app/scramble/detail/scramble-detail.tpl.html',
         controller: 'ScrambleCtrl'
@@ -86,7 +86,7 @@
                 stopping = false;
                 break;
               case 'finished':
-                $state.go('visualCubeGenerator.main.scrambles');
+                $state.go('visualCubeGenerator.main.scramble-list');
                 break;
             }
           }

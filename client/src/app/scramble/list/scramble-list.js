@@ -1,11 +1,11 @@
 'use strict';
 (function (angular) {
-  angular.module('visualCubeGenerator.main.scrambles', ['ui.router', 'cube.scramble.services'])
+  angular.module('visualCubeGenerator.main.scramble.list', ['ui.router', 'cube.scramble.services'])
 
   .config(function ($stateProvider) {
 
     $stateProvider
-      .state('visualCubeGenerator.main.scrambles', {
+      .state('visualCubeGenerator.main.scramble-list', {
         url: '/scrambles',
         templateUrl: 'app/scramble/list/scramble-list.tpl.html',
         controller: 'ScrambleListCtrl'
@@ -33,7 +33,7 @@
       },
       link: function($scope, el) {
         var selectScramble = function(index) {
-          $state.go('visualCubeGenerator.main.scramble', {
+          $state.go('visualCubeGenerator.main.scramble-detail', {
             scrambleId: index
           });
         };

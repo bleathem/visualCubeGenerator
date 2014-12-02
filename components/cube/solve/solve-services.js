@@ -17,7 +17,10 @@
   .factory('solveModel', function() {
     var solveModel = {
       solves: {},
-      averages: {}
+      averages: {},
+      get: function(index) {
+        return solveModel.solves[index];
+      }
     };
 
     return solveModel;
