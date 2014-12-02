@@ -5,10 +5,10 @@
         Best times
       </div>
       <div class="item">
-        Best over last 5: <solve-time class="padding-left" time='solveModel.averages.ao5.best.solveTime'></solve-time>
+        Best over last 5: <solve-time ng-show="solveModel.averages.ao5" class="padding-left" time='solveModel.averages.ao5.best.solveTime'></solve-time>
       </div>
       <div class="item">
-        Best over last 10: <solve-time class="padding-left" time='solveModel.averages.ao10.best.solveTime'></solve-time>
+        Best over last 10: <solve-time ng-show="solveModel.averages.ao5" class="padding-left" time='solveModel.averages.ao10.best.solveTime'></solve-time>
       </div>
       <li class="item" ng-show="solveModel.averages.all.n < 100">
         Best over last {{solveModel.averages.all.n}}: <solve-time class="padding-left" time='solveModel.averages.all.best.solveTime'></solve-time>
@@ -24,10 +24,16 @@
         Average times
       </div>
       <li class="item">
-        Average over last 5: <solve-time class="padding-left" time='solveModel.averages.ao5.mean'></solve-time> &plusmn; {{solveModel.averages.ao5.standardDeviation | solveTime}}
+        Average over last 5:
+        <span ng-show="solveModel.averages.ao5">
+          <solve-time class="padding-left" time='solveModel.averages.ao5.mean'></solve-time> &plusmn; {{solveModel.averages.ao5.standardDeviation | solveTime}}
+        </span>
       </li>
       <li class="item">
-        Average over last 10: <solve-time class="padding-left" time='solveModel.averages.ao10.mean'></solve-time> &plusmn; {{solveModel.averages.ao10.standardDeviation | solveTime}}
+        Average over last 10:
+        <span ng-show="solveModel.averages.ao5">
+          <solve-time class="padding-left" time='solveModel.averages.ao10.mean'></solve-time> &plusmn; {{solveModel.averages.ao10.standardDeviation | solveTime}}
+        </span>
       </li>
       <li class="item" ng-show="solveModel.averages.all.n < 100">
         Average over last {{solveModel.averages.all.n}}: <solve-time class="padding-left" time='solveModel.averages.all.mean'></solve-time> &plusmn; {{solveModel.averages.all.standardDeviation | solveTime}}

@@ -65,7 +65,7 @@ var opts = {
   libs: libs,
   production: process.env.NODE_ENV === 'production',
   frontend: {
-    hostname: process.env.REST_HOSTNAME || 'localhost',
+    hostname: 'localhost', // the mobile app only uses this when in dev mode
     port: 8000,
   },
   rest: {
@@ -116,5 +116,5 @@ gulp.task('serve', function () {
       .use(serveStatic(opts.paths.client.target))
       .listen(opts.frontend.port);
   console.log("Listening on port " + opts.frontend.port)
-  open('http://localhost:'+opts.frontend.port);
+  open('http://' + opts.frontend.hostname + ':'+opts.frontend.port);
 });
