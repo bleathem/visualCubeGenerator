@@ -64,7 +64,7 @@
     };
   })
 
-  .directive('scrambleGraphic', function(Scrambler333) {
+  .directive('scrambleGraphic', function($timeout, Scrambler333) {
     var scrambler = Scrambler333;
     return {
       restrict: 'E',
@@ -80,7 +80,9 @@
         element.append(div);
         var width = div[0].offsetWidth,
            height = Math.round(width * 2.0 / 3.0);
-        scrambler.drawScramble(div[0], scope.state, width, height);
+        $timeout(function(){
+          scrambler.drawScramble(div[0], scope.state, width, height);
+        })
       }
     };
   })
