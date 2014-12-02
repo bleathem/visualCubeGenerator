@@ -10,7 +10,8 @@ module.exports = function(gulp, opts) {
     opts.watching = true;
     return gulp.src(opts.paths.client.target + '/index.html')
       .pipe(embedlr({
-        port: opts.lrPort
+        port: opts.lrPort,
+        src: 'http://localhost:' + opts.lrPort + '/livereload.js?snipver=1'
       }))
       .pipe(gulp.dest(opts.paths.client.target));
   });
