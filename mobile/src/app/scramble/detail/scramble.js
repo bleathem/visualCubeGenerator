@@ -16,10 +16,33 @@
         });
     })
 
-    .controller('ScrambleCtrl', function ($scope, $stateParams, $location, $ionicModal, scrambles, solveManager) {
+    .factory('insomnia', function($window, $log) {
+      var stub = {
+        keepAwake: function() {
+          $log.debug('keepawake stub called');
+        },
+        allowSleepAgain: function() {
+          $log.debug('allowSleepAgain stub called');
+        }
+      };
+
+      var getInsomnia = function() {
+        if ($window.plugins && $window.plugins.insomnia) {
+          $log.debug('Retrieving cordova insomnia plugin');
+          return $window.plugins.insomnia;
+        } else {
+          return stub;
+        }
+      };
+
+      return getInsomnia();
+    })
+
+    .controller('ScrambleCtrl', function ($scope, $stateParams, $location, $ionicModal, scrambles, solveManager, insomnia) {
       if (scrambles.length === 0) {
         $location.path('/tab/scrambles');
       }
+      insomnia.keepAwake();
       $scope.scramble = scrambles.get($stateParams.scrambleId);
 
       $scope.startTimer = function() {
@@ -58,6 +81,7 @@
 
       //Cleanup the modal when we're done with it!
       $scope.$on('$destroy', function() {
+        insomnia.allowSleepAgain();
         $scope.modal.remove();
       });
     })
