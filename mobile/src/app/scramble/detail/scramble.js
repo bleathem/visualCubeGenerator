@@ -62,6 +62,7 @@
       };
 
        $scope.$on('timer-stopped', function (event, data){
+         insomnia.allowSleepAgain();
          if (! $scope.scramble.solveTime) {
            $scope.scramble.solveTime = data.millis;
            solveManager.save($scope.scramble).then(function() {
@@ -81,7 +82,6 @@
 
       //Cleanup the modal when we're done with it!
       $scope.$on('$destroy', function() {
-        insomnia.allowSleepAgain();
         $scope.modal.remove();
       });
     })
