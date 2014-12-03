@@ -1,7 +1,7 @@
 'use strict';
 
 var gulpif     = require('gulp-if')
-  , refresh    = require('gulp-livereload')
+  , livereload = require('gulp-livereload')
   , ngAnnotate = require('gulp-ng-annotate')
   , plumber = require('gulp-plumber')
   , sourcemaps = require('gulp-sourcemaps')
@@ -30,15 +30,12 @@ module.exports = function(gulp, opts) {
 
       .pipe(gulpif(!opts.production, sourcemaps.write()))
       .pipe(gulp.dest(opts.paths.client.target))
-
-      .pipe(gulpif(opts.watching, plumber()))
-      .pipe(gulpif(opts.watching, refresh(opts.browser)));
+      .pipe(livereload(opts.lr, {auto:false}))
+      ;
   });
 
   gulp.task('watch-scripts', function() {
-    if (opts.watching) {
-      gulp.watch(scriptSource, ['build-scripts']);
-    }
+    gulp.watch(scriptSource, ['build-scripts']);
   });
 
   gulp.task('build-vendor', function () {

@@ -60,7 +60,6 @@ var libs = {
 
 var opts = {
   moduleName: 'visualCubeGenerator',
-  browser: require('tiny-lr')(),
   paths: paths,
   libs: libs,
   production: process.env.NODE_ENV === 'production',
@@ -92,7 +91,7 @@ require('../tasks/watch.js')(gulp, opts);
 
 
 gulp.task('default', function(callback) {
-  runSequence(['clean'], ['lint', 'build'], ['watch-enable', 'live'], 'serve', 'watch');
+  runSequence(['clean'], ['lint', 'build'], ['livereload-start', 'serve'], 'watch');
 });
 
 gulp.task('test', function(callback) {

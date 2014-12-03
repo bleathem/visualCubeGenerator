@@ -22,7 +22,7 @@ require('./tasks/views.js')(gulp, opts);
 require('./tasks/watch.js')(gulp, opts);
 
 gulp.task('default', function(callback) {
-  runSequence(['clean'], ['lint', 'build'], ['watch-enable', 'live', 'serve'], 'watch');
+  runSequence(['clean'], ['lint', 'build'], ['livereload-start', 'serve'], 'watch');
 });
 
 gulp.task('test', function(callback) {

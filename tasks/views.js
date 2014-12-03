@@ -1,11 +1,14 @@
 'use strict';
 
 var gulpif        = require('gulp-if')
-  , refresh       = require('gulp-livereload')
+  , cached        = require('gulp-cached')
+  , embedlr       = require('gulp-embedlr')
+  , livereload    = require('gulp-livereload')
   , plumber       = require('gulp-plumber')
   , replace       = require('gulp-replace')
   , uglify        = require('gulp-uglify')
   , gutil         = require('gulp-util')
+  , filter        = require('gulp-filter')
   , templateCache = require('gulp-angular-templatecache')
   ;
 
@@ -30,17 +33,23 @@ module.exports = function(gulp, opts) {
 
   gulp.task('build-views', function() {
     gutil.log('... building views');
+    var indexFilter = filter('index.html');
     return gulp.src(opts.paths.client.statics)
-      .on('error', opts.errorHandler)
+      .pipe(cached('views')) // only copy files that have changed
+      .pipe(indexFilter)
+      .pipe(gulpif(!opts.production, embedlr({
+        port: opts.lrPort,
+        src: 'http://localhost:' + opts.lrPort + '/livereload.js?snipver=1'
+      })))
+      .pipe(indexFilter.restore())
       .pipe(gulp.dest(opts.paths.client.target))
-      .pipe(gulpif(opts.watching, plumber()))
-      .pipe(gulpif(opts.watching, refresh(opts.browser)));
+      .pipe(plumber())
+      .pipe(livereload(opts.lr, {auto:false}))
+      ;
   });
 
   gulp.task('watch-views', function() {
-    if (opts.watching) {
-      gulp.watch(opts.paths.client.statics, ['build-views']);
-    }
+    gulp.watch(opts.paths.client.statics, ['build-views']);
   });
 
   gulp.task('build-templates', function () {
@@ -55,14 +64,10 @@ module.exports = function(gulp, opts) {
       .pipe(gulpif(opts.production, uglify()))
 
       .pipe(gulp.dest(opts.paths.client.target))
-
-      .pipe(gulpif(opts.watching, plumber()))
-      .pipe(gulpif(opts.watching, refresh(opts.browser)));
+      .pipe(livereload(opts.lr, {auto:false}))
   });
 
   gulp.task('watch-templates', function() {
-    if (opts.watching) {
-      gulp.watch(opts.paths.components.templates, ['build-templates']);
-    }
+    gulp.watch(opts.paths.components.templates, ['build-templates']);
   });
 };

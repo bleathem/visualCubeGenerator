@@ -14,7 +14,7 @@ var paths = {
       styles: 'client/www/**/*.css',
       views: 'client/www/**/*.html'
     },
-    statics: ['client/src/**/!(*.js)', '!client/src/{scss,scss/**}'],
+    statics: ['client/src/**/*.*','!client/src/**/*.js', '!client/src/{scss,scss/**}'],
     scripts: 'client/src/**/*.js',
     styles: {
       scss: ['client/src/scss/**/*.scss'],
@@ -59,7 +59,6 @@ var libs = {
 
 var opts = {
   moduleName: 'visualCubeGenerator',
-  browser: require('tiny-lr')(),
   paths: paths,
   libs: libs,
   production: process.env.NODE_ENV === 'production',

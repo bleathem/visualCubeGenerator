@@ -1,8 +1,8 @@
 'use strict';
 
 var concat     = require('gulp-concat')
+  , livereload = require('gulp-livereload')
   , gulpif    = require('gulp-if')
-  , refresh    = require('gulp-livereload')
   , minifyCss = require('gulp-minify-css')
   , plumber   = require('gulp-plumber')
   , rename    = require('gulp-rename')
@@ -28,16 +28,12 @@ module.exports = function(gulp, opts) {
       .pipe(gulpif(opts.production, minifyCss()))
 
       .pipe(gulp.dest(opts.paths.client.styles.dest))
-
-      .pipe(gulpif(opts.watching, plumber()))
-      .pipe(gulpif(opts.watching, refresh(opts.browser)));
+      .pipe(livereload(opts.lr, {auto:false}))
   });
 
   gulp.task('watch-styles', function() {
     var styleSource = [opts.paths.client.styles.scss, opts.paths.components.styles];
-    if (opts.watching) {
-      gulp.watch(styleSource, ['build-styles']);
-    }
+    gulp.watch(styleSource, ['build-styles']);
   });
 
   gulp.task('copy-resources', function() {

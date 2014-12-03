@@ -2,7 +2,8 @@
 
 var nodemon = require('gulp-nodemon')
   , open    = require('open')
-  , refresh = require('gulp-livereload')
+  , livereload = require('gulp-livereload')
+  , gutil      = require('gulp-util')
   ;
 
 var started = false;
@@ -16,12 +17,14 @@ module.exports = function(gulp, opts) {
       nodeArgs: ['--debug']
       })
       .on('restart', function () {
-        refresh(opts.browser);
+        gutil.log('...nodemon restart')
       })
       .on('start', function() {
         if (started) {
-          refresh(opts.browser);
+          gutil.log('...nodemon start, reloading lr')
+          livereload.changed('*', opts.lr);
         } else {
+          gutil.log('...nodemon start')
           started = true;
           setTimeout(function() {
               open('http://' + opts.frontend.hostname + ':' + opts.frontend.port);
