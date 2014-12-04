@@ -1,7 +1,6 @@
 'use strict';
 (function (angular) {
   angular.module('visualCubeGenerator', [
-    'ngFx',
     'ui.router',
     'http.helpers',
     'visualCubeGenerator.main',

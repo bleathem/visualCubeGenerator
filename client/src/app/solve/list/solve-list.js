@@ -13,6 +13,5 @@
 
   .controller('SolveListController', function ($scope, solveModel, solveManager) {
     $scope.solveModel = solveModel;
-    $scope.delete = solveManager.delete;
   });
 })(angular);

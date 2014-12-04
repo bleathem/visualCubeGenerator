@@ -60,5 +60,13 @@ module.exports = exports = {
     Solve.find({ _user: req.query.user_id || req.user.id }).sort({ date: -1 }).limit(10000).stream().pipe(through(function (solve) {
       this.queue(template(solve));
     })).pipe(res);
+  },
+  delete: function (req, res, next) {
+    console.log(req.body);
+    Solve.find({_id: req.params.id}).remove().exec().then(function() {
+      res.send('Solve deleted');
+    }, function(error) {
+      next(error);
+    })
   }
 };

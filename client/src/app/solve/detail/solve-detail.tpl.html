@@ -2,6 +2,19 @@
   <section>
     <div class="detail">
       <scramble-view scramble="solve"></scramble-view>
+      <div class="buttons">
+        <a class="btn btn-primary active" role="button" ui-sref="visualCubeGenerator.main.solve-list">Solve List</a>
+        <!-- <div class="btn-group" dropdown>
+          <button type="button" class="btn btn-info dropdown-toggle" dropdown-toggle>
+            Mark solve as... <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">DNF (Did Not Finish)</a></li>
+            <li><a href="#">+2 (Add 2 seconds)</a></li>
+          </ul>
+        </div> -->
+        <button class="btn btn-danger active" role="button" ng-click="deleteSolve(solve)">Delete Solve</button>
+      </div>
     </div>
   </section>
 </div>

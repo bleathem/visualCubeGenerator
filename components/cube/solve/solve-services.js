@@ -42,7 +42,22 @@
       return deferred.promise;
     };
 
-    solveManager.delete = solveLocalLoader.delete;
+    solveManager.deleteSolve = function(solve) {
+      var deferred = $q.defer();
+      solveLocalLoader.deleteSolve(solve).then(function(solves) {
+        solveModel.solves = solves;
+        solveModel.averages = averageLoader.calculateAverages(solveModel.solves);
+        averageLoader.writeAverages(solveModel.averages);
+        solveRemoteLoader.deleteSolve(solve).then(function() {
+          deferred.resolve();
+        }, function(error) {
+          deferred.reject(error);
+        })
+      }).then(function() {
+        synchSolves();
+      });
+      return deferred.promise;
+    };
 
     return solveManager;
 
@@ -355,6 +370,25 @@
       var deferred = $q.defer();
       var url = appConfig.backend + '/solve';
       $http.post(
+        url,
+        {solve: solve}
+      ).then(function(response) {
+        deferred.resolve(response.data);
+      }, function(response) {
+        var message = '#' + response.status + ' - ' + response.statusText;
+        deferred.reject(new Error(message));
+      });
+      return deferred.promise;
+    };
+
+    solveRemoteLoader.deleteSolve = function(solve) {
+      var deferred = $q.defer();
+      if (!solve._id) {
+        deferred.resolve('Local solve, remote deleted unnecessary.')
+        return deferred.promise;
+      }
+      var url = appConfig.backend + '/solve/' + solve._id;
+      $http.delete(
         url,
         {solve: solve}
       ).then(function(response) {
