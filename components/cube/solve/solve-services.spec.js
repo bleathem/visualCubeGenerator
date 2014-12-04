@@ -81,7 +81,7 @@ describe('Cube: solve: services:', function() {
           var solves = [];
           for (var i = 1; i <= 14; i++) {
             var solve = {
-              solveTime: 15000 - i * 1000,
+              solveTime: i * 1000,
               date: now + i
               };
             solves.push(solve);
@@ -93,16 +93,16 @@ describe('Cube: solve: services:', function() {
           });
         });
 
-        it('should calculate the average time over 5 solves', function() {
-          expect(solveModel.averages.ao5.solveTime).toEqual(12000);
+        it('should calculate the average time over 5 most recent solves', function() {
+          expect(solveModel.averages.ao5.mean).toEqual(12000);
         });
 
         it('should calculate the average time over 10 solves', function() {
-          expect(solveModel.averages.ao10.solveTime).toEqual(9500);
+          expect(solveModel.averages.ao10.mean).toEqual(9500);
         });
 
         it('should calculate the average time over all solves', function() {
-          expect(solveModel.averages.all.solveTime).toEqual(7500);
+          expect(solveModel.averages.all.mean).toEqual(7500);
         });
 
         it('should calculate the best time over 5 solves', function() {
