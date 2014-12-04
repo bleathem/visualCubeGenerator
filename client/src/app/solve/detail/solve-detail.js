@@ -21,7 +21,7 @@
         deferred.reject(false);
       }
       return deferred.promise;
-    }
+    };
     return prompt;
   })
 

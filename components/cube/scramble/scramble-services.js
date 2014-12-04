@@ -82,7 +82,7 @@
            height = Math.round(width * 2.0 / 3.0);
         $timeout(function(){
           scrambler.drawScramble(div[0], scope.state, width, height);
-        })
+        });
       }
     };
   })

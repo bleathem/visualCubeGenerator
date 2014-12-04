@@ -11,7 +11,7 @@
       });
   })
 
-  .controller('SolveListController', function ($scope, solveModel, solveManager) {
+  .controller('SolveListController', function ($scope, solveModel) {
     $scope.solveModel = solveModel;
   });
 })(angular);

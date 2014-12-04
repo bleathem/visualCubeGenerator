@@ -64,7 +64,7 @@ module.exports = function(gulp, opts) {
       .pipe(gulpif(opts.production, uglify()))
 
       .pipe(gulp.dest(opts.paths.client.target))
-      .pipe(livereload(opts.lr, {auto:false}))
+      .pipe(livereload(opts.lr, {auto:false}));
   });
 
   gulp.task('watch-templates', function() {

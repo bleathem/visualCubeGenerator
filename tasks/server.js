@@ -17,14 +17,14 @@ module.exports = function(gulp, opts) {
       nodeArgs: ['--debug']
       })
       .on('restart', function () {
-        gutil.log('...nodemon restart')
+        gutil.log('...nodemon restart');
       })
       .on('start', function() {
         if (started) {
-          gutil.log('...nodemon start, reloading lr')
+          gutil.log('...nodemon start, reloading lr');
           livereload.changed('*', opts.lr);
         } else {
-          gutil.log('...nodemon start')
+          gutil.log('...nodemon start');
           started = true;
           setTimeout(function() {
               open('http://' + opts.frontend.hostname + ':' + opts.frontend.port);

@@ -52,7 +52,7 @@
           deferred.resolve();
         }, function(error) {
           deferred.reject(error);
-        })
+        });
       }).then(function() {
         synchSolves();
       });
@@ -194,13 +194,13 @@
       sum.mean = sum.mean + sum.delta / sum.n;
       sum.m2 = sum.m2 + sum.delta*(solve.solveTime - sum.mean);
       if (sum.n === 5) {
-        snapshotAverages(sum, 'ao5')
+        snapshotAverages(sum, 'ao5');
       }
       if (sum.n === 10) {
-        snapshotAverages(sum, 'ao10')
+        snapshotAverages(sum, 'ao10');
       }
       if (sum.n === 100) {
-        snapshotAverages(sum, 'ao100')
+        snapshotAverages(sum, 'ao100');
       }
       return sum;
     };
@@ -211,16 +211,15 @@
         best: sum.best,
         mean: sum.mean,
         standardDeviation: calculateStandardDeviation(sum)
-      }
-    }
+      };
+    };
 
     var calculateStandardDeviation = function(sum) {
       return Math.sqrt(sum.m2 / (sum.n - 1));
-    }
+    };
 
     averageLoader.calculateAverages = function(solves) {
       solves = solveSorter.sort(solves);
-      var averages = {};
       var sum = {
         n: 0,
         delta: 0,
@@ -384,7 +383,7 @@
     solveRemoteLoader.deleteSolve = function(solve) {
       var deferred = $q.defer();
       if (!solve._id) {
-        deferred.resolve('Local solve, remote deleted unnecessary.')
+        deferred.resolve('Local solve, remote deleted unnecessary.');
         return deferred.promise;
       }
       var url = appConfig.backend + '/solve/' + solve._id;

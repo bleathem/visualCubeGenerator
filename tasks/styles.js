@@ -28,7 +28,7 @@ module.exports = function(gulp, opts) {
       .pipe(gulpif(opts.production, minifyCss()))
 
       .pipe(gulp.dest(opts.paths.client.styles.dest))
-      .pipe(livereload(opts.lr, {auto:false}))
+      .pipe(livereload(opts.lr, {auto:false}));
   });
 
   gulp.task('watch-styles', function() {
