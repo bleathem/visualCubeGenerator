@@ -1,6 +1,6 @@
 'use strict';
 (function (angular) {
-  angular.module('visualCubeGenerator.main.solve.detail', ['ui.router', 'ui.bootstrap', 'cube.scramble.services', 'cube.solve.services', 'timer'])
+  angular.module('visualCubeGenerator.main.solve.detail', ['ui.router', 'ui.bootstrap', 'cube.scramble.services', 'cube.solve.services', 'timer', 'html.helpers'])
 
   .config(function ($stateProvider) {
 
@@ -10,19 +10,6 @@
         templateUrl: 'app/solve/detail/solve-detail.tpl.html',
         controller: 'SolveCtrl'
       });
-  })
-
-  .factory('confirm', function($window, $q) {
-    var prompt = function(message) {
-      var deferred = $q.defer();
-      if ($window.confirm(message)) {
-        deferred.resolve(true);
-      } else {
-        deferred.reject(false);
-      }
-      return deferred.promise;
-    };
-    return prompt;
   })
 
   .controller('SolveCtrl', function ($scope, $state, $stateParams, solveModel, solveManager, confirm) {

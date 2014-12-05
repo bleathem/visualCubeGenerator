@@ -59,6 +59,15 @@
       return deferred.promise;
     };
 
+    solveManager.deleteAllSolves = function() {
+      return solveLocalLoader.deleteAllSolves({})
+        .then(function(message) {
+          solveModel.solves = [];
+          return message;
+        })
+        .then(solveRemoteLoader.deleteAllSolves);
+    }
+
     return solveManager;
 
   })
@@ -286,6 +295,29 @@
       return deferred.promise;
     };
 
+    solveLocalLoader.deleteAllSolves = function(message) {
+      var deferred = $q.defer();
+      var that = this;
+      var solves = this.readSolves();
+      if (!solves || !solves.length) {
+        message.local='No local solves to delete.'
+        deferred.reject(message);
+        return deferred.promise;
+      }
+      $timeout(function() {
+        try {
+          that.writeSolves([]);
+          var solves = that.readSolves();
+          message.local = 'All local solves deleted.';
+          deferred.resolve(message);
+        } catch(error) {
+          message.local = error;
+          deferred.reject(message);
+        }
+      }, 0);
+      return deferred.promise;
+    }
+
     solveLocalLoader.readSolves = function() {
       var solves = angular.fromJson($localStorage.getItem('solves')) || [];
       return solves;
@@ -382,19 +414,42 @@
 
     solveRemoteLoader.deleteSolve = function(solve) {
       var deferred = $q.defer();
+      if (!auth.user) {
+        deferred.reject(new Error('User not logged in'));
+        return deferred.promise;
+      }
       if (!solve._id) {
         deferred.resolve('Local solve, remote deleted unnecessary.');
         return deferred.promise;
       }
       var url = appConfig.backend + '/solve/' + solve._id;
       $http.delete(
-        url,
-        {solve: solve}
+        url
       ).then(function(response) {
         deferred.resolve(response.data);
       }, function(response) {
         var message = '#' + response.status + ' - ' + response.statusText;
         deferred.reject(new Error(message));
+      });
+      return deferred.promise;
+    };
+
+    solveRemoteLoader.deleteAllSolves = function(message) {
+      var deferred = $q.defer();
+      if (!auth.user) {
+        message.remote = 'No remote solves deleted; user not logged in.';
+        deferred.resolve(message);
+        return deferred.promise;
+      }
+      var url = appConfig.backend + '/solve/all';
+      $http.delete(
+        url
+      ).then(function(response) {
+        message.remote = response.data;
+        deferred.resolve(message);
+      }, function(response) {
+        message.remote = '#' + response.status + ' - ' + response.statusText;
+        deferred.reject(message);
       });
       return deferred.promise;
     };

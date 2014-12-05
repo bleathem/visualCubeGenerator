@@ -3,7 +3,8 @@
   angular.module('visualCubeGenerator.main.account', [
     'ui.router',
     'oauth',
-    'oauth.google'])
+    'oauth.google',
+    'html.helpers'])
 
   .config(function ($stateProvider) {
     $stateProvider
@@ -37,7 +38,7 @@
     };
   })
 
-  .controller('AccountController', function ($scope, $window, $timeout, googleapi, auth, synchSolves, bewit) {
+  .controller('AccountController', function ($scope, $window, $timeout, googleapi, auth, synchSolves, bewit, solveManager, confirm) {
     $scope.auth = auth;
     $scope.authorize = function() {
       googleapi.authorize().then(function(user) {
@@ -62,5 +63,32 @@
         angular.element(popup.body).append(err);
       });
     };
+    $scope.deleteStatus = {
+      message: null,
+      class: null
+    };
+    $scope.deleteAll = function() {
+      confirm('Are you sure you want to delete all your saved solves?')
+        .then(solveManager.deleteAllSolves)
+        .then(function(message) {
+          $scope.deleteStatus.message = message;
+          $scope.deleteStatus.class = "info";
+          $timeout(function() {
+            $scope.deleteStatus = {
+              message: null,
+              class: null
+            };
+          }, 5000)
+        }, function(message) {
+          $scope.deleteStatus.message = message;
+          $scope.deleteStatus.class = "danger";
+          $timeout(function() {
+            $scope.deleteStatus = {
+              message: null,
+              class: null
+            };
+          }, 5000)
+        });
+    }
   });
 })(angular);

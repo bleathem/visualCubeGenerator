@@ -62,9 +62,9 @@ module.exports = exports = {
     })).pipe(res);
   },
   delete: function (req, res, next) {
-    console.log(req.body);
-    Solve.find({_id: req.params.id}).remove().exec().then(function() {
-      res.send('Solve deleted');
+    var query = req.params.id === 'all' ? {} : {_id: req.params.id};
+    Solve.find(query).remove().exec().then(function() {
+      res.send('All remote solves deleted.');
     }, function(error) {
       next(error);
     })
