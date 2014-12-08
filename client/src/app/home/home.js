@@ -11,12 +11,15 @@
         controller: 'HomeController'
       });
   })
+
   .controller('HomeController', function ($scope) {
     $scope.solves = [];
   })
+
   .directive('scrambleShortcutKey', function($state, $document) {
     return {
-      link: function($scope) {
+      restrict: 'E',
+      link: function($scope, $el) {
         var onKey = function(event) {
           if (event.keyCode === 32) {
             $state.go('visualCubeGenerator.main.scramble-list');

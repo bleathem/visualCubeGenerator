@@ -31,8 +31,9 @@
     });
   })
 
-  .directive('timerStart', function() {
+  .directive('timerBegin', function() {
     return {
+      restrict: 'A',
       link: function($scope, el) {
         angular.element(el).on('click', function() {
           $scope.$apply(function() {
@@ -45,6 +46,7 @@
 
   .directive('timerStop', function() {
     return {
+      restrict: 'A',
       link: function($scope, el) {
         el.on('click', function() {
           $scope.$apply(function() {
@@ -57,6 +59,7 @@
 
   .directive('timerKeyboardControl', function($document, $state) {
     return {
+      restrict: 'E',
       scope: {
         timerStatus: '=',
         scramble: '=timerScramble'

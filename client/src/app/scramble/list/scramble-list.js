@@ -28,6 +28,7 @@
 
   .directive('selectScramble', function($state) {
     return {
+      restrict: 'A',
       scope: {
         index: '&selectIndex'
       },
@@ -52,6 +53,7 @@
 
   .directive('focusScramble', function($document, $timeout) {
     return {
+      restrict: 'E',
       link: function() {
         $timeout(function() {
           var tabbables = $document[0].querySelectorAll('.tabbable');
