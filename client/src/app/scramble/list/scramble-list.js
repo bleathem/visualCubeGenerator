@@ -12,10 +12,12 @@
       });
   })
 
-  .controller('ScrambleListCtrl', function ($scope, scrambles) {
+  .controller('ScrambleListCtrl', function ($scope, scrambles, $timeout) {
     $scope.solves = [];
 
-    $scope.scrambles = scrambles.all();
+    $timeout(function() {
+      $scope.scrambles = scrambles.all();
+    })
 
     $scope.scramble = function() {
       scrambles.regenerate().then(function() {
