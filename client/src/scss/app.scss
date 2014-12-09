@@ -83,6 +83,23 @@ $fa-font-path: "../fonts";
   }
 }
 
+.cubeState {
+  font-family: monospace;
+
+  .cubeRow {
+    display: block;
+  }
+
+  .cubeRow:after {
+      padding: 0 1ex;
+      content: "";
+  }
+
+  .cubeFace {
+    display: inline-block;
+  }
+}
+
 .timer {
   text-align: center;
   line-height: 225%;

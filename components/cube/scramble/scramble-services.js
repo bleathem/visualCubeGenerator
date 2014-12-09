@@ -112,5 +112,39 @@
         element.append(outer);
       }
     };
-  });
+  })
+
+  .directive('scrambleState', function($document) {
+    return {
+      restrict: 'E',
+      scope: {
+        state: '=state'
+      },
+      link: function (scope, element, attrs) {
+        var cube = angular.element('<div class="cubeState"/>');
+        if (attrs.class) {
+          cube.addClass(attrs.class);
+        }
+        var rowLength = 3;
+        var faceLength = 9;
+        var tiles = scope.state;
+        var face, row;
+        for (var i = 0; i < tiles.length; i++) {
+          if ((i) % faceLength === 0) {
+            face = angular.element('<span class="cubeFace"/>');
+            cube.append(face);
+            cube.append($document[0].createTextNode(' '));
+          }
+          if ((i) % rowLength === 0) {
+            row = angular.element('<span class="cubeRow"/>');
+            face.append(row);
+            face.append($document[0].createTextNode(' '));
+          }
+          row.text(row.text() + ' ' + tiles[i]);
+        }
+        element.append(cube);
+      }
+    };
+  })
+  ;
 })(angular);
