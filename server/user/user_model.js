@@ -5,6 +5,7 @@ var UserSchema = new mongoose.Schema({
   name: String,
   giveName: String,
   familyName: String,
+  categories: [String],
   googleAccount: {
     kind: String,
     gender: String,

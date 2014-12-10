@@ -3,6 +3,7 @@
   angular.module('visualCubeGenerator.main.account', [
     'ui.router',
     'oauth',
+    'user',
     'oauth.google',
     'html.helpers'])
 
@@ -38,7 +39,7 @@
     };
   })
 
-  .controller('AccountController', function ($scope, $window, $timeout, googleapi, auth, synchSolves, bewit, solveManager, confirm) {
+  .controller('AccountController', function ($scope, $window, $timeout, $q, googleapi, auth, synchSolves, bewit, solveManager, confirm, userManager) {
     $scope.auth = auth;
     $scope.authorize = function() {
       googleapi.authorize().then(function(user) {
@@ -89,6 +90,34 @@
             };
           }, 5000)
         });
+    };
+    $scope.selectedCategory = auth.user ? auth.user.category : '';
+    $scope.addNewCategory = function() {
+      userManager.createCategory($scope.newCategory).then(function() {
+        auth.user.category = $scope.newCategory;
+        $scope.selectedCategory = $scope.newCategory;
+        $scope.newCategory = '';
+      }, function(error) {
+        $scope.addNewCategoryMessage = error.message;
+        $timeout(function() {
+          $scope.addNewCategoryMessage = null;
+        }, 5000)
+
+      });
+    };
+    $scope.deleteCategory = function() {
+      var deleteCategory = $scope.selectedCategory;
+      if (auth.user.category === deleteCategory) {
+        auth.user.category = '';
+      }
+      var activeCategory = auth.user.category;
+      confirm('Are you sure you want to delete the selected category?')
+        .then(userManager.deleteCategory(deleteCategory))
+        .then(function() {
+          auth.user.category = activeCategory;
+          $scope.selectedCategory = activeCategory;
+        })
+        ;
     }
   });
 })(angular);

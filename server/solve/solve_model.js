@@ -8,6 +8,7 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
   moves: {type: String, required: true},
   state: {type: String, required: true, unique: true},
   solveTime: {type: Number, required: true},
+  category: String,
   date: {type: Date, required: true},
   _user: { type: ObjectId, required: true, index: true},
   created: { type: Date, default: Date.now }

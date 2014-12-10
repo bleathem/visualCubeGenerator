@@ -24,6 +24,7 @@ module.exports = exports = function (app, express, routers) {
   app.use('/solve', routers.solveRouter);
   app.use('/user', routers.userRouter);
   app.use('/bewit', routers.bewitRouter);
+  app.use('/category', routers.categoryRouter);
   app.use(middle.logError);
   app.use(middle.handleError);
 };
