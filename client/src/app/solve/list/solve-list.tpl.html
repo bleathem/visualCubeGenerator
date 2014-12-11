@@ -43,6 +43,11 @@
     </div>
     <div class="list-group solve-list" ng-show="solveModel.solves && solveModel.solves.length">
       <h3 class="list-group-item list-group-item-info">
+        <span class="pull-right">
+          <button class="btn btn-xs btn-primary" ng-click="synchSolves()">
+            <span class="my-refresh-icon"></span>
+          </button>
+        </span>
         Solves
       </h3>
       <a ng-repeat="solve in solveModel.solves track by solve.state"

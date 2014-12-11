@@ -11,7 +11,8 @@
       });
   })
 
-  .controller('SolveListController', function ($scope, solveModel) {
+  .controller('SolveListController', function ($scope, solveModel, synchSolves) {
+    $scope.synchSolves = synchSolves;
     $scope.solveModel = solveModel;
   });
 })(angular);

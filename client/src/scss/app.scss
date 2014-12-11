@@ -112,3 +112,8 @@ $fa-font-path: "../fonts";
   @extend .fa;
   @extend .fa-clock-o;
 }
+
+.my-refresh-icon {
+  @extend .fa;
+  @extend .fa-refresh;
+}
