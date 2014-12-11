@@ -130,10 +130,10 @@
 
     var replaceLocalSolves = function(latestSolves) {
       var deferred = $q.defer();
-      if (latestSolves.length === 0) {
-        deferred.resolve('Synch complete: No remote solves returned');
-        return deferred.promise;
-      }
+      // if (latestSolves.length === 0) {
+      //   deferred.resolve('Synch complete: No remote solves returned');
+      //   return deferred.promise;
+      // }
       var unSavedSolves = solveModel.solves.filter(function(solve) {
         return !('_id' in solve);
       });
@@ -363,7 +363,11 @@
         deferred.reject(new Error('User not logged in'));
         return deferred.promise;
       }
-      var url = appConfig.backend + '/solve';
+      var url = appConfig.backend;
+      if (auth.category) {
+        url = url + '/category/' + auth.category;
+      }
+      url = url + '/solve';
       $http({
         method: 'get',
         url: url

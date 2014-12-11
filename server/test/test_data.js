@@ -5,6 +5,7 @@ var user = {
   'name': 'John Doe',
   'giveName': 'John',
   'familyName': 'Doe',
+  'categories': ['testCategory'],
   'googleAccount': {
     'kind': 'plus#personOpenIdConnect',
     'gender': 'male',

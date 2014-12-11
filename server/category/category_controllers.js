@@ -1,6 +1,7 @@
 /* jshint camelcase: false */
 'use strict';
 var User = require('../user/user_model.js')
+  , Solve = require('../solve/solve_model.js')
   ;
 module.exports = exports = {
   create: function (req, res, next) {
@@ -10,10 +11,17 @@ module.exports = exports = {
     if (user.categories.indexOf(newCategory) >= 0) {
       next('Category already exists');
     } else {
-      User.findByIdAndUpdate({ _id: user._id }, { $push: {
-          categories: newCategory
+      User.findByIdAndUpdate(
+        user._id,
+        { $push: {
+            categories: newCategory
+          }
+        },
+        { select: {
+            'googleAccount.token.refresh_token': 0
+          }
         }
-      }).exec().then(function (updatedUser) {
+      ).exec().then(function (updatedUser) {
         res.json(updatedUser);
       }, function (reason) {
         next(reason);
@@ -27,14 +35,24 @@ module.exports = exports = {
     if (user.categories.indexOf(deleteCategory) < 0) {
       next('Category ' + deleteCategory + ' does not exist');
     } else {
-      User.findByIdAndUpdate({ _id: user._id }, { $pull: {
+      // delete solves mapped to this category
+      var removeSolves = Solve.remove({category: deleteCategory});
+      // delete the category
+      var removeCategory = User.findByIdAndUpdate(
+        { _id: user._id },
+        { $pull: {
           categories: deleteCategory
         }
-      }).exec().then(function (updatedUser) {
-        res.json(updatedUser);
-      }, function (reason) {
-        next(reason);
       });
+
+      removeSolves.exec()
+        .then(removeCategory.exec()
+          .then(function(updatedUser) {
+            res.json(updatedUser);
+          }, function(reason) {
+            next(reason);
+          })
+        );
     }
   },
   verifyUserParam: function(req, res, next) {

@@ -41,37 +41,43 @@
         </ul>
       </div>
     </div>
-    <div class="list-group solve-list" ng-show="solveModel.solves && solveModel.solves.length">
-      <h3 class="list-group-item list-group-item-info">
-        <span class="pull-right">
-          <button class="btn btn-xs btn-primary" ng-click="synchSolves()">
-            <span class="my-refresh-icon"></span>
-          </button>
-        </span>
-        Solves
-      </h3>
-      <a ng-repeat="solve in solveModel.solves track by solve.state"
-         class="list-group-item"
-         href="#/solve/{{$index}}"
-         tabindex="{{$index +1}}"
-         select-solve
-         select-index="$index"
-         >
-        <div class="solve">
-          <div class="part">
-            <p>{{solve.date | date:'MMM d HH:mm'}}</p>
-            <p>
-              <solve-time time='solve.solveTime'></solve-time>
-            </p>
+    <h3>Solves</h3>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+          <span class="pull-right">
+            <button class="btn btn-xs btn-primary" ng-click="synchSolves()">
+              <span class="my-refresh-icon"></span>
+            </button>
+          </span>
+          Category: <span class="label label-info">{{auth.category || 'Default'}}</span>
+      </div>
+      <div class="panel-body" ng-show="!solveModel.solves || !solveModel.solves.length">
+        None
+      </div>
+      <div class="list-group solve-list">
+        <a ng-repeat="solve in solveModel.solves track by solve.state"
+           class="list-group-item"
+           href="#/solve/{{$index}}"
+           tabindex="{{$index +1}}"
+           select-solve
+           select-index="$index"
+           >
+          <div class="solve">
+            <div class="part">
+              <p>{{solve.date | date:'MMM d HH:mm'}}</p>
+              <p>
+                <solve-time time='solve.solveTime'></solve-time>
+              </p>
+            </div>
+            <div class="part graphic">
+              <scramble-graphic state="solve.state"></scramble-graphic>
+            </div>
+            <div class="part moves">
+              <scramble-moves moves="solve.moves"></scramble-moves>
+            </div>
           </div>
-          <div class="part graphic">
-            <scramble-graphic state="solve.state"></scramble-graphic>
-          </div>
-          <div class="part moves">
-            <scramble-moves moves="solve.moves"></scramble-moves>
-          </div>
-        </div>
-      </a>
+        </a>
+      </div>
     </div>
   </section>
 </div>

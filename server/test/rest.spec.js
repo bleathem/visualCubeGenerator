@@ -54,6 +54,37 @@ describe('Rest API:', function () {
       request(app).post('/solve').set(headers).send({ solve: data.solve }).expect(200, done);
     });
   });
+  describe('GET /category/solve', function() {
+    beforeEach(function (done) {
+      var solvesToCreate = data.uniqueSolves(10, user);
+      solvesToCreate[5].category = 'testCategory';
+      Solve.collection.insert(solvesToCreate, function () {
+        done();
+      });
+    });
+
+    it('return solves with empty category', function (done) {
+      request(app).get('/solve').set(headers).expect(200).end(function (err, res) {
+        var solves = res.body;
+        solves.length.should.equal(9);
+        done();
+      });
+    });
+
+    it('return solves only with the right category', function (done) {
+      request(app).get('/category/testCategory/solve').set(headers).expect(200).end(function (err, res) {
+        var solves = res.body;
+        solves.length.should.equal(1);
+        done();
+      });
+    });
+
+    it('return a 404 when the category is invalid', function (done) {
+      request(app).get('/category/testCategory2/solve').set(headers).expect(404).end(function (err, res) {
+        done();
+      });
+    });
+  })
   describe('POST /solve/create_all', function () {
     it('save an array of solves without error', function (done) {
       var solves = data.uniqueSolves(2, user);

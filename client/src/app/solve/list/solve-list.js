@@ -11,7 +11,8 @@
       });
   })
 
-  .controller('SolveListController', function ($scope, solveModel, synchSolves) {
+  .controller('SolveListController', function ($scope, solveModel, synchSolves, auth) {
+    $scope.auth = auth;
     $scope.synchSolves = synchSolves;
     $scope.solveModel = solveModel;
   });

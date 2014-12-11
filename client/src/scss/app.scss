@@ -4,7 +4,6 @@ $fa-font-path: "../fonts";
 @import "lib/fontawesome/scss/font-awesome";
 
 .scramble-list, .solve-list {
-  display: table;
 
   .scramble, .solve {
     display: table-row;

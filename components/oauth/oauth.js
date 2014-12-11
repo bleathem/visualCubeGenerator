@@ -21,7 +21,8 @@
 
   .factory('auth', function($localStorage) {
     var auth = {
-      user: null
+      user: null,
+      category: null
     };
 
     auth.readUser = function() {
@@ -40,8 +41,23 @@
 
     auth.logout = function() {
       this.user = null;
+      this.category = null;
       $localStorage.removeItem('user');
       return this.user;
+    };
+
+    auth.readCategory = function() {
+      var json = $localStorage.getItem('category');
+      if (json) {
+        this.category = JSON.parse(json);
+      }
+      return this.category;
+    };
+
+    auth.setCategory = function(setCategory) {
+      this.category = setCategory;
+      $localStorage.setItem('category', JSON.stringify(this.category));
+      return this.category;
     };
 
     return auth;

@@ -51,7 +51,10 @@
       });
     };
     $scope.logout = function() {
-      auth.logout();
+      setActiveCategory('');
+      synchSolves().then(function() {
+        auth.logout()
+      });
     };
     $scope.getFile = function() {
       var popup = $window.open();
@@ -91,11 +94,19 @@
           }, 5000)
         });
     };
-    $scope.selectedCategory = auth.user ? auth.user.category : '';
+
+    $scope.selectedCategory = auth.category;
+
+    var setActiveCategory = function(category) {
+      auth.category = category;
+      $scope.selectedCategory = category;
+      auth.setUser(auth.user);
+      synchSolves();
+    }
+
     $scope.addNewCategory = function() {
       userManager.createCategory($scope.newCategory).then(function() {
-        auth.user.category = $scope.newCategory;
-        $scope.selectedCategory = $scope.newCategory;
+        setActiveCategory($scope.newCategory);
         $scope.newCategory = '';
       }, function(error) {
         $scope.addNewCategoryMessage = error.message;
@@ -107,17 +118,17 @@
     };
     $scope.deleteCategory = function() {
       var deleteCategory = $scope.selectedCategory;
-      if (auth.user.category === deleteCategory) {
-        auth.user.category = '';
-      }
-      var activeCategory = auth.user.category;
-      confirm('Are you sure you want to delete the selected category?')
+      var activeCategory = (auth.category === deleteCategory) ? '' : auth.category;
+
+      confirm('Are you sure you want to delete the selected category and all it\'s associated solves?')
         .then(userManager.deleteCategory(deleteCategory))
         .then(function() {
-          auth.user.category = activeCategory;
-          $scope.selectedCategory = activeCategory;
+          setActiveCategory(activeCategory);
         })
         ;
+    }
+    $scope.selectCategory = function() {
+      setActiveCategory($scope.selectedCategory);
     }
   });
 })(angular);

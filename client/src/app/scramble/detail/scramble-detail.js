@@ -12,7 +12,7 @@
       });
   })
 
-  .controller('ScrambleCtrl', function ($scope, $stateParams, scrambles, solveManager) {
+  .controller('ScrambleCtrl', function ($scope, $stateParams, scrambles, solveManager, auth) {
     $scope.scramble = scrambles.get($stateParams.scrambleId);
     $scope.timerStatus = {
       running: false
@@ -26,6 +26,9 @@
       $scope.timerStatus.running = false;
       if (! $scope.scramble.solveTime) {
         $scope.scramble.solveTime = data.millis;
+        if (auth.category) {
+          $scope.scramble.category = auth.category;
+        }
         solveManager.save($scope.scramble);
       }
     });

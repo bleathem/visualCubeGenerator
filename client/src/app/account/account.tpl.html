@@ -14,7 +14,10 @@
     <div class="panel-heading">
       <h4>Categories</h4>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" ng-hide="auth.user">
+      Sign-in to create additional categories.
+    </div>
+    <div class="panel-body" ng-show="auth.user">
       <p>Use <em>categories</em> to groups solves and their associated statistics.  For example, create a cetegory for specific cubes, or solving techniques.</p>
       <form class="form-inline" role="form">
         <label for="activeCategory">Active category:</label>

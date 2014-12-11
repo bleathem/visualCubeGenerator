@@ -27,11 +27,17 @@ module.exports = exports = {
     if (req.headers.accept === 'text/csv') {
       exports.sendCsv(req, res, next);
     } else {
-      Solve.find({ _user: req.user.id }).sort({ date: -1 }).skip(0).limit(100).exec().then(function (solves) {
-        res.json(solves);
-      }, function (reason) {
-        next(reason);
-      });
+      Solve.find({
+          _user: req.user.id,
+          category: req.category
+        })
+        .sort({ date: -1 })
+        .skip(0).limit(100)
+        .exec().then(function (solves) {
+          res.json(solves);
+        }, function (reason) {
+          next(reason);
+        });
     }
   },
   create: function (req, res, next) {
