@@ -48,6 +48,9 @@ var authCallback = function(accessToken, refreshToken, params, profile, done) {
                 expiry: tokenLoop.expiry
               });
             });
+            if (tokens.length > 10) {
+              tokens = tokens.slice(0, 9);
+            }
             openIdProfile.token = tokens;
             User.findByIdAndUpdate(
               createdUser._id,
