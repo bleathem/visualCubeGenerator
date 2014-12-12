@@ -10,9 +10,9 @@ module.exports = exports = function (router) {
     .get('/google', function (req, res, next) {
       referrer = req.get('Referrer');
       passport.authenticate('google', {
-        scope: ['openid', 'email'],
-        accessType: 'offline',
-        approvalPrompt: 'force'
+        scope: ['openid', 'email']
+        , accessType: 'offline'
+        // , approvalPrompt: 'force'
       })(req, res, next);
     })
     .get('/google/callback', function (req, res, next) {
