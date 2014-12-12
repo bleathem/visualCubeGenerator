@@ -18,6 +18,7 @@ var UserSchema = new mongoose.Schema({
     family_name: String,
     profile: String,
     picture: String,
+    email: String,
     token: [{
         access_token: String,
         token_type: String,
