@@ -1,46 +1,6 @@
 <div class="container">
+  <solve-statistics averages="solveModel.averages"></solve-statistics>
   <section>
-    <div class="row">
-      <h3 class="col-sm-12">Statistics</h3>
-      <div class="col-sm-6">
-        <ul class="list-group">
-          <li class="list-group-item list-group-item-info">
-            Best times
-          </li>
-          <li class="list-group-item">
-            Best over last 5: <solve-time class="padding-left" time='solveModel.averages.ao5.best.solveTime'></solve-time>
-          </li>
-          <li class="list-group-item">
-            Best over last 10: <solve-time class="padding-left" time='solveModel.averages.ao10.best.solveTime'></solve-time>
-          </li>
-          <li class="list-group-item" ng-show="solveModel.averages.all.n < 100">
-            Best over last {{solveModel.averages.all.n}}: <solve-time class="padding-left" time='solveModel.averages.all.best.solveTime'></solve-time>
-          </li>
-          <li class="list-group-item" ng-show="solveModel.averages.all.n >= 100">
-            Best over last 100: <solve-time class="padding-left" time='solveModel.averages.ao100.best.solveTime'></solve-time>
-          </li>
-        </ul>
-      </div>
-      <div class="col-sm-6">
-        <ul class="list-group">
-          <li class="list-group-item list-group-item-info">
-            Average times
-          </li>
-          <li class="list-group-item">
-            Average over last 5: <solve-time class="padding-left" time='solveModel.averages.ao5.mean'></solve-time> &plusmn; {{solveModel.averages.ao5.standardDeviation | solveTime}}
-          </li>
-          <li class="list-group-item">
-            Average over last 10: <solve-time class="padding-left" time='solveModel.averages.ao10.mean'></solve-time> &plusmn; {{solveModel.averages.ao10.standardDeviation | solveTime}}
-          </li>
-          <li class="list-group-item" ng-show="solveModel.averages.all.n < 100">
-            Average over last {{solveModel.averages.all.n}}: <solve-time class="padding-left" time='solveModel.averages.all.mean'></solve-time> &plusmn; {{solveModel.averages.all.standardDeviation | solveTime}}
-          </li>
-          <li class="list-group-item" ng-show="solveModel.averages.all.n >= 100">
-            Average over last 100: <solve-time class="padding-left" time='solveModel.averages.ao100.mean'></solve-time> &plusmn; {{solveModel.averages.ao100.standardDeviation | solveTime}}
-          </li>
-        </ul>
-      </div>
-    </div>
     <h3>Solves</h3>
     <div class="panel panel-info">
       <div class="panel-heading">

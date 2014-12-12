@@ -219,12 +219,8 @@
         n: sum.n,
         best: sum.best,
         mean: sum.mean,
-        standardDeviation: calculateStandardDeviation(sum)
+        standardDeviation: Math.sqrt(sum.m2 / (sum.n - 1))
       };
-    };
-
-    var calculateStandardDeviation = function(sum) {
-      return Math.sqrt(sum.m2 / (sum.n - 1));
     };
 
     averageLoader.calculateAverages = function(solves) {

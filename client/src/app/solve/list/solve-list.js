@@ -15,5 +15,14 @@
     $scope.auth = auth;
     $scope.synchSolves = synchSolves;
     $scope.solveModel = solveModel;
+  })
+
+  .directive('solveStatistics', function() {
+    return {
+      templateUrl: 'app/solve/list/statistics.tpl.html',
+      scope: {
+        averages: '=averages'
+      }
+    }
   });
 })(angular);

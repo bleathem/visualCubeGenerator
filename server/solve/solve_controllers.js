@@ -1,5 +1,9 @@
 'use strict';
-var Solve = require('./solve_model.js'), through = require('through'), Q = require('q'), _ = require('underscore');
+var Solve = require('./solve_model.js')
+  , through = require('through')
+  , Q = require('q'), _ = require('underscore')
+  ;
+
 var createAll = function (solves) {
   var deferred = Q.defer();
   var createRemaining = function (remaining, created, failed) {
@@ -63,9 +67,14 @@ module.exports = exports = {
     res.attachment('solves.csv');
     res.write('date, solveTime, moves, state\n');
     var template = _.template('<%= date %>, <%= solveTime %>, <%= moves %>, <%= state %>\n');
-    Solve.find({ _user: req.query.user_id || req.user.id }).sort({ date: -1 }).limit(10000).stream().pipe(through(function (solve) {
-      this.queue(template(solve));
-    })).pipe(res);
+    Solve.find({ _user: req.query.user_id || req.user.id })
+      .sort({ date: -1 })
+      .limit(10000)
+      .stream()
+      .pipe(through(function (solve) {
+        this.queue(template(solve));
+      }))
+      .pipe(res);
   },
   delete: function (req, res, next) {
     var query = req.params.id === 'all' ? {} : {_id: req.params.id};

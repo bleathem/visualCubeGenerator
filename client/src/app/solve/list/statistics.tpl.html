@@ -1,0 +1,43 @@
+<section>
+  <div class="row">
+    <h3 class="col-sm-12">Statistics</h3>
+    <div class="col-sm-6">
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-info">
+          Best times
+        </li>
+        <li class="list-group-item">
+          Best over last 5: <solve-time class="padding-left" time='averages.ao5.best.solveTime'></solve-time>
+        </li>
+        <li class="list-group-item">
+          Best over last 10: <solve-time class="padding-left" time='averages.ao10.best.solveTime'></solve-time>
+        </li>
+        <li class="list-group-item" ng-show="averages.all.n < 100">
+          Best over last {{averages.all.n}}: <solve-time class="padding-left" time='averages.all.best.solveTime'></solve-time>
+        </li>
+        <li class="list-group-item" ng-show="averages.all.n >= 100">
+          Best over last 100: <solve-time class="padding-left" time='averages.ao100.best.solveTime'></solve-time>
+        </li>
+      </ul>
+    </div>
+    <div class="col-sm-6">
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-info">
+          Average times
+        </li>
+        <li class="list-group-item">
+          Average over last 5: <solve-time class="padding-left" time='averages.ao5.mean'></solve-time> &plusmn; {{averages.ao5.standardDeviation | solveTime}}
+        </li>
+        <li class="list-group-item">
+          Average over last 10: <solve-time class="padding-left" time='averages.ao10.mean'></solve-time> &plusmn; {{averages.ao10.standardDeviation | solveTime}}
+        </li>
+        <li class="list-group-item" ng-show="averages.all.n < 100">
+          Average over last {{averages.all.n}}: <solve-time class="padding-left" time='averages.all.mean'></solve-time> &plusmn; {{averages.all.standardDeviation | solveTime}}
+        </li>
+        <li class="list-group-item" ng-show="averages.all.n >= 100">
+          Average over last 100: <solve-time class="padding-left" time='averages.ao100.mean'></solve-time> &plusmn; {{averages.ao100.standardDeviation | solveTime}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

@@ -1,6 +1,9 @@
 /* jshint camelcase: false */
 'use strict';
 var User = require('./user_model.js')
+  , Solve = require('../solve/solve_model.js')
+  , averages = require('./averages')
+  , ObjectId = (require('mongoose').Types.ObjectId)
   ;
 module.exports = exports = {
   list: function (req, res, next) {
@@ -19,7 +22,24 @@ module.exports = exports = {
         next('No profile found');
         return;
       }
-      res.json(user);
+      var sum = new averages.Seed();
+      Solve.find({
+          _user: new ObjectId(user._id),
+          category: null
+        })
+        .sort({ date: -1 })
+        .limit(10000)
+        .stream()
+        .on('data', function (solve) {
+          sum = averages.sumSolveTimes(sum, solve);
+        })
+        .on('close', function () {
+          averages.snapshotAverages(sum, 'all');
+          res.json({user:user, averages: sum.averages});
+        })
+        .on('error', function (reason) {
+          next(reason);
+        });
     }, function (reason) {
       next(reason.message);
     });

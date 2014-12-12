@@ -16,11 +16,11 @@
 
   .controller('ProfileController', function ($scope, $stateParams, userManager) {
     userManager.getProfile($stateParams.userId)
-      .then(function(profile) {
-        $scope.profile = profile;
+      .then(function(response) {
+        $scope.profile = response.user;
+        $scope.averages = response.averages;
       }, function(error) {
         $scope.profileMessage = error.message;
-        console.log(error);
       });
   })
   ;
