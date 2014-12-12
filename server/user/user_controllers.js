@@ -10,11 +10,18 @@ module.exports = exports = {
       next(reason);
     });
   },
-  find: function (req, res, next) {
-    User.findById(req.params.user_id).exec().then(function (users) {
-      res.json(users);
+  getProfile: function (req, res, next) {
+    User.findById(
+      req.params.id,
+      { 'googleAccount.token': 0,  'googleAccount.email': 0  }
+    ).exec().then(function (user) {
+      if (!user) {
+        next('No profile found');
+        return;
+      }
+      res.json(user);
     }, function (reason) {
-      next(reason);
+      next(reason.message);
     });
   },
   update: function (req, res, next) {

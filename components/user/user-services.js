@@ -5,6 +5,21 @@
   .factory('userManager', function($http, $q, auth, appConfig) {
     var userManager = {};
 
+    userManager.getProfile = function(userId) {
+      var deferred = $q.defer();
+      var url = appConfig.backend + '/user/' + userId + '/profile';
+      $http({
+        method: 'get',
+        url: url
+      }).then(function(response) {
+          deferred.resolve(response.data);
+        }, function(response) {
+          var message = response.data || '#' + response.status + ' - ' + response.statusText;
+          deferred.reject(new Error(message));
+        });
+      return deferred.promise;
+    }
+
     userManager.createCategory = function(newCategory) {
       var deferred = $q.defer();
       if (!auth.user) {

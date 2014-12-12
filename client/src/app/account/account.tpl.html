@@ -8,6 +8,7 @@
       <g-plus-button ng-click="authorize()" ng-hide="auth.user"></g-plus-button>
       <profile profile="auth.user.googleAccount" ng-click="logout" ng-show="auth.user"></profile>
       <pre ng-show="message">{{message}}</pre>
+      <a ui-sref="visualCubeGenerator.main.profile({userId: auth.user._id})">VCG profile</a>
     </div>
   </section>
   <section class="panel panel-default">

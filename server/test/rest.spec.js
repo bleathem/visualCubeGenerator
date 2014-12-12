@@ -165,7 +165,23 @@ describe('Rest API:', function () {
       });
     });
   });
-  describe('CSV down load', function () {
+  describe('/user', function() {
+    it('download a public profile, with public data', function(done) {
+      request(app)
+        .get('/user/' + user._id + '/profile')
+        .expect(200)
+        .end(function (err, res) {
+          if (err) {
+            return done(err);
+          }
+          var profile = res.body;
+          (profile.tokens == null).should.be.true;
+          profile.name.should.equal(user.name);
+          done();
+        });
+    })
+  });
+  describe('CSV down load', function() {
     it('download a csv file', function (done) {
       function csvParser(res, callback) {
         res.setEncoding('utf8');

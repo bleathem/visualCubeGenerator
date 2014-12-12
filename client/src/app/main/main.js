@@ -7,7 +7,8 @@
     'visualCubeGenerator.main.solve.detail',
     'visualCubeGenerator.main.scramble.list',
     'visualCubeGenerator.main.scramble.detail',
-    'visualCubeGenerator.main.account'
+    'visualCubeGenerator.main.account',
+    'visualCubeGenerator.main.profile'
   ])
   .config(function ($stateProvider) {
     $stateProvider
