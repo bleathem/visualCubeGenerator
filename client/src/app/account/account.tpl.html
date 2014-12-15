@@ -4,7 +4,7 @@
       <h4>Account</h4>
     </div>
     <div class="panel-body">
-      <div ng-show="auth.user">
+      <div ng-if="auth.user">
         <profile profile="auth.user.googleAccount">
           VCG profile: <a ui-sref="visualCubeGenerator.main.profile({userId: auth.user._id})">{{getProfileUrl()}}</a>
         </profile>
