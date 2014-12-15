@@ -39,7 +39,7 @@
     };
   })
 
-  .controller('AccountController', function ($scope, $window, $timeout, $q, googleapi, auth, synchSolves, bewit, solveManager, confirm, userManager) {
+  .controller('AccountController', function ($scope, $state, $window, $timeout, $q, googleapi, auth, synchSolves, bewit, solveManager, confirm, userManager) {
     $scope.auth = auth;
     $scope.authorize = function() {
       googleapi.authorize().then(function(user) {
@@ -55,6 +55,9 @@
       synchSolves().then(function() {
         auth.logout()
       });
+    };
+    $scope.getProfileUrl = function() {
+      return $state.href('visualCubeGenerator.main.profile', {userId: auth.user._id}, {absolute: true});
     };
     $scope.getFile = function() {
       var popup = $window.open();

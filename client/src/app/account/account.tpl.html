@@ -1,14 +1,17 @@
 <div class="container">
-  <h2>Account</h2>
   <section class="panel panel-default">
     <div class="panel-heading">
-      <h4>Sign-in</h4>
+      <h4>Account</h4>
     </div>
     <div class="panel-body">
-      <g-plus-button ng-click="authorize()" ng-hide="auth.user"></g-plus-button>
-      <profile profile="auth.user.googleAccount" ng-click="logout" ng-show="auth.user"></profile>
+      <div ng-show="auth.user">
+        <profile profile="auth.user.googleAccount">
+          VCG profile: <a ui-sref="visualCubeGenerator.main.profile({userId: auth.user._id})">{{getProfileUrl()}}</a>
+        </profile>
+        <hr></hr>
+      </div>
+      <g-plus-button ng-click="auth.user ? logout() : authorize()" logged-in="auth.user"></g-plus-button>
       <pre ng-show="message">{{message}}</pre>
-      <a ui-sref="visualCubeGenerator.main.profile({userId: auth.user._id})">VCG profile</a>
     </div>
   </section>
   <section class="panel panel-default">

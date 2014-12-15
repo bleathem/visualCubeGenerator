@@ -1,11 +1,8 @@
 <div class="profile">
   <img ng-src="{{profile.picture}}"></img>
   <div class="profile-text">
-    <p>User: {{profile.name}}</p>
-    <p>URL: <a href={{profile.profile}}>{{profile.profile}}</a></p>
-    <div ng-click="ng-click()" class="google-sign-in">
-      <span class="icon"></span>
-      <span class="buttonText">Sign-out from Google</span>
-    </div>
+    <p>{{profile.name}}</p>
+    <p><a href={{profile.profile}}><span class="google-profile-icon"></span> {{profile.profile}}</a></p>
+    <div ng-transclude></div>
   </div>
 </div>

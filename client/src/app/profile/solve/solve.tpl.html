@@ -1,0 +1,24 @@
+<div class="container">
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <h4>
+        <a ui-sref="visualCubeGenerator.main.profile({userId: profile._id})">VCG profile</a>
+      </h4>
+    </div>
+    <div class="panel-body">
+      <div class="profile" ng-show="profile">
+        <img ng-src="{{profile.googleAccount.picture}}"></img>
+        <div class="profile-text">
+          <p>
+            {{profile.name}}
+          </p>
+          <p><a href={{profile.googleAccount.profile}}><span class="google-profile-icon"></span> {{profile.googleAccount.profile}}</a></p>
+        </div>
+      </div>
+      <pre ng-show="profileMessage">{{profileMessage}}</pre>
+    </div>
+  </section>
+  <div class="detail">
+  <scramble-view ng-show="solve" scramble="solve"></scramble-view>
+</div>
+</div>

@@ -73,15 +73,18 @@
         state: '=state'
       },
       link: function (scope, element, attrs) {
-        var div = angular.element('<div class="graphic"/>');
-        if (attrs.class) {
-          div.addClass(attrs.class);
-        }
-        element.append(div);
-        var width = div[0].offsetWidth,
-           height = Math.round(width * 2.0 / 3.0);
-        $timeout(function(){
-          scrambler.drawScramble(div[0], scope.state, width, height);
+        scope.$watch('state', function() {
+          if (!scope.state) return;
+          var div = angular.element('<div class="graphic"/>');
+          if (attrs.class) {
+            div.addClass(attrs.class);
+          }
+          element.append(div);
+          $timeout(function(){
+          var width = div[0].offsetWidth,
+            height = Math.round(width * 2.0 / 3.0);
+            scrambler.drawScramble(div[0], scope.state, width, height);
+          });
         });
       }
     };
@@ -93,23 +96,29 @@
       scope: {
         moves: '=moves'
       },
+
       link: function (scope, element, attrs) {
-        var outer = angular.element('<div class="moves"/>');
-        if (attrs.class) {
-          outer.addClass(attrs.class);
-        }
-        var chunkLength = 4;
-        var chunks = scope.moves.split(/\s+/);
-        var inner;
-        for (var i = 0; i < chunks.length; i++) {
-          if ((i) % chunkLength === 0) {
-            inner = angular.element('<span class="chunk"/>');
-            outer.append(inner);
-            outer.append($document[0].createTextNode(' '));
+        scope.$watch('moves', function() {
+          if (!scope.moves) {
+            return;
           }
-          inner.text(inner.text() + ' ' + chunks[i]);
-        }
-        element.append(outer);
+          var outer = angular.element('<div class="moves"/>');
+          if (attrs.class) {
+            outer.addClass(attrs.class);
+          }
+          var chunkLength = 4;
+          var chunks = scope.moves.split(/\s+/);
+          var inner;
+          for (var i = 0; i < chunks.length; i++) {
+            if ((i) % chunkLength === 0) {
+              inner = angular.element('<span class="chunk"/>');
+              outer.append(inner);
+              outer.append($document[0].createTextNode(' '));
+            }
+            inner.text(inner.text() + ' ' + chunks[i]);
+          }
+          element.append(outer);
+        });
       }
     };
   })
@@ -121,28 +130,30 @@
         state: '=state'
       },
       link: function (scope, element, attrs) {
-        var cube = angular.element('<div class="cubeState"/>');
-        if (attrs.class) {
-          cube.addClass(attrs.class);
-        }
-        var rowLength = 3;
-        var faceLength = 9;
-        var tiles = scope.state;
-        var face, row;
-        for (var i = 0; i < tiles.length; i++) {
-          if ((i) % faceLength === 0) {
-            face = angular.element('<span class="cubeFace"/>');
-            cube.append(face);
-            cube.append($document[0].createTextNode(' '));
+        scope.$watch('state', function() {
+          var cube = angular.element('<div class="cubeState"/>');
+          if (attrs.class) {
+            cube.addClass(attrs.class);
           }
-          if ((i) % rowLength === 0) {
-            row = angular.element('<span class="cubeRow"/>');
-            face.append(row);
-            face.append($document[0].createTextNode(' '));
+          var rowLength = 3;
+          var faceLength = 9;
+          var tiles = scope.state;
+          var face, row;
+          for (var i = 0; i < tiles.length; i++) {
+            if ((i) % faceLength === 0) {
+              face = angular.element('<span class="cubeFace"/>');
+              cube.append(face);
+              cube.append($document[0].createTextNode(' '));
+            }
+            if ((i) % rowLength === 0) {
+              row = angular.element('<span class="cubeRow"/>');
+              face.append(row);
+              face.append($document[0].createTextNode(' '));
+            }
+            row.text(row.text() + ' ' + tiles[i]);
           }
-          row.text(row.text() + ' ' + tiles[i]);
-        }
-        element.append(cube);
+          element.append(cube);
+        });
       }
     };
   })

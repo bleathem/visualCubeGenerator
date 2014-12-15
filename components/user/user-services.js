@@ -20,6 +20,21 @@
       return deferred.promise;
     }
 
+    userManager.getSolve = function(userId, solveId) {
+      var deferred = $q.defer();
+      var url = appConfig.backend + '/user/' + userId + '/solve/' + solveId;
+      $http({
+        method: 'get',
+        url: url
+      }).then(function(response) {
+          deferred.resolve(response.data);
+        }, function(response) {
+          var message = response.data || '#' + response.status + ' - ' + response.statusText;
+          deferred.reject(new Error(message));
+        });
+      return deferred.promise;
+    }
+
     userManager.createCategory = function(newCategory) {
       var deferred = $q.defer();
       if (!auth.user) {

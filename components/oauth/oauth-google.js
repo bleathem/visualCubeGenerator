@@ -64,6 +64,9 @@
     return {
       restrict: 'E',
       replace: true,
+      scope: {
+        loggedIn: '=loggedIn'
+      },
       templateUrl: 'oauth/google-sign-in.tpl.html'
     };
   })
@@ -71,6 +74,7 @@
   .directive('profile', function() {
     return {
       restrict: 'E',
+      transclude: true,
       scope: {
         profile: '=profile',
         click: '=ngClick',

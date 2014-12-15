@@ -44,6 +44,27 @@ module.exports = exports = {
       next(reason.message);
     });
   },
+  getSolve: function (req, res, next) {
+    User.findById(
+      req.params.id,
+      { 'googleAccount.token': 0,  'googleAccount.email': 0  }
+    ).exec().then(function (user) {
+      if (!user) {
+        next('No profile found');
+        return;
+      }
+      Solve.findOne({
+          _id: new ObjectId(req.params.solveId),
+          _user: new ObjectId(user._id)
+        }).exec().then(function (solve) {
+          res.json({user:user, solve:solve});
+        }, function (reason) {
+          next(reason.message);
+        });
+    }, function (reason) {
+      next(reason.message);
+    });
+  },
   update: function (req, res, next) {
     var user = req.body.user;
     User.update({ _id: req.params.user_id }, user).exec().then(function (numAffected) {

@@ -1,22 +1,17 @@
 <div class="container">
   <section class="panel panel-default">
     <div class="panel-heading">
-      <h4>Profile</h4>
+      <h4>
+        <a ui-sref="visualCubeGenerator.main.profile({userId: profile._id})">VCG profile</a>
+      </h4>
     </div>
     <div class="panel-body">
-      <div class="profile" ng-show="profile">
-        <img ng-src="{{profile.googleAccount.picture}}"></img>
-        <div class="profile-text">
-          <p>User: {{profile.name}}</p>
-          <p>URL: <a href={{profile.googleAccount.profile}}>{{profile.googleAccount.profile}}</a></p>
-          <div ng-click="ng-click()" class="google-sign-in">
-            <span class="icon"></span>
-            <span class="buttonText">Sign-out from Google</span>
-          </div>
-        </div>
-      </div>
+      <profile profile="profile.googleAccount">
       <pre ng-show="profileMessage">{{profileMessage}}</pre>
     </div>
   </section>
-  <solve-statistics averages="averages"></solve-statistics>
+  <solve-statistics averages="averages"
+    uistate="'visualCubeGenerator.main.profile-solve'"
+    userid="profile._id"
+    ></solve-statistics>
 </div>

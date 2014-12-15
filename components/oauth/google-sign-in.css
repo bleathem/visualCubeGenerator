@@ -56,3 +56,12 @@
   display: inline-block;
   padding: 0 10px;
 }
+
+.google-profile-icon {
+  background-color: #dd4b39;
+  background: url('/css/g+29.png');
+  display: inline-block;
+  vertical-align: middle;
+  width: 29px;
+  height: 29px;
+}

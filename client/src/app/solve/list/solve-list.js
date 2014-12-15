@@ -21,7 +21,9 @@
     return {
       templateUrl: 'app/solve/list/statistics.tpl.html',
       scope: {
-        averages: '=averages'
+        averages: '=averages',
+        uistate: '=uistate',
+        userid: '=userid'
       }
     }
   });
