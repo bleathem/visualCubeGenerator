@@ -58,7 +58,7 @@ describe('Cube: solve: services:', function() {
       var solvePostUrl;
 
       beforeEach(function() {
-        solvePostUrl = appConfig.backend + '/solve';
+        solvePostUrl = appConfig.backend + '/api/solve';
       });
 
       it('should return save a solve to $localStorage', function() {

@@ -1,7 +1,9 @@
 'use strict';
 
-var passport    = require('./oauth_config.js').passport,
-    querystring = require('querystring');
+var passport    = require('./oauth_config.js').passport
+  , querystring = require('querystring')
+  , url         = require('url')
+  ;
 
 var referrer;
 
@@ -26,7 +28,7 @@ module.exports = exports = function (router) {
         } else {
           userString = querystring.escape(JSON.stringify(user));
         }
-        var host = referrer ? referrer : process.env.REST_PROTOCOL + '://' + process.env.REST_HOSTNAME;
+        var host = referrer ? url.resolve(referrer, '/') : process.env.REST_PROTOCOL + '://' + process.env.REST_HOSTNAME + '/';
         res.redirect(host + '#/oauth/callback?user=' + userString + '&error=' + error);
       })(req, res, next);
     });

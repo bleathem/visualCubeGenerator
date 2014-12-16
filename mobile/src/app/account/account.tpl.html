@@ -1,8 +1,11 @@
 <ion-view title="Account">
   <ion-content class="has-header padding">
     <h1>Account</h1>
-    <g-plus-button ng-click="authorize()" ng-hide="auth.user"></g-plus-button>
-    <profile profile="auth.user.googleAccount" ng-click="logout" ng-show="auth.user"></profile>
+    <div ng-if="auth.user">
+      <profile profile="auth.user.googleAccount"></profile>
+      <hr></hr>
+    </div>
+    <g-plus-button ng-click="auth.user ? logout() : authorize()" logged-in="auth.user"></g-plus-button>
     <pre ng-show="message">{{message}}</pre>
   </ion-content>
 </ion-view>

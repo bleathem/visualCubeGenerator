@@ -7,7 +7,7 @@
 
     userManager.getProfile = function(userId) {
       var deferred = $q.defer();
-      var url = appConfig.backend + '/user/' + userId + '/profile';
+      var url = appConfig.backend + '/api/user/' + userId + '/profile';
       $http({
         method: 'get',
         url: url
@@ -22,7 +22,7 @@
 
     userManager.getSolve = function(userId, solveId) {
       var deferred = $q.defer();
-      var url = appConfig.backend + '/user/' + userId + '/solve/' + solveId;
+      var url = appConfig.backend + '/api/user/' + userId + '/solve/' + solveId;
       $http({
         method: 'get',
         url: url
@@ -41,7 +41,7 @@
         deferred.reject(new Error('User not logged in'));
         return deferred.promise;
       }
-      var url = appConfig.backend + '/category/' + newCategory;
+      var url = appConfig.backend + '/api/category/' + newCategory;
       $http({
         method: 'post',
         url: url
@@ -61,7 +61,7 @@
         deferred.reject(new Error('User not logged in'));
         return deferred.promise;
       }
-      var url = appConfig.backend + '/category/' + deleteCategory;
+      var url = appConfig.backend + '/api/category/' + deleteCategory;
       $http({
         method: 'delete',
         url: url

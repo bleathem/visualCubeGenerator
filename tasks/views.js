@@ -63,7 +63,7 @@ module.exports = function(gulp, opts) {
       .pipe(gulpif(opts.production, plumber()))
       .pipe(gulpif(opts.production, uglify()))
 
-      .pipe(gulp.dest(opts.paths.client.target))
+      .pipe(gulp.dest(opts.paths.client.target + '/js'))
       .pipe(livereload(opts.lr, {auto:false}));
   });
 

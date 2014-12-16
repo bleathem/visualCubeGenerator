@@ -88,7 +88,7 @@ passport.use('google', new OAuth2Strategy({
   clientID: authKey.client_id,
   clientSecret: authKey.client_secret,
 
-  callbackURL: process.env.REST_PROTOCOL + '://' + process.env.REST_HOSTNAME + ':' + process.env.REST_PORT + '/oauth/google/callback',
+  callbackURL: process.env.REST_PROTOCOL + '://' + process.env.REST_HOSTNAME + ':' + process.env.REST_PORT + '/api/oauth/google/callback',
 }, authCallback));
 
 passport.use('bearer', new BearerStrategy(

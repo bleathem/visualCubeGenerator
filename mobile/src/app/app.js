@@ -39,7 +39,7 @@
     googleAnalyticsCordovaProvider.debug = false; // default: false
   })
 
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
@@ -56,6 +56,8 @@
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/tab/scrambles');
+
+    // $locationProvider.html5Mode(false).hashPrefix('!');
 
   });
 })(angular);

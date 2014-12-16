@@ -18,14 +18,23 @@ module.exports = exports = function (app, express, routers) {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
   app.use(middle.cors);
-  app.use(express.static(__dirname + '/../../client/www'));
+  var staticRoot = __dirname + '/../../client/www';
+  app.use('/app', express.static(staticRoot + '/app'));
+  app.use('/css', express.static(staticRoot + '/css'));
+  app.use('/fonts', express.static(staticRoot + '/fonts'));
+  app.use('/img', express.static(staticRoot + '/img'));
+  app.use('/js', express.static(staticRoot + '/js'));
   app.use(passport.initialize());
-  app.use('/oauth', routers.oauthRouter);
-  app.use('/solve', routers.solveRouter);
-  app.use('/user', routers.userRouter);
-  app.use('/bewit', routers.bewitRouter);
-  app.use('/category', routers.categoryRouter);
+  app.use('/api/oauth', routers.oauthRouter);
+  app.use('/api/solve', routers.solveRouter);
+  app.use('/api/user', routers.userRouter);
+  app.use('/api/bewit', routers.bewitRouter);
+  app.use('/api/category', routers.categoryRouter);
   routers.categoryRouter.use('/:category/solve', routers.solveRouter);
+  app.all('/*', function(req, res, next) {
+    // Just send the index.html for other files to support HTML5Mode
+    res.sendFile('index.html', { root: staticRoot });
+  });
   app.use(middle.logError);
   app.use(middle.handleError);
 };

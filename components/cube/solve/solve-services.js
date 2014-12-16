@@ -361,9 +361,9 @@
       }
       var url = appConfig.backend;
       if (auth.category) {
-        url = url + '/category/' + auth.category;
+        url = url + '/api/category/' + auth.category;
       }
-      url = url + '/solve';
+      url = url + '/api/solve';
       $http({
         method: 'get',
         url: url
@@ -382,7 +382,7 @@
         deferred.reject(new Error('User not logged in'));
         return deferred.promise;
       }
-      var url = appConfig.backend + '/solve/create_all';
+      var url = appConfig.backend + '/api/solve/create_all';
       $log.debug(solves.length + ' solves to upload');
       $http.post(url, {solves: solves})
         .then(function(response) {
@@ -399,7 +399,7 @@
 
     solveRemoteLoader.createOnRemote = function(solve) {
       var deferred = $q.defer();
-      var url = appConfig.backend + '/solve';
+      var url = appConfig.backend + '/api/solve';
       $http.post(
         url,
         {solve: solve}
@@ -422,7 +422,7 @@
         deferred.resolve('Local solve, remote deleted unnecessary.');
         return deferred.promise;
       }
-      var url = appConfig.backend + '/solve/' + solve._id;
+      var url = appConfig.backend + '/api/solve/' + solve._id;
       $http.delete(
         url
       ).then(function(response) {
@@ -441,7 +441,7 @@
         deferred.resolve(message);
         return deferred.promise;
       }
-      var url = appConfig.backend + '/solve/all';
+      var url = appConfig.backend + '/api/solve/all';
       $http.delete(
         url
       ).then(function(response) {

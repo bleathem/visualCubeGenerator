@@ -4,7 +4,7 @@
 
   .factory('googleapi', function($window, appConfig, googleTokenPromise) {
     var authorize = function() {
-      var authUrl = appConfig.backend + '/oauth/google';
+      var authUrl = appConfig.backend + '/api/oauth/google';
       var authWindow = $window.open(authUrl, '_blank', 'location=no,toolbar=no');
       return googleTokenPromise(authWindow);
     };

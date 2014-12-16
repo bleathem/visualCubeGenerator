@@ -24,7 +24,7 @@
           deferred.reject(new Error('User not logged in'));
           return deferred.promise;
         }
-        var url = appConfig.backend + '/bewit/code';
+        var url = appConfig.backend + '/api/bewit/code';
         $http({
           method: 'get',
           url: url

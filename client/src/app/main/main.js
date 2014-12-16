@@ -11,11 +11,13 @@
     'visualCubeGenerator.main.profile',
     'visualCubeGenerator.main.profile.solve'
   ])
-  .config(function ($stateProvider) {
+  .config(function ($stateProvider, $locationProvider) {
     $stateProvider
       .state('visualCubeGenerator.main', {
         abstract: true,
         templateUrl: 'app/main/main.tpl.html'
       });
+    $locationProvider.html5Mode(true);
+    // $locationProvider.hashPrefix('!');
   });
 })(angular);
