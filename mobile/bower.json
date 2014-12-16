@@ -2,17 +2,17 @@
   "name": "HelloIonic",
   "private": "true",
   "devDependencies": {
-    "ionic": "1.0.0-beta.13"
+    "ionic": "1.0.0-beta.14"
   },
   "dependencies": {
     "jsss": "https://github.com/cubing/jsss.git",
     "raphael": "~2.1.2",
     "angular-timer": "~1.1.6",
-    "angular-mocks": "~1.2.25",
-    "ngCordova": "~0.1.4-alpha",
+    "angular-mocks": "~1.3.6",
+    "ngCordova": "~0.1.8-alpha",
     "angulartics": "~0.17.1"
   },
   "resolutions": {
-    "angular": "~1.2.17"
+    "angular": "1.3.6"
   }
 }
