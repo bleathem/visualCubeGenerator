@@ -1,17 +1,31 @@
 <ion-view title="Scramble">
   <ion-content has-header="true" padding="false">
     <div class="detail">
-      <scramble-view scramble="scramble"></scramble-view>
-      <button class="button button-full button-large button-balanced"
-              ng-click="startTimer()"
-              ng-hide="scramble.solveTime">
-        Start
-      </button>
-      <a class="button button-full button-back button-energized"
-          href="#/tab/scrambles"
-          ng-show="scramble.solveTime">
-        <i class="icon ion-ios7-arrow-back">Back</i>
-      </a>
+      <div class="scramble">
+        <scramble-moves moves="scramble.moves"></scramble-moves>
+        <div class="row responsive-sm">
+          <div class="col">
+            <scramble-graphic state="scramble.state"></scramble-graphic>
+          </div>
+          <div class="col">
+            <button class="button button-full button-large button-balanced"
+                    ng-click="startTimer()"
+                    ng-hide="scramble.solveTime">
+              Start
+            </button>
+            <div class="card timer-card" ng-show="scramble.solveTime">
+              <div class="item">
+                <solve-time time="scramble.solveTime"></solve-time>
+              </div>
+            </div>
+            <a class="button button-full button-back button-energized"
+                href="#/tab/scrambles"
+                ng-show="scramble.solveTime">
+              <i class="icon ion-ios7-arrow-back">Back</i>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </ion-content>
 </ion-view>
