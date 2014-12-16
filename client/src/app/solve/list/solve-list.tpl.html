@@ -5,7 +5,7 @@
     <div class="panel panel-info">
       <div class="panel-heading">
           <span class="pull-right">
-            <button class="btn btn-xs btn-primary" ng-click="synchSolves()">
+            <button class="btn btn-xs btn-primary" ng-click="synchSolves()" ng-if="auth.user">
               <span class="my-refresh-icon"></span>
             </button>
           </span>
@@ -26,8 +26,13 @@
             <div class="part">
               <p>{{solve.date | date:'MMM d HH:mm'}}</p>
               <p>
-                <solve-time time='solve.solveTime'></solve-time>
+                <solve-time time="solve.solveTime"></solve-time>
               </p>
+              <span class="label label-warning"
+                      ng-if="!solve._id"
+                      tooltip="Local solve. Log in to save it to the server.">
+                <span class="my-refresh-icon"></span>
+              </span>
             </div>
             <div class="part graphic">
               <scramble-graphic state="solve.state"></scramble-graphic>
