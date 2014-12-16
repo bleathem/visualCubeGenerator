@@ -14,6 +14,14 @@
           </ul>
         </div> -->
         <button class="btn btn-danger active" role="button" ng-click="deleteSolve(solve)">Delete Solve</button>
+        <br></br>
+        <a class="btn" twitter-share
+          href="https://twitter.com/intent/tweet"
+          solve="solve"
+          user="auth.user"
+          data-text="A new personal best in solving my cube! #speedsolving"
+          data-url="{{getSolveUrl()}}">
+        </a>
       </div>
     </div>
   </section>

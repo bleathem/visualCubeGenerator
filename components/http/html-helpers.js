@@ -14,5 +14,27 @@
     };
     return confirm;
   })
+
+  .directive('twitterShare', function($timeout, $state) {
+    return {
+      scope: {
+        solve: '=solve',
+        user: '=user'
+      },
+      link: function($scope, element, attr) {
+        $timeout(function() {
+          twttr.widgets.createShareButton(
+            attr.url,
+            element[0],
+            {
+              count: 'none',
+              text: attr.text,
+              size: 'large'
+            }
+          );
+        });
+      }
+    }
+  })
   ;
 })(angular);

@@ -17,7 +17,7 @@
       <div class="list-group solve-list">
         <a ng-repeat="solve in solveModel.solves track by solve.state"
            class="list-group-item"
-           href="#/solve/{{$index}}"
+           ui-sref="visualCubeGenerator.main.solve-detail({solveId: $index})"
            tabindex="{{$index +1}}"
            select-solve
            select-index="$index"
