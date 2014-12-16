@@ -16,7 +16,8 @@
   </section>
   <section class="panel panel-default">
     <div class="panel-heading">
-      <h4>Categories</h4>
+      <h4>Categories <span class="label label-info">{{auth.category || 'Default'}}</span></h4>
+
     </div>
     <div class="panel-body" ng-hide="auth.user">
       Sign-in to create additional categories.

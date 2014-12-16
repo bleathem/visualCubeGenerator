@@ -17,6 +17,7 @@
 
   .run(function(auth) {
     auth.readUser();
+    auth.readCategory();
   })
 
   .factory('auth', function($localStorage) {

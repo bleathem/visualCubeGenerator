@@ -12,8 +12,9 @@
       });
   })
 
-  .controller('ScrambleListCtrl', function ($scope, scrambles, $timeout) {
+  .controller('ScrambleListCtrl', function ($scope, scrambles, $timeout, auth) {
     $scope.solves = [];
+    $scope.auth = auth;
 
     $timeout(function() {
       $scope.scrambles = scrambles.all();

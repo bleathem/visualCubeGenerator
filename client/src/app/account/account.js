@@ -101,7 +101,7 @@
     $scope.selectedCategory = auth.category;
 
     var setActiveCategory = function(category) {
-      auth.category = category;
+      auth.setCategory(category);
       $scope.selectedCategory = category;
       auth.setUser(auth.user);
       synchSolves();
