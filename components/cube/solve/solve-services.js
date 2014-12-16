@@ -43,20 +43,13 @@
     };
 
     solveManager.deleteSolve = function(solve) {
-      var deferred = $q.defer();
-      solveLocalLoader.deleteSolve(solve).then(function(solves) {
+      return solveLocalLoader.deleteSolve(solve).then(function(solves) {
         solveModel.solves = solves;
         solveModel.averages = averageLoader.calculateAverages(solveModel.solves);
         averageLoader.writeAverages(solveModel.averages);
-        solveRemoteLoader.deleteSolve(solve).then(function() {
-          deferred.resolve();
-        }, function(error) {
-          deferred.reject(error);
-        });
-      }).then(function() {
-        synchSolves();
-      });
-      return deferred.promise;
+        return solve;
+      })
+      .then(solveRemoteLoader.deleteSolve(solve))
     };
 
     solveManager.deleteAllSolves = function() {
@@ -320,6 +313,7 @@
     };
 
     solveLocalLoader.writeSolves = function(solves) {
+      solves = solves || [];
       solves = solveSorter.sort(solves);
       $localStorage.setItem('solves', angular.toJson(solves));
       return solves;
@@ -359,11 +353,11 @@
         deferred.reject(new Error('User not logged in'));
         return deferred.promise;
       }
-      var url = appConfig.backend;
+      var url = appConfig.backend + '/api';
       if (auth.category) {
-        url = url + '/api/category/' + auth.category;
+        url = url + '/category/' + auth.category;
       }
-      url = url + '/api/solve';
+      url = url + '/solve';
       $http({
         method: 'get',
         url: url
