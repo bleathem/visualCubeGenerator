@@ -23,8 +23,8 @@ module.exports = exports = {
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-    if (req.method === 'Options') {
-      res.status(200);
+    if (req.method === 'OPTIONS') {
+      res.status(200).end();
     } else {
       return next();
     }
