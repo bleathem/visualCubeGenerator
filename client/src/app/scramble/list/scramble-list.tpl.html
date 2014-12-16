@@ -4,6 +4,7 @@
     <div class="list-group scramble-list">
       <a ng-repeat="scramble in scrambles"
          class="list-group-item {{scramble.solveTime ? '' : 'tabbable'}}"
+         ui-sref="visualCubeGenerator.main.scramble-detail({scrambleId: $index})"
          href="#/scramble/{{$index}}"
          tabindex="{{scramble.solveTime ? -1 : $index +1}}"
          select-scramble
