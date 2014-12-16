@@ -33,6 +33,19 @@
     });
   })
 
+  .config(function($ionicConfigProvider) {
+    $ionicConfigProvider.tabs
+      .style('standard')
+      .position('bottom');
+
+    $ionicConfigProvider.views.transition('ios');
+
+    $ionicConfigProvider.navBar
+      .alignTitle('center')
+      .positionPrimaryButtons('left')
+      .positionSecondaryButtons('right');
+  })
+
   .config(function(googleAnalyticsCordovaProvider) {
     googleAnalyticsCordovaProvider.trackingId = 'UA-56918202-2';
     googleAnalyticsCordovaProvider.period = 20; // default: 10 (in seconds)
