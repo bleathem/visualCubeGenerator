@@ -1,6 +1,5 @@
 {
   "name": "visual-cube-generator",
-  "version": "0.0.2",
   "dependencies": {
     "jsss": "https://github.com/cubing/jsss.git",
     "raphael": "~2.1.2",
