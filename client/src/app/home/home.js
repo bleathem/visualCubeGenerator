@@ -9,11 +9,15 @@
         url: '/home',
         templateUrl: 'app/home/home.tpl.html',
         controller: 'HomeController'
+      })
+      .state('visualCubeGenerator.main.about', {
+        url: '/about',
+        templateUrl: 'app/home/about.tpl.html',
+        controller: 'HomeController'
       });
   })
 
   .controller('HomeController', function ($scope) {
-    $scope.solves = [];
   })
 
   .directive('scrambleShortcutKey', function($state, $document) {
