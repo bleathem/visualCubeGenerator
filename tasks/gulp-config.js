@@ -41,6 +41,7 @@ var paths = {
 var libs = {
   runtime: [
     './lib/angular/angular.js',
+    './lib/rxjs/dist/rx.lite.js',
     './lib/angular-ui-router/release/angular-ui-router.js',
     './lib/angular-timer/dist/angular-timer.js',
     './lib/raphael/raphael.js',
@@ -49,7 +50,8 @@ var libs = {
     './lib/angular-bootstrap/ui-bootstrap.js',
     './lib/angular-bootstrap/ui-bootstrap-tpls.js',
     './lib/angulartics/src/angulartics.js',
-    './lib/angulartics/src/angulartics-ga.js'
+    './lib/angulartics/src/angulartics-ga.js',
+    './lib/angular-rx/dist/rx.angular.js'
   ],
   test: [
     './lib/angular-mocks/angular-mocks.js'

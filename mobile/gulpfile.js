@@ -44,6 +44,7 @@ var libs = {
   runtime: [
     './lib/ionic/release/js/ionic.js',
     './lib/angular/angular.js',
+    './lib/rxjs/dist/rx.lite.js',
     './lib/angular-animate/angular-animate.js',
     './lib/angular-sanitize/angular-sanitize.js',
     './lib/angular-ui-router/release/angular-ui-router.js',
@@ -54,7 +55,8 @@ var libs = {
     './lib/jsss/scramble_222.js',
     './lib/ngCordova/dist/ng-cordova.js',
     './lib/angulartics/src/angulartics.js',
-    './lib/angulartics/src/angulartics-ga-cordova.js'
+    './lib/angulartics/src/angulartics-ga-cordova.js',
+    './lib/angular-rx/dist/rx.angular.js'
   ]
 };
 
