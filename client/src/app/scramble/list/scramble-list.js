@@ -1,6 +1,6 @@
 'use strict';
 (function (angular) {
-  angular.module('visualCubeGenerator.main.scramble.list', ['ui.router', 'cube.scramble.services'])
+  angular.module('visualCubeGenerator.main.scramble.list', ['ui.router', 'cube.scramble.services', 'rx'])
 
   .config(function ($stateProvider) {
 
@@ -29,27 +29,29 @@
     };
   })
 
-  .directive('selectScramble', function($state) {
+  .directive('selectScramble', function($state, rx, $timeout) {
     return {
       restrict: 'A',
       scope: {
         index: '&selectIndex'
       },
       link: function($scope, el) {
-        var selectScramble = function(index) {
+        var observable = rx.Observable.fromEvent(el, 'keyup')
+          .filter(function(event) {
+            return event.keyCode === 32;
+          })
+          .take(1)
+          .map(function(event) {
+            return $scope.index();
+          });
+
+        observable.subscribe(function(index) {
+          $timeout(function() {
           $state.go('visualCubeGenerator.main.scramble-detail', {
             scrambleId: index
           });
-        };
-
-        var onKey = function(event) {
-          if (event.keyCode === 32) {
-            event.stopPropagation();
-            selectScramble($scope.index());
-          }
-        };
-
-        el.on('keyup', onKey);
+        })
+        });
       }
     };
   })
