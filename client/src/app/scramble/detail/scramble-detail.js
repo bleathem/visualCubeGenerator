@@ -34,91 +34,41 @@
     });
   })
 
-  .directive('timerBegin', function() {
-    return {
-      restrict: 'A',
-      link: function($scope, el) {
-        angular.element(el).on('click', function() {
-          $scope.$apply(function() {
-            $scope.$parent.$broadcast('timer-start');
-          });
-        });
-      }
-    };
-  })
-
-  .directive('timerStop', function() {
-    return {
-      restrict: 'A',
-      link: function($scope, el) {
-        el.on('click', function() {
-          $scope.$apply(function() {
-            $scope.$parent.$broadcast('timer-stop');
-          });
-        });
-      }
-    };
-  })
-
-  .directive('timerKeyboardControl', function($document, $state) {
+  .directive('timerControl', function($document, $state, rx) {
     return {
       restrict: 'E',
       scope: {
-        timerStatus: '=',
         scramble: '=timerScramble'
       },
-      link: function($scope) {
-        var stopping = false;
+      link: function($scope, el) {
+        var startButton = el[0].querySelector('.timerStart')
+          , stopButton = el[0].querySelector('.timerStop');
+        var startClicks = rx.Observable.fromEvent(startButton, 'mouseup')
+          , stopClicks = rx.Observable.fromEvent(stopButton, 'mousedown');
+        var keyups = rx.Observable.fromEvent(document, 'keyup')
+                       .filter(function(event) {
+                         return event.keyCode === 32
+                       })
+          , keydowns = rx.Observable.fromEvent(document, 'keydown')
+                         .filter(function(event) {
+                           return event.keyCode === 32
+                         });
 
-        var getTimerState = function() {
-          if ($scope.timerStatus.running) {
-            return 'running';
-          } else if ($scope.scramble.solveTime) {
-            return stopping ? 'stopping' : 'finished';
-          } else {
-            return 'ready';
-          }
-        };
-
-        var onKeyup = function(event) {
-          if (event.keyCode === 32) {
-            switch(getTimerState()) {
-              case 'ready':
+        rx.Observable.merge(startClicks, keyups).take(1)
+          .flatMap(function(event) {
+            $scope.$apply(function() {
+              $scope.$parent.$broadcast('timer-start');
+            });
+            return rx.Observable.merge(stopClicks, keydowns).take(1)
+              .flatMap(function() {
                 $scope.$apply(function() {
-                  $scope.$parent.$broadcast('timer-start');
-                });
-                break;
-              case 'stopping':
-                stopping = false;
-                break;
-              case 'finished':
-                $state.go('visualCubeGenerator.main.scramble-list');
-                break;
-            }
-          }
-        };
-
-        var onKeydown = function(event) {
-          if (event.keyCode === 32) {
-            switch(getTimerState()) {
-              case 'running':
-                $scope.$apply(function() {
-                  stopping = true;
                   $scope.$parent.$broadcast('timer-stop');
                 });
-                break;
-            }
-          }
-        };
-
-        angular.element($document[0].body).on('keyup', onKeyup);
-        angular.element($document[0].body).on('keydown', onKeydown);
-
-        $scope.$on('$destroy', function() {
-          angular.element($document[0].body).off('keyup', onKeyup);
-          angular.element($document[0].body).off('keydown', onKeydown);
-        });
-
+                return keyups.skip(1).take(1);
+              });
+          }).subscribe(undefined, undefined, function() {
+            $state.go('visualCubeGenerator.main.scramble-list');
+          });
       }
     };
   })
