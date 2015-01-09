@@ -54,10 +54,6 @@
       };
 
       $scope.stopTimer = function() {
-        $scope.$broadcast('timer-stop');
-        if (window.StatusBar) {
-          window.StatusBar.show();
-        }
         $scope.modal.hide();
       };
 
@@ -78,6 +74,13 @@
         animation: 'slide-in-up'
       }).then(function(modal) {
         $scope.modal = modal;
+      });
+
+      $scope.$on('modal.hidden', function() {
+        $scope.$broadcast('timer-stop');
+        if (window.StatusBar) {
+          window.StatusBar.show();
+        }
       });
 
       //Cleanup the modal when we're done with it!

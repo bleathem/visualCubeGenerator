@@ -3,21 +3,21 @@
     <h1 class="title">Solve timer</h1>
   </ion-header-bar>
   <ion-content>
-    <div class="row responsive-sm">
-      <div class="col">
+    <div class="button-panel">
+      <div class="button-panel-left">
         <div class="card timer-card">
           <div class="item item-text-wrap">
             <div class="timer-text">
               <div class="timer-value">
-                <timer autostart = false>{{minutes}}:{{sseconds}}.{{millis}}</timer>
+                <timer autostart = false>{{minutes}}:{{sseconds}}.{{millis.toString().substr(-3)}}</timer>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col">
+      <div class="button-panel-right">
         <button class="button button-full button-large button-assertive">
-          Stop
+          <i>Stop</i>
         </button>
       </div>
   </ion-content>

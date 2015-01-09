@@ -64,28 +64,62 @@
     };
   })
 
-  .directive('scrambleGraphic', function($timeout, Scrambler333) {
+  .directive('scrambleGraphic', function($timeout, $window, Scrambler333) {
     var scrambler = Scrambler333;
+
+    var draw = function(scope, element, attrs) {
+      if (!scope.state) return;
+      var div = angular.element('<div class="graphic"/>');
+      if (attrs.class) {
+        div.addClass(attrs.class);
+      }
+      element.append(div);
+      $timeout(function(){
+      var width = div[0].offsetWidth,
+        height = Math.round(width * 2.0 / 3.0);
+        scrambler.drawScramble(div[0], scope.state, width, height);
+        var availableSpace = {
+          width: element[0].parentElement.offsetWidth,
+          height: element[0].parentElement.offsetHeight
+        };
+        div.data('renderSize', availableSpace);
+      });
+    };
+
     return {
       restrict: 'E',
       replace: true,
       scope: {
-        state: '=state'
+        state: '=state',
+        resize: '=resize'
       },
+
       link: function (scope, element, attrs) {
         scope.$watch('state', function() {
-          if (!scope.state) return;
-          var div = angular.element('<div class="graphic"/>');
-          if (attrs.class) {
-            div.addClass(attrs.class);
-          }
-          element.append(div);
-          $timeout(function(){
-          var width = div[0].offsetWidth,
-            height = Math.round(width * 2.0 / 3.0);
-            scrambler.drawScramble(div[0], scope.state, width, height);
-          });
+          draw(scope, element, attrs);
         });
+        if (scope.resize === true) {
+          var resizeListener = function(event) {
+            var graphic = element[0].querySelector('.graphic');
+            if (graphic) {
+              $timeout(function() {
+                var renderSize = angular.element(graphic).data('renderSize');
+                var availableSpace = {
+                  width: element[0].parentElement.offsetWidth,
+                  height: element[0].parentElement.offsetHeight
+                };
+                if (availableSpace.width != renderSize.width || availableSpace.height != renderSize.height) {
+                  angular.element(graphic).remove();
+                  draw(scope, element, attrs);
+                }
+              });
+            }
+          };
+          angular.element($window).on('resize', resizeListener);
+          element.on('$destroy', function() {
+            angular.element($window).off('resize', resizeListener);
+          });
+        }
       }
     };
   })

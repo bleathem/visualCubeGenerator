@@ -93,49 +93,107 @@ $ionicons-font-path: "../fonts" !default;
   }
 }
 
-.detail {
-  padding-top: 20px;
-  text-align: center;
-
-
-  .scramble {
-    .moves {
-        font-size: 120%;
-    }
-
-    .timer-card .item {
-      text-align: center;
-      line-height: 100%;
-      font-size: 250%;
-    }
+.scramble-detail-view, .timer-modal {
+  .scroll-content > .scroll {
+    height: 100%;
   }
-
-  .graphic {
-      padding-top: 20px;
-      width: 300px;
-      margin: auto;
+  .scroll-content > .scroll > .detail {
+    height: 100%;
+  }
+  .scroll-content > .scroll > .detail > .scramble {
+    height: 100%;
   }
 }
 
-.detail button.button-large,
-.timer-modal button.button-large {
-    min-height: 200px;
-    font-size: 600%;
+.button-panel {
+  height: 100%;
+  @include display-flex;
+
+  .button-panel-left {
+    @include flex(3,0,300px);
+    @include align-self(center);
+
+    .graphic {
+      min-width: 300px;
+    }
+  }
+
+  .button-panel-right {
+    @include flex(5,1,300px);
+    @include align-self(stretch);
+
+    @include display-flex;
+    @include flex-direction(column);
+    padding: 0 25px 25px 25px;
+    .button {
+      font-size: 600%;
+      flex-grow: 4;
+      @include display-flex;
+      @include align-items(stretch);
+      i {
+        margin:auto;
+      }
+    }
+
+    .button-back {
+      font-size: 400%;
+    }
+  }
+
+  @media (max-aspect-ratio: 1/1) {
+    @include flex-direction(column);
+    .button-panel-left {
+      @include flex(0,0,200px);
+    }
+    .button-panel-right {
+      padding-top: 0;
+    }
+  }
+
+}
+
+.detail {
+  text-align: center;
+
+  .scramble {
+    .moves {
+        font-size: 100%;
+        line-height: 120%;
+        @media (min-width: $grid-responsive-sm-break) {
+          font-size: 120%;
+        }
+        @media (min-width: $grid-responsive-md-break) {
+          font-size: 150%;
+        }
+        @media (min-width: $grid-responsive-lg-break) {
+          font-size: 200%;
+        }
+    }
+
+    .timer-card {
+      flex-grow: 1;
+
+      @include display-flex;
+      @include align-items(center);
+
+      .item {
+        flex-grow: 1;
+        text-align: center;
+        line-height: 100%;
+        font-size: 250%;
+      }
+    }
+  }
 }
 
 .detail a.button-back .icon:before {
   font-size: 100%;
   padding-right: 10px;
-  vertical-align: baseline;
+  vertical-align: middle;
 }
 
 .detail a.button-back {
   font-size: 400%;
-}
-
-.detail a.button-back {
-    height: 100px;
-    line-height: 100px;
 }
 
 .timer-modal .timer-card .item {
