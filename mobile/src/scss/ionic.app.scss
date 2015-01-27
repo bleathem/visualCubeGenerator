@@ -55,25 +55,34 @@ $ionicons-font-path: "../fonts" !default;
 // into one file and saved in your app's directory as css/app.css
 
 /* Empty. Add your own CSS if you like */
-.list .scramble {
-  .moves {
-      font-size: 80%;
+.list {
+  .scramble-item a {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
-  .chunk:after {
-      padding: 0;
-      content: "";
-  }
+  .scramble {
+    .moves {
+        font-size: 80%;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
 
-  .graphic {
+    .chunk:after {
+        padding: 0;
+        content: "";
+    }
+
+    .graphic {
+        display: inline-block;
+        width: 100px;
+    }
+
+    .timer-card {
       display: inline-block;
-      width: 100px;
-  }
-
-  .timer-card {
-    display: inline-block;
-    float:right;
-    margin: 1ex 0 0 0;
+      float:right;
+      margin: 1ex 0 0 0;
+    }
   }
 }
 
@@ -157,8 +166,8 @@ $ionicons-font-path: "../fonts" !default;
 
   .scramble {
     .moves {
-        font-size: 100%;
-        line-height: 120%;
+        font-size: 120%;
+        line-height: 150%;
         @media (min-width: $grid-responsive-sm-break) {
           font-size: 120%;
         }
