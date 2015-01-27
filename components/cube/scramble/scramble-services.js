@@ -55,7 +55,8 @@
       restrict: 'E',
       replace: true,
       scope: {
-        scramble: '=scramble'
+        scramble: '=scramble',
+        resize: '=resize'
       },
       templateUrl: 'cube/scramble/scramble-view.tpl.html',
       link: function (scope, element, attrs) {
@@ -115,6 +116,7 @@
               });
             }
           };
+          scope.$on('$stateChangeSuccess', resizeListener);
           angular.element($window).on('resize', resizeListener);
           element.on('$destroy', function() {
             angular.element($window).off('resize', resizeListener);

@@ -66,6 +66,15 @@ $ionicons-font-path: "../fonts" !default;
         font-size: 80%;
         padding-top: 5px;
         padding-bottom: 5px;
+        @media (min-width: $grid-responsive-sm-break) {
+          font-size: 85%;
+        }
+        @media (min-width: $grid-responsive-md-break) {
+          font-size: 90%;
+        }
+        @media (min-width: $grid-responsive-lg-break) {
+          font-size: 95%;
+        }
     }
 
     .chunk:after {
@@ -75,7 +84,23 @@ $ionicons-font-path: "../fonts" !default;
 
     .graphic {
         display: inline-block;
-        width: 100px;
+        width: 80px;
+        @media (min-height: 600px) {
+          width: 100px;
+        }
+        @media (min-height: 700px) {
+          width: 140px;
+        }
+        @media (min-height: 800px) {
+          width: 180px;
+        }
+        @media (min-height: 1000px) {
+          width: 240px;
+        }
+        @media (min-height: 1200px) {
+          width: 300px;
+        }
+
     }
 
     .timer-card {
