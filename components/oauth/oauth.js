@@ -29,14 +29,14 @@
     auth.readUser = function() {
       var json = $localStorage.getItem('user');
       if (json) {
-        this.user = JSON.parse(json);
+        this.user = angular.fromJson(json);
       }
       return this.user;
     };
 
     auth.setUser = function(setUser) {
       this.user = setUser;
-      $localStorage.setItem('user', JSON.stringify(this.user));
+      $localStorage.setItem('user', angular.toJson(this.user));
       return this.user;
     };
 
@@ -50,14 +50,14 @@
     auth.readCategory = function() {
       var json = $localStorage.getItem('category');
       if (json) {
-        this.category = JSON.parse(json);
+        this.category = angular.fromJson(json);
       }
       return this.category;
     };
 
     auth.setCategory = function(setCategory) {
       this.category = setCategory;
-      $localStorage.setItem('category', JSON.stringify(this.category));
+      $localStorage.setItem('category', angular.toJson(this.category));
       return this.category;
     };
 

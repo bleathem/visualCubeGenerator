@@ -24,7 +24,7 @@
         var params = event.data;
         if (params.user) {
           authWindow.close();
-          deferred.resolve(JSON.parse(params.user));
+          deferred.resolve(angular.fromJson(params.user));
         } else {
           authWindow.close();
           deferred.reject(new Error (params.error));
@@ -48,7 +48,7 @@
         }
         if (params.user) {
           authWindow.close();
-          deferred.resolve(JSON.parse(params.user));
+          deferred.resolve(angular.fromJson(params.user));
         } else if (params.error) {
           authWindow.close();
           deferred.reject(new Error(params.error));
