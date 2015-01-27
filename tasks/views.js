@@ -37,7 +37,7 @@ module.exports = function(gulp, opts) {
     return gulp.src(opts.paths.client.statics)
       .pipe(cached('views')) // only copy files that have changed
       .pipe(indexFilter)
-      .pipe(gulpif(!opts.production, embedlr({
+      .pipe(gulpif(!opts.production && opts.watching, embedlr({
         port: opts.lrPort,
         src: 'http://localhost:' + opts.lrPort + '/livereload.js?snipver=1'
       })))
