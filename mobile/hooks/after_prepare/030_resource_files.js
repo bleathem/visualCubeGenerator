@@ -20,11 +20,8 @@ var filestocopy = [{
     "config/scramble_icon_96.png":
     "platforms/android/res/drawable/icon.png"
   }, {
-    "config/android/res/screens/splash-hdpi-landscape.9.png":
-    "platforms/android/res/drawable-land-hdpi/splash.png"
-  }, {
-    "config/android/res/screens/splash-hdpi-portrait.9.png":
-    "platforms/android/res/drawable-port-hdpi/splash.png"
+    "config/android/res/screens/splash.9.png":
+    "platforms/android/res/drawable/splash.9.png"
   }
 ];
 
