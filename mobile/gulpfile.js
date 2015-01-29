@@ -93,7 +93,7 @@ require('../tasks/watch.js')(gulp, opts);
 
 
 gulp.task('default', function(callback) {
-  runSequence(['clean'], ['lint', 'build'], ['livereload-start', 'serve'], 'watch');
+  runSequence(['clean', 'livereload-start'], ['lint', 'build'], ['serve'], 'watch');
 });
 
 gulp.task('test', function(callback) {
