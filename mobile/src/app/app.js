@@ -6,7 +6,7 @@
     'ionic',
     'ngCordova',
     'http.helpers',
-    'cube.solve',
+    'cube.solve.list',
     'cube.scramble',
     'cube.scrambles',
     'account',

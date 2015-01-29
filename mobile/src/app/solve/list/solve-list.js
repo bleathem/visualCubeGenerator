@@ -1,14 +1,14 @@
 'use strict';
 (function (angular) {
-  angular.module('cube.solve', ['cube.solve.services'])
+  angular.module('cube.solve.list', ['cube.solve.services'])
 
   .config(function($stateProvider) {
     $stateProvider
-      .state('tab.dash', {
-        url: '/dash',
+      .state('tab.solve-list', {
+        url: '/solves',
         views: {
-          'tab-dash': {
-            templateUrl: 'app/solve/solve.tpl.html',
+          'tab-solves': {
+            templateUrl: 'app/solve/list/solve-list.tpl.html',
             controller: 'SolvesCtrl'
           }
         }
