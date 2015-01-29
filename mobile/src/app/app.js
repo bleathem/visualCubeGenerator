@@ -7,6 +7,7 @@
     'ngCordova',
     'http.helpers',
     'cube.solve.list',
+    'cube.solve.detail',
     'cube.scramble',
     'cube.scrambles',
     'account',

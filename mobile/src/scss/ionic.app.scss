@@ -164,7 +164,7 @@ $ionicons-font-path: "../fonts" !default;
     @include display-flex;
     @include flex-direction(column);
     padding: 0 25px 25px 25px;
-    .button {
+    .button-full {
       font-size: 600%;
       flex-grow: 4;
       @include display-flex;
@@ -176,6 +176,12 @@ $ionicons-font-path: "../fonts" !default;
 
     .button-back {
       font-size: 400%;
+    }
+  }
+
+  @media (min-aspect-ratio: 1/1) {
+    .center {
+      @include align-self(center);
     }
   }
 

@@ -1,0 +1,21 @@
+<ion-view title="Dashboard" class="scramble-detail-view">
+  <ion-content class="has-header solve-detail">
+    <div class="detail">
+      <div class="scramble">
+        <scramble-moves moves="solve.moves"></scramble-moves>
+        <div class="button-panel">
+          <div class="button-panel-left">
+            <scramble-graphic state="solve.state" resize=true></scramble-graphic>
+          </div>
+          <div class="button-panel-right center">
+            <button class="button button-block button-assertive" role="button" ng-click="deleteSolve(solve)">Delete Solve</button>
+              <a class="button button-block button-energized"
+                  href="#/tab/solves">
+                <i class="icon ion-ios7-arrow-back"> Back</i>
+              </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
