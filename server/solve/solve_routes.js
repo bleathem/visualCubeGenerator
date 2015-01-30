@@ -6,7 +6,6 @@ var controller = require('./solve_controllers.js')
   ;
 
 module.exports = exports = function (router) {
-  router.use('/', passport.authenticate('bearer', { session: false }));
   router.use('/', function(req, res, next) {
     if (! req.params.category) {
       next();
@@ -24,8 +23,8 @@ module.exports = exports = function (router) {
     next();
   })
   router.route('/')
-    .get(controller.listByUser)
-    .post(controller.create);
+    .get(passport.authenticate('bearer', { session: false }), controller.listByUser)
+    .post(passport.authenticate('bearer', { session: false }), controller.create);
   router.route('/:id')
     .delete(passport.authenticate('bearer', { session: false }), controller.delete);
   router.route('/create_all')

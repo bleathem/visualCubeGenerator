@@ -15,6 +15,9 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="splash" />
   <preference name="SplashScreenDelay" value="10000" />
+  <feature name="Keyboard">
+    <param name="ios-package" value="IonicKeyboard" onload="true" />
+  </feature>
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>

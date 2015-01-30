@@ -5,7 +5,8 @@
     'oauth',
     'user',
     'oauth.google',
-    'html.helpers'])
+    'html.helpers',
+    'http.helpers'])
 
   .config(function ($stateProvider) {
     $stateProvider
@@ -14,29 +15,6 @@
         templateUrl: 'app/account/account.tpl.html',
         controller: 'AccountController'
       });
-  })
-
-  .service('bewit', function($http, $q, appConfig, auth) {
-    return {
-      getBewitCode: function() {
-        var deferred = $q.defer();
-        if (!auth.user) {
-          deferred.reject(new Error('User not logged in'));
-          return deferred.promise;
-        }
-        var url = appConfig.backend + '/api/bewit/code';
-        $http({
-          method: 'get',
-          url: url
-        }).then(function(response) {
-            deferred.resolve(response.data);
-          }, function(response) {
-            var message = '#' + response.status + ' - ' + response.statusText;
-            deferred.reject(new Error(message));
-          });
-        return deferred.promise;
-      }
-    };
   })
 
   .controller('AccountController', function ($scope, $state, $window, $timeout, $q, googleapi, auth, synchSolves, bewit, solveManager, confirm, userManager) {

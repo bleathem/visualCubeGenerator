@@ -1,11 +1,58 @@
 <ion-view title="Account">
   <ion-content class="has-header padding">
-    <h1>Account</h1>
-    <div ng-if="auth.user">
-      <profile profile="auth.user.googleAccount"></profile>
-      <hr></hr>
+    <div class="card">
+      <ion-item class="item-divider">
+        Account
+      </ion-item>
+      <ion-item>
+        <div ng-if="auth.user">
+          <profile profile="auth.user.googleAccount"></profile>
+          <hr></hr>
+        </div>
+        <g-plus-button ng-click="auth.user ? logout() : authorize()" logged-in="auth.user"></g-plus-button>
+        <pre ng-show="message">{{message}}</pre>
+      </ion-item>
     </div>
-    <g-plus-button ng-click="auth.user ? logout() : authorize()" logged-in="auth.user"></g-plus-button>
-    <pre ng-show="message">{{message}}</pre>
+    <div class="card">
+      <ion-item class="item-divider">
+        Data Export
+      </ion-item>
+      <ion-item>
+        <div ng-show="auth.user">
+          <p>
+            Export your solve history as a <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a>:
+          </p>
+          <button ng-click="getFile()" class="button button-block button-energized" href="/solve/solves.csv">Export Solves</button>
+        </div>
+        <div ng-hide="auth.user">
+          <p>
+            Sign-in to export your solve history as a <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV file</a>.
+          </p>
+        </div>
+      </ion-item>
+    </div>
+    <div class="card">
+      <ion-item class="item-divider">
+        Delete Solve History
+      </ion-item>
+      <ion-item class="item-text-wrap">
+        <div class="card">
+          <ion-item class="item-text-wrap">
+            <strong>Warning:</strong> Deleting solves is irreversible.
+          </ion-item>
+        </div>
+        <p ng-show="auth.user">
+          Since are not logged-in, only local solves will be deleted.  Any remote solves will be downloaded when you log back in.
+        </p>
+        <p class="alert alert-info" role="alert" ng-show="!auth.user">
+          Since you are not logged-in, only local solves will be deleted.  Any remote solves will be downloaded when you log back in.
+        </p>
+        <button ng-click="deleteAll()" class="button button-block button-assertive">Delete All Solves</button>
+        <div class="alert alert-{{deleteStatus.class}}" role="alert" ng-show="deleteStatus.message">
+          <p>{{deleteStatus.message.local}}</p>
+          <p>{{deleteStatus.message.remote}}</p>
+        </div>
+      </ion-item>
+    </div>
   </ion-content>
 </ion-view>

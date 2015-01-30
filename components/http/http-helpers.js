@@ -56,5 +56,31 @@
     }
 
     return transformRequest;
-  });
+  })
+
+  .service('bewit', function($http, $q, appConfig, auth) {
+    return {
+      getBewitCode: function() {
+        var deferred = $q.defer();
+        if (!auth.user) {
+          deferred.reject(new Error('User not logged in'));
+          return deferred.promise;
+        }
+        var url = appConfig.backend + '/api/bewit/code';
+        $http({
+          method: 'get',
+          url: url
+        }).then(function(response) {
+            deferred.resolve(response.data);
+          }, function(response) {
+            var message = '#' + response.status + ' - ' + response.statusText;
+            deferred.reject(new Error(message));
+          });
+        return deferred.promise;
+      }
+    };
+  })
+
+  ;
+
 })(angular);

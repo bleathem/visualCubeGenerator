@@ -17,7 +17,7 @@ var credentialsFunc = function(id, callback) {
 module.exports = exports = {
   getActivationLink: function (user) {
     var host = process.env.REST_PROTOCOL + '://' + process.env.REST_HOSTNAME + ':' + process.env.REST_PORT;
-    var url = urljoin(host, '/solve/csv?user_id=' + user._id.valueOf());
+    var url = urljoin(host, '/api/solve/csv?user_id=' + user._id.valueOf());
     var bewit = hawk.uri.getBewit(url, {
       credentials: credentials,
       ttlSec:      60 * 5
@@ -27,7 +27,7 @@ module.exports = exports = {
 
   validateMac: function (req, res, next) {
     var reqFixed = _.extend({}, req);
-    reqFixed.url = '/solve' + reqFixed.url;
+    reqFixed.url = '/api/solve' + reqFixed.url;
     var options = {
       port: process.env.REST_PORT,
       host: process.env.REST_HOSTNAME
