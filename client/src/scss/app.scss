@@ -3,6 +3,11 @@
 $fa-font-path: "../fonts";
 @import "lib/fontawesome/scss/font-awesome";
 
+@font-face {
+    font-family: myFirstFont;
+    src: url(ext/fonts/Satisfy-Regular.ttf);
+}
+
 .jumbotron h1 {
   font-size: 70px;
 }

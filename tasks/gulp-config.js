@@ -51,7 +51,8 @@ var libs = {
     './lib/angular-bootstrap/ui-bootstrap-tpls.js',
     './lib/angulartics/src/angulartics.js',
     './lib/angulartics/src/angulartics-ga.js',
-    './lib/angular-rx/dist/rx.angular.js'
+    './lib/angular-rx/dist/rx.angular.js',
+    './client/src/ext/twitter-widget.js'
   ],
   test: [
     './lib/angular-mocks/angular-mocks.js'
