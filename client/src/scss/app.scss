@@ -3,6 +3,14 @@
 $fa-font-path: "../fonts";
 @import "lib/fontawesome/scss/font-awesome";
 
+.jumbotron h1 {
+  font-size: 70px;
+}
+
+.solvica {
+  font-family: 'Satisfy', cursive;
+}
+
 .scramble-list, .solve-list {
 
   .scramble, .solve {

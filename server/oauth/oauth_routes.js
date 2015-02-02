@@ -28,8 +28,12 @@ module.exports = exports = function (router) {
         } else {
           userString = querystring.escape(JSON.stringify(user));
         }
-        var host = referrer ? url.resolve(referrer, '/') : process.env.REST_PROTOCOL + '://' + process.env.REST_HOSTNAME + '/';
-        res.redirect(host + '#/oauth/callback?user=' + userString + '&error=' + error);
+        var host = 'http://' + process.env.CLIENT_HOSTNAME + (process.env.CLIENT_PORT == 80 ? '/' : ':' + process.env.CLIENT_PORT + '/');
+        var redirect = host + '#/oauth/callback?user=' + userString + '&error=' + error;
+        console.log('Oauth google callback re-directing to:' + redirect);
+        // res.redirect(redirect);
+        // res.send('hello');
+        res.send('<script type="text/javascript">window.location="' + redirect + '"</script>');
       })(req, res, next);
     });
 };

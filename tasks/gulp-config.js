@@ -66,7 +66,7 @@ var opts = {
   lrPort: 35729 + 1,
   watching: false,
   frontend: {
-    hostname: process.env.REST_HOSTNAME || 'localhost',
+    hostname: process.env.CLIENT_HOSTNAME || 'localhost',
     port: process.env.CLIENT_PORT || 9000
   },
   rest: {
