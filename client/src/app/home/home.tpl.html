@@ -1,10 +1,31 @@
 <div class="container">
   <div class="jumbotron">
-    <h1 class="solvica">Solvi.ca</h1>
-    <p>A cube scramble generator and timer</p>
-    <p><a class="btn btn-primary btn-lg" role="button" ui-sref='visualCubeGenerator.main.scramble-list'>Get started</a></p>
+    <div class="container">
+      <div class="row">
+          <div class="col-md-6">
+            <h1 class="solvica">Solvi.ca</h1>
+            <p>A cube scramble generator and timer</p>
+            <p><a class="btn btn-primary btn-lg" role="button" ui-sref='visualCubeGenerator.main.scramble-list'>Get started</a></p>
+          </div>
+          <div class="col-md-6" style="text-align: center;">
+            <img src="img/cube.svg" onerror="this.src='img/cube.png'" style="width:259px; height: 300px;">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="container">
   <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">It's visual!</h3>
+        </div>
+        <div class="panel-body">
+          See a representation of the cube state before you start the solve.  Make sure you got that scramlbe right!
+        </div>
+      </div>
+    </div>
     <div class="col-sm-4">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -13,6 +34,28 @@
         <div class="panel-body">
           Time your solves with a traditional user experience using your dektop or laptop PC.
           The solve timer in the web client is activated by your keyboard enabling accurate solve times.
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Own your data</h3>
+        </div>
+        <div class="panel-body">
+          Try it out no-strings attached.  Export your solve history at anytime.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Cloud data</h3>
+        </div>
+        <div class="panel-body">
+          Your solve times are stored in the cloud and sycnronized between the mobile and desktop clients.
         </div>
       </div>
     </div>
@@ -33,38 +76,6 @@
     </div>
     <div class="col-sm-4">
       <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">It's visual!</h3>
-        </div>
-        <div class="panel-body">
-          See a representation of the cube state before you start the solve.  Make sure you got that scramlbe right!
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Cloud data</h3>
-        </div>
-        <div class="panel-body">
-          Your solve times are stored in the cloud and sycnronized between the mobile and desktop clients.
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Own your data</h3>
-        </div>
-        <div class="panel-body">
-          Try it out no-strings attached.  Export your solve history at anytime.
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4">
-      <div class="panel panel-default">
         <div class="panel-heading" style="z-index: 10">
           <h3 class="panel-title">Open Source</h3>
         </div>
@@ -80,4 +91,5 @@
       <scramble-shortcut-key></scramble-shortcut-key>
     </div>
   </div>
+</div>
 </div>
