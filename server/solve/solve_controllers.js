@@ -1,7 +1,8 @@
 'use strict';
 var Solve = require('./solve_model.js')
   , through = require('through')
-  , Q = require('q'), _ = require('underscore')
+  , Q = require('q')
+  , _ = require('underscore')
   ;
 
 var createAll = function (solves) {
@@ -26,6 +27,7 @@ var createAll = function (solves) {
   createRemaining(solves, [], []);
   return deferred.promise;
 };
+
 module.exports = exports = {
   listByUser: function (req, res, next) {
     if (req.headers.accept === 'text/csv') {

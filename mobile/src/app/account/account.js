@@ -34,7 +34,9 @@
     };
     $scope.logout = function() {
       synchSolves().then(function() {
-        auth.logout()
+        auth.logout();
+      }, function(error) {
+        auth.logout();
       });
     };
     $scope.getFile = function() {

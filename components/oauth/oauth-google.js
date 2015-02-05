@@ -2,11 +2,44 @@
 (function (angular) {
   angular.module('oauth.google', ['visualCubeGenerator.config'])
 
-  .factory('googleapi', function($window, appConfig, googleTokenPromise) {
-    var authorize = function() {
+  .factory('googleapi', function($window, $http, $q, appConfig, googleTokenPromise) {
+    var localLogin = function() {
+      var deferred = $q.defer();
+      $window.cordova.plugins.oauth.getToken('openid', function(token) {
+        deferred.resolve(token);
+      }, function(error) {
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    }
+
+    var verifyToken = function(token) {
+      var deferred = $q.defer();
+      var url = appConfig.backend + '/api/oauth/google/clientlogin';
+      $http({
+        method: 'post',
+        url: url,
+        data: {token: token}
+      }).then(function(response) {
+        var user = response.data;
+        deferred.resolve(user);
+      }, function(error) {
+        deferred.reject(error);
+      });
+      return deferred.promise;
+    }
+
+    var remoteLogin = function() {
       var authUrl = appConfig.backend + '/api/oauth/google';
       var authWindow = $window.open(authUrl, '_blank', 'location=no,toolbar=no');
       return googleTokenPromise(authWindow);
+    }
+
+    var authorize = function() {
+      if ($window.cordova && $window.cordova.plugins && $window.cordova.plugins.oauth) {
+        return localLogin().then(verifyToken, remoteLogin);
+      }
+      return remoteLogin();
     };
 
     return {
