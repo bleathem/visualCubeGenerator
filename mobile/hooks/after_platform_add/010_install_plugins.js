@@ -11,6 +11,7 @@ var pluginlist = [
   "org.apache.cordova.device",
   "org.apache.cordova.splashscreen",
   "org.apache.cordova.statusbar",
+  "https://github.com/bleathem/cordova-oauth-google-services",
   "https://git-wip-us.apache.org/repos/asf/cordova-plugin-inappbrowser.git", //"org.apache.cordova.core.inappbrowser",
   "https://github.com/phonegap-build/GAPlugin.git", //"com.adobe.plugins.GAPlugin"
   "https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git" //"nl.x-services.plugins.insomnia"
