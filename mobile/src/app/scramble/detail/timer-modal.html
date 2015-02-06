@@ -9,7 +9,7 @@
           <div class="item item-text-wrap">
             <div class="timer-text">
               <div class="timer-value">
-                <timer autostart = false>{{minutes}}:{{sseconds}}.{{millis.toString().substr(-3)}}</timer>
+                <timer interval="10" autostart = false>{{minutes}}:{{sseconds}}.{{millis.toString().substr(-3,2)}}</timer>
               </div>
             </div>
           </div>

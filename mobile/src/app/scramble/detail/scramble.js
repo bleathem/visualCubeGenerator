@@ -38,7 +38,7 @@
       return getInsomnia();
     })
 
-    .controller('ScrambleCtrl', function ($scope, $stateParams, $location, $ionicModal, scrambles, solveManager, insomnia) {
+    .controller('ScrambleCtrl', function ($scope, $stateParams, $location, $ionicModal, $timeout, scrambles, solveManager, insomnia) {
       if (scrambles.length === 0) {
         $location.path('/tab/scrambles');
       }
@@ -48,8 +48,10 @@
       $scope.startTimer = function() {
         $scope.$broadcast('timer-start');
         if (window.StatusBar) {
-          window.StatusBar.hide();
-        }
+          $timeout(function() {
+            window.StatusBar.hide();
+          });
+        };
         $scope.modal.show();
       };
 
@@ -71,7 +73,7 @@
 
       $ionicModal.fromTemplateUrl('app/scramble/detail/timer-modal.html', {
         scope: $scope,
-        animation: 'slide-in-up'
+        animation: 'no-animation'
       }).then(function(modal) {
         $scope.modal = modal;
       });
@@ -79,8 +81,10 @@
       $scope.$on('modal.hidden', function() {
         $scope.$broadcast('timer-stop');
         if (window.StatusBar) {
-          window.StatusBar.show();
-        }
+          $timeout(function() {
+            window.StatusBar.show();
+          });
+        };
       });
 
       //Cleanup the modal when we're done with it!
