@@ -125,6 +125,11 @@ $fa-font-path: "../fonts";
   @extend .fa-clock-o;
 }
 
+.my-shuffle-icon {
+  @extend .fa;
+  @extend .fa-cubes;
+}
+
 .my-refresh-icon {
   @extend .fa;
   @extend .fa-refresh;
