@@ -1,7 +1,7 @@
 /* global window:false */
 'use strict';
 (function (angular) {
-  angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services', 'timer'])
+  angular.module('cube.scramble', ['cube.scramble.services', 'cube.solve.services', 'timer', 'html.helpers'])
 
     .config(function($stateProvider) {
       $stateProvider
@@ -38,9 +38,9 @@
       return getInsomnia();
     })
 
-    .controller('ScrambleCtrl', function ($scope, $stateParams, $location, $ionicModal, $timeout, scrambles, solveManager, insomnia) {
+    .controller('ScrambleCtrl', function ($scope, $stateParams, $state, $ionicModal, $timeout, confirm, scrambles, solveManager, insomnia) {
       if (scrambles.length === 0) {
-        $location.path('/tab/scrambles');
+        $state.go('tab.scrambles');
       }
       insomnia.keepAwake();
       $scope.scramble = scrambles.get($stateParams.scrambleId);
@@ -59,17 +59,31 @@
         $scope.modal.hide();
       };
 
-       $scope.$on('timer-stopped', function (event, data){
-         insomnia.allowSleepAgain();
-         if (! $scope.scramble.solveTime) {
-           $scope.scramble.solveTime = data.millis;
-           solveManager.save($scope.scramble).then(function() {
+      $scope.deleteSolve = function(solve) {
+        confirm('Are you sure you want to delete this solve?')
+          .then(solveManager.deleteSolve(solve))
+          .then(function() {
+            var resetScramble = {
+              moves: solve.moves,
+              state: solve.state
+            };
+            scrambles.all()[$stateParams.scrambleId] = resetScramble;
+            $state.go('tab.scrambles');
+          });
+      };
+
+      $scope.$on('timer-stopped', function (event, data){
+        insomnia.allowSleepAgain();
+        if (! $scope.scramble.solveTime) {
+          $scope.scramble.solveTime = data.millis;
+          solveManager.save($scope.scramble).then(function(savedSolve) {
+            $scope.scramble = savedSolve;
             $scope.$broadcast('solve-saved', $scope.scramble);
-           }, function(error) {
-             throw error;
-           });
-         }
-       });
+          }, function(error) {
+            throw error;
+          });
+        };
+      });
 
       $ionicModal.fromTemplateUrl('app/scramble/detail/timer-modal.html', {
         scope: $scope,

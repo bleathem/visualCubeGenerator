@@ -20,6 +20,7 @@ var createAll = function (solves) {
       created.push(createdSolve);
       createRemaining(remaining, created, failed);
     }, function () {
+      console.log(arguments);
       failed.push(solve);
       createRemaining(remaining, created, failed);
     });

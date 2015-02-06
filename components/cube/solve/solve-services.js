@@ -35,9 +35,19 @@
         solveModel.solves = solves;
         solveModel.averages = averageLoader.calculateAverages(solveModel.solves);
         averageLoader.writeAverages(solveModel.averages);
-        deferred.resolve(solve);
-      }).then(function() {
-        synchSolves();
+        synchSolves().then(function() {
+          for (var i = solveModel.solves.length -1; i >= 0; i--) {
+            var solveLoop = solveModel.solves[i];
+            if (solveLoop.state === solve.state) {
+              deferred.resolve(solveLoop);
+              break;
+            }
+          };
+          deferred.reject('Solve not present in solve list');
+        }, function(error) {
+          console.log('Error saving solve remotely:' + error);
+          deferred.resolve(solve);
+        });
       });
       return deferred.promise;
     };

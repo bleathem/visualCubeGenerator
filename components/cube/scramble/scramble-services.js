@@ -109,7 +109,7 @@
                   width: element[0].parentElement.offsetWidth,
                   height: element[0].parentElement.offsetHeight
                 };
-                if (availableSpace.width != renderSize.width || availableSpace.height != renderSize.height) {
+                if (!renderSize || availableSpace.width != renderSize.width || availableSpace.height != renderSize.height) {
                   angular.element(graphic).remove();
                   draw(scope, element, attrs);
                 }

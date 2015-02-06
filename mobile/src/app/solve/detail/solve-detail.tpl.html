@@ -7,6 +7,11 @@
           <div class="button-panel-left">
             <scramble-graphic state="solve.state" resize=true></scramble-graphic>
           </div>
+          <div class="card timer-card">
+            <div class="item">
+              <solve-time time="solve.solveTime"></solve-time>
+            </div>
+          </div>
           <div class="button-panel-right center">
             <button class="button button-block button-assertive" role="button" ng-click="deleteSolve(solve)">Delete Solve</button>
               <a class="button button-block button-energized"
