@@ -19,6 +19,20 @@
     };
   })
 
+  .config(function($httpProvider) {
+    $httpProvider.interceptors.push(function ($q, auth) {
+      return {
+        responseError: function(rejection) {
+          if (rejection.status === 401) {
+            console.log('Unauthorized http reqeust, logging out.');
+            auth.logout();
+          }
+          return $q.reject(rejection);
+        }
+      };
+    });
+  })
+
   /** From http://www.bennadel.com/blog/2615-posting-form-data-with-http-in-angularjs.htm **/
   .factory('serializeParameterObject', function() {
     function serializeData(data) {
